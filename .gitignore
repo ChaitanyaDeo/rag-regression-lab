@@ -1,0 +1,10 @@
+.rag_lab_env/
+__pycache__/
+*.pyc
+data/*.parquet
+data/cache/
+artifacts/reports/*.html
+artifacts/reports/*.json
+!artifacts/reports/.gitkeep
+*.db
+.env

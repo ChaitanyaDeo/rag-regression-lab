@@ -1,0 +1,5 @@
+{
+  "simple": "a single fact lookup",
+  "simple_with_condition": "a fact lookup with a qualifying condition (e.g. a date range, a specific context)",
+  "comparison": "compares two or more entities"
+}

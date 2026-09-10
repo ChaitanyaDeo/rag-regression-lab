@@ -1,0 +1,2 @@
+[console_scripts]
+ragregress = ragregress.cli:app

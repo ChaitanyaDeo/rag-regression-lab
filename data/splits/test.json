@@ -1,0 +1,3552 @@
+[
+  {
+    "qa_id": "572646655951b619008f6ec0",
+    "question": "What do ctenophores have that no other animals have?",
+    "answer": [
+      "colloblasts",
+      "colloblasts",
+      "colloblasts"
+    ],
+    "answer_start": [
+      456,
+      456,
+      456
+    ],
+    "gold_passage_id": "p0000811",
+    "title": "Ctenophora",
+    "category": null
+  },
+  {
+    "qa_id": "5727f2714b864d1900164074",
+    "question": "What impact did the high school education movement have on the wages of skilled workers?",
+    "answer": [
+      "decrease",
+      "decrease in the price of skilled labor",
+      "decrease"
+    ],
+    "answer_start": [
+      120,
+      120,
+      120
+    ],
+    "gold_passage_id": "p0001410",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "57376828c3c5551400e51eba",
+    "question": "What physical quantities do not have direction?",
+    "answer": [
+      "denoted scalar quantities",
+      "scalar quantities",
+      "denoted scalar quantities",
+      "scalar quantities",
+      "scalar quantities"
+    ],
+    "answer_start": [
+      300,
+      308,
+      300,
+      308,
+      308
+    ],
+    "gold_passage_id": "p0002034",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "57275cb3f1498d1400e8f6dc",
+    "question": "What cable provider did ABC reach an agreement with in 1993 to carry it's owned-and-operated stations in ABC O&O markets?",
+    "answer": [
+      "Time Warner Cable",
+      "Time Warner Cable",
+      "Time Warner Cable"
+    ],
+    "answer_start": [
+      278,
+      278,
+      278
+    ],
+    "gold_passage_id": "p0001116",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "5705eccb52bb8914006896b9",
+    "question": "Other than the desert city why do many locals and tourists frequent southern California?",
+    "answer": [
+      "beaches",
+      "for its popular beaches",
+      "beaches"
+    ],
+    "answer_start": [
+      80,
+      64,
+      80
+    ],
+    "gold_passage_id": "p0000452",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "57277585708984140094de2d",
+    "question": "Which network regained the ratings lead in America in 1984?",
+    "answer": [
+      "NBC",
+      "NBC",
+      "NBC"
+    ],
+    "answer_start": [
+      348,
+      348,
+      348
+    ],
+    "gold_passage_id": "p0001137",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "57273799f1498d1400e8f4c1",
+    "question": "When did Paul Rand's iconic ABC logo first debut?",
+    "answer": [
+      "1963–64 season",
+      "1963–64 season",
+      "1962"
+    ],
+    "answer_start": [
+      233,
+      233,
+      3
+    ],
+    "gold_passage_id": "p0001075",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "5711623e50c2381900b54abc",
+    "question": "In an adjustable spring-loaded valve, what needs to be broken to allow an operator to tamper with it?",
+    "answer": [
+      "seal",
+      "seal",
+      "a seal"
+    ],
+    "answer_start": [
+      754,
+      754,
+      752
+    ],
+    "gold_passage_id": "p0000612",
+    "title": "Steam_engine",
+    "category": null
+  },
+  {
+    "qa_id": "5728455bff5b5019007da07c",
+    "question": "How much Saharan dust is blown and falls upon the Caribbean Sea each year?",
+    "answer": [
+      "43 million tons",
+      "43 million tons",
+      "43 million tons"
+    ],
+    "answer_start": [
+      485,
+      485,
+      485
+    ],
+    "gold_passage_id": "p0000789",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "56df9e2838dc4217001520f6",
+    "question": "In what year was Nikola Tesla born? ",
+    "answer": [
+      "1856",
+      "1856",
+      "1856"
+    ],
+    "answer_start": [
+      54,
+      54,
+      54
+    ],
+    "gold_passage_id": "p0000148",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "5730b7ce069b5314008322c6",
+    "question": "What caused the US public to condemn the occupation of the philippines?",
+    "answer": [
+      "a war erupted",
+      "a war erupted",
+      "war",
+      "war",
+      "war"
+    ],
+    "answer_start": [
+      727,
+      727,
+      729,
+      729,
+      729
+    ],
+    "gold_passage_id": "p0001920",
+    "title": "Imperialism",
+    "category": null
+  },
+  {
+    "qa_id": "5737534ec3c5551400e51eab",
+    "question": "When forces are from the presence of differnet objects, what law gives symmetry?",
+    "answer": [
+      "Newton's Third",
+      "Newton's Third Law",
+      "Newton's Third Law",
+      "Newton's Third Law",
+      "Newton's Third Law"
+    ],
+    "answer_start": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "gold_passage_id": "p0002031",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "5706155352bb891400689896",
+    "question": "What is rugby rapidly becoming with high schools?",
+    "answer": [
+      "an official school sport",
+      "an official school",
+      "official school sport"
+    ],
+    "answer_start": [
+      144,
+      144,
+      147
+    ],
+    "gold_passage_id": "p0000482",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "5729645b3f37b31900478321",
+    "question": "What do apicoplasts synthesize?",
+    "answer": [
+      "fatty acids, isopentenyl pyrophosphate, iron-sulfur clusters",
+      "fatty acids, isopentenyl pyrophosphate, iron-sulfur clusters",
+      "fatty acids, isopentenyl pyrophosphate, iron-sulfur clusters"
+    ],
+    "answer_start": [
+      516,
+      516,
+      516
+    ],
+    "gold_passage_id": "p0001683",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "5725e36f89a1e219009ac03c",
+    "question": "What day did the Apollo 11 crew return to Earth?",
+    "answer": [
+      "July 24",
+      "July 24.",
+      "July 24",
+      "July 24",
+      "July 24"
+    ],
+    "answer_start": [
+      592,
+      592,
+      592,
+      592,
+      592
+    ],
+    "gold_passage_id": "p0000730",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "5705f09e75f01819005e77a4",
+    "question": "Other than land laws, what else were the Californios dissatisfied with?",
+    "answer": [
+      "inequitable taxes",
+      "inequitable taxes",
+      "inequitable taxes"
+    ],
+    "answer_start": [
+      45,
+      45,
+      45
+    ],
+    "gold_passage_id": "p0000455",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "572a12381d0469140077972f",
+    "question": "When was a study conducted of Swedish counties?",
+    "answer": [
+      "between 1960 and 2000",
+      "between 1960 and 2000",
+      "between 1960 and 2000"
+    ],
+    "answer_start": [
+      336,
+      336,
+      336
+    ],
+    "gold_passage_id": "p0001432",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "5726c61ff1498d1400e8eae3",
+    "question": "How did Genghis Khan observed the surrender terms after Samarkand fell?",
+    "answer": [
+      "reneged",
+      "reneged",
+      "executed every soldier"
+    ],
+    "answer_start": [
+      220,
+      220,
+      255
+    ],
+    "gold_passage_id": "p0001170",
+    "title": "Genghis_Khan",
+    "category": null
+  },
+  {
+    "qa_id": "5729f0db6aef051400155129",
+    "question": "How many reptiles have been discovered in the Amazon region?",
+    "answer": [
+      "378",
+      "378",
+      "378"
+    ],
+    "answer_start": [
+      219,
+      219,
+      219
+    ],
+    "gold_passage_id": "p0000793",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "5737898f1c45671900574496",
+    "question": "What planet did astrophysisist predict to explain the problems with Mercury?",
+    "answer": [
+      "Vulcan",
+      "Vulcan",
+      "Vulcan",
+      "Vulcan"
+    ],
+    "answer_start": [
+      170,
+      170,
+      170,
+      170
+    ],
+    "gold_passage_id": "p0002049",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "5729a26d6aef05140015505a",
+    "question": "What happens to the norm when a number is multiplied by p?",
+    "answer": [
+      "norm gets smaller",
+      "gets smaller",
+      "gets smaller",
+      "gets smaller"
+    ],
+    "answer_start": [
+      20,
+      25,
+      25,
+      25
+    ],
+    "gold_passage_id": "p0001762",
+    "title": "Prime_number",
+    "category": null
+  },
+  {
+    "qa_id": "571caac55efbb31900334dc7",
+    "question": "By what means were scientists able to liquefy air?",
+    "answer": [
+      "compressing and cooling",
+      "compressing and cooling",
+      "cascade method",
+      "compressing and cooling it",
+      "compressing and cooling"
+    ],
+    "answer_start": [
+      106,
+      106,
+      142,
+      106,
+      106
+    ],
+    "gold_passage_id": "p0000639",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "572687e1dd62a815002e8854",
+    "question": "What's the name of Newcastle's speedway team?",
+    "answer": [
+      "Newcastle Diamonds",
+      "Newcastle Diamonds",
+      "Newcastle Diamonds"
+    ],
+    "answer_start": [
+      322,
+      322,
+      322
+    ],
+    "gold_passage_id": "p0000971",
+    "title": "Newcastle_upon_Tyne",
+    "category": null
+  },
+  {
+    "qa_id": "57332442d058e614000b5722",
+    "question": "Who was Warsz?",
+    "answer": [
+      "12th/13th-century nobleman",
+      "shortened form of the masculine name of Slavic origin Warcisław",
+      "nobleman"
+    ],
+    "answer_start": [
+      469,
+      168,
+      487
+    ],
+    "gold_passage_id": "p0000075",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "5726241189a1e219009ac2de",
+    "question": "What has a negative influence over the US economy?",
+    "answer": [
+      "The embargo",
+      "The embargo",
+      "The embargo",
+      "The embargo",
+      "embargo"
+    ],
+    "answer_start": [
+      0,
+      0,
+      0,
+      0,
+      4
+    ],
+    "gold_passage_id": "p0000671",
+    "title": "1973_oil_crisis",
+    "category": null
+  },
+  {
+    "qa_id": "56bec0353aeaaa14008c934e",
+    "question": "The \"50\" given to the Super Bowl winner is plated with how many karats of gold?",
+    "answer": [
+      "18",
+      "18",
+      "18"
+    ],
+    "answer_start": [
+      135,
+      135,
+      135
+    ],
+    "gold_passage_id": "p0000031",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "57266ab3dd62a815002e8435",
+    "question": "Who was Cromwell's allies?",
+    "answer": [
+      "the Scots",
+      "the Scots",
+      "the Scots"
+    ],
+    "answer_start": [
+      123,
+      123,
+      123
+    ],
+    "gold_passage_id": "p0000942",
+    "title": "Newcastle_upon_Tyne",
+    "category": null
+  },
+  {
+    "qa_id": "5729f06f1d04691400779675",
+    "question": "Missing self desribes cells that only have small amounts of what cell-surface marker?",
+    "answer": [
+      "MHC I (major histocompatibility complex)",
+      "MHC I",
+      "MHC I (major histocompatibility complex)"
+    ],
+    "answer_start": [
+      360,
+      360,
+      360
+    ],
+    "gold_passage_id": "p0001241",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "572847dd4b864d19001648bd",
+    "question": "What well-known archeologist believed the Amazon didn't have many inhabitants?",
+    "answer": [
+      "Betty Meggers",
+      "Betty Meggers",
+      "Betty Meggers"
+    ],
+    "answer_start": [
+      198,
+      198,
+      198
+    ],
+    "gold_passage_id": "p0000790",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "56de0ed14396321400ee257b",
+    "question": "What kind of bureaucracy did the Normans institute?",
+    "answer": [
+      "meritocratic",
+      "meritocratic",
+      "meritocratic"
+    ],
+    "answer_start": [
+      282,
+      282,
+      282
+    ],
+    "gold_passage_id": "p0000113",
+    "title": "Normans",
+    "category": null
+  },
+  {
+    "qa_id": "5711658e50c2381900b54ad8",
+    "question": "Other than warships, what ships typically required high speeds?",
+    "answer": [
+      "ocean liners",
+      "ocean liners",
+      "ocean liners"
+    ],
+    "answer_start": [
+      390,
+      390,
+      390
+    ],
+    "gold_passage_id": "p0000617",
+    "title": "Steam_engine",
+    "category": null
+  },
+  {
+    "qa_id": "572ff4ca04bcaa1900d76f25",
+    "question": "Where does two thirds of the Rhine flow outside of Germany?",
+    "answer": [
+      "Waal",
+      "Waal",
+      "through the Waal"
+    ],
+    "answer_start": [
+      204,
+      204,
+      192
+    ],
+    "gold_passage_id": "p0001780",
+    "title": "Rhine",
+    "category": null
+  },
+  {
+    "qa_id": "572666d9dd62a815002e83b7",
+    "question": "What was the name of the King of the Scots?",
+    "answer": [
+      "William the Lion",
+      "William the Lion",
+      "William the Lion"
+    ],
+    "answer_start": [
+      323,
+      323,
+      323
+    ],
+    "gold_passage_id": "p0000939",
+    "title": "Newcastle_upon_Tyne",
+    "category": null
+  },
+  {
+    "qa_id": "571a49de4faf5e1900b8a94a",
+    "question": "Oxygen is released in cellular respiration by?",
+    "answer": [
+      "photosynthesis",
+      "photosynthesis",
+      "photosynthesis",
+      "photosynthesis",
+      "photosynthesis"
+    ],
+    "answer_start": [
+      392,
+      392,
+      392,
+      392,
+      392
+    ],
+    "gold_passage_id": "p0000621",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "57286c8cff5b5019007da21a",
+    "question": "When did the Jin dynasty end?",
+    "answer": [
+      "1234",
+      "1234",
+      "1234"
+    ],
+    "answer_start": [
+      191,
+      191,
+      191
+    ],
+    "gold_passage_id": "p0001556",
+    "title": "Yuan_dynasty",
+    "category": null
+  },
+  {
+    "qa_id": "5726eb76f1498d1400e8efdb",
+    "question": "What does the immune system protect against?",
+    "answer": [
+      "pathogens, from viruses to parasitic worms",
+      "disease",
+      "disease",
+      "against disease"
+    ],
+    "answer_start": [
+      210,
+      115,
+      115,
+      107
+    ],
+    "gold_passage_id": "p0001226",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "57379ed81c456719005744d8",
+    "question": "What is the final effect of adding more and more idea strings to a load?",
+    "answer": [
+      "conservation of mechanical energy",
+      "conservation of mechanical energy",
+      "the tension force on a load can be multiplied",
+      "tension force on a load can be multiplied"
+    ],
+    "answer_start": [
+      997,
+      997,
+      623,
+      627
+    ],
+    "gold_passage_id": "p0002058",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "572a06866aef0514001551c2",
+    "question": "How many developed countries did British researchers use to gather statistics from?",
+    "answer": [
+      "23",
+      "23",
+      "23"
+    ],
+    "answer_start": [
+      451,
+      451,
+      451
+    ],
+    "gold_passage_id": "p0001421",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "56f8507fa6d7ea1400e1754b",
+    "question": "How many ways did Luther justify his opposition to revolt?",
+    "answer": [
+      "on three grounds",
+      "three",
+      "three"
+    ],
+    "answer_start": [
+      46,
+      49,
+      49
+    ],
+    "gold_passage_id": "p0000386",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "5725c071271a42140099d12a",
+    "question": "How long ago was it when the water broke through the Purus Arch?",
+    "answer": [
+      "Within the last 5–10 million years",
+      "Within the last 5–10 million years",
+      "last 5–10 million years"
+    ],
+    "answer_start": [
+      389,
+      389,
+      400
+    ],
+    "gold_passage_id": "p0000787",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "56f827caa6d7ea1400e1743b",
+    "question": "Who presented the Edict of Worms declaring Luther to be an outlaw?",
+    "answer": [
+      "Emperor",
+      "Emperor",
+      "Emperor"
+    ],
+    "answer_start": [
+      87,
+      87,
+      87
+    ],
+    "gold_passage_id": "p0000375",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "5725ee6438643c19005aceb4",
+    "question": "What did the acronym AAP stand for?",
+    "answer": [
+      "Apollo Applications Program",
+      "Apollo Applications Program",
+      "Apollo Applications Program",
+      "Apollo Applications Program",
+      "Apollo Applications Program"
+    ],
+    "answer_start": [
+      514,
+      514,
+      514,
+      514,
+      514
+    ],
+    "gold_passage_id": "p0000738",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "572fe60fb2c2fd140056858c",
+    "question": "Besides Germany and Switzerland, where else is Lake Constance?",
+    "answer": [
+      "Austria",
+      "Austria",
+      "Austria",
+      "Austria"
+    ],
+    "answer_start": [
+      231,
+      231,
+      231,
+      231
+    ],
+    "gold_passage_id": "p0001770",
+    "title": "Rhine",
+    "category": null
+  },
+  {
+    "qa_id": "57296de03f37b3190047839b",
+    "question": "What are more common in other plastids than chloroplasts?",
+    "answer": [
+      "Stromules",
+      "Stromules",
+      "Stromules"
+    ],
+    "answer_start": [
+      118,
+      118,
+      118
+    ],
+    "gold_passage_id": "p0001701",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "5726c5a9f1498d1400e8eac7",
+    "question": "What could justify restrictions on freedom of establishment?",
+    "answer": [
+      "creditor protection, labour rights to participate in work, or the public interest in collecting taxes",
+      "creditor protection, labour rights to participate in work, or the public interest in collecting taxes",
+      "Denmark's minimum capital law"
+    ],
+    "answer_start": [
+      1888,
+      1888,
+      959
+    ],
+    "gold_passage_id": "p0000784",
+    "title": "European_Union_law",
+    "category": null
+  },
+  {
+    "qa_id": "572fd73e947a6a140053cd34",
+    "question": "What does the First Minister deliver at the beginning of each parliamentary year?",
+    "answer": [
+      "legislative programme for the forthcoming year",
+      "a statement",
+      "a statement to the chamber setting out the Government's legislative programme for the forthcoming year"
+    ],
+    "answer_start": [
+      345,
+      289,
+      289
+    ],
+    "gold_passage_id": "p0001839",
+    "title": "Scottish_Parliament",
+    "category": null
+  },
+  {
+    "qa_id": "5727478cf1498d1400e8f59b",
+    "question": "What is another term used for year 13?",
+    "answer": [
+      "upper sixth",
+      "upper sixth",
+      "upper sixth"
+    ],
+    "answer_start": [
+      116,
+      116,
+      116
+    ],
+    "gold_passage_id": "p0001325",
+    "title": "Private_school",
+    "category": null
+  },
+  {
+    "qa_id": "572fd264b2c2fd14005684a9",
+    "question": "Who does the Presiding Officer submit the final bill to?",
+    "answer": [
+      "the Monarch",
+      "Monarch",
+      "the Monarch"
+    ],
+    "answer_start": [
+      82,
+      86,
+      82
+    ],
+    "gold_passage_id": "p0001836",
+    "title": "Scottish_Parliament",
+    "category": null
+  },
+  {
+    "qa_id": "5728fd206aef05140015494c",
+    "question": "What serves as a biological barrier by competing for space and food in the GI tract?",
+    "answer": [
+      "commensal flora",
+      "commensal flora",
+      "commensal flora"
+    ],
+    "answer_start": [
+      54,
+      54,
+      54
+    ],
+    "gold_passage_id": "p0001235",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "5727504b5951b619008f881d",
+    "question": "When did the FCC begin imposing fin-syn rules?",
+    "answer": [
+      "1970",
+      "1970",
+      "1970"
+    ],
+    "answer_start": [
+      42,
+      42,
+      42
+    ],
+    "gold_passage_id": "p0001105",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "571c97e2dd7acb1400e4c11f",
+    "question": "How is oxygen ranked as abundant in the universe?",
+    "answer": [
+      "third",
+      "third",
+      "third",
+      "third most abundant",
+      "third"
+    ],
+    "answer_start": [
+      112,
+      112,
+      112,
+      112,
+      112
+    ],
+    "gold_passage_id": "p0000638",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "56f81537aef2371900625db7",
+    "question": "When did Pope Leo X  excommunicate Luther? ",
+    "answer": [
+      "3 January 1521",
+      "3 January 1521",
+      "3 January 1521"
+    ],
+    "answer_start": [
+      682,
+      682,
+      682
+    ],
+    "gold_passage_id": "p0000370",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "572885c44b864d1900164a7a",
+    "question": "Where was the Central Secretariat based?",
+    "answer": [
+      "Khanbaliq",
+      "Khanbaliq",
+      "Khanbaliq"
+    ],
+    "answer_start": [
+      306,
+      306,
+      306
+    ],
+    "gold_passage_id": "p0001591",
+    "title": "Yuan_dynasty",
+    "category": null
+  },
+  {
+    "qa_id": "57286ab72ca10214002da322",
+    "question": "What prohibition agent was also an alumni at the university?",
+    "answer": [
+      "Eliot Ness",
+      "Eliot Ness",
+      "Eliot Ness"
+    ],
+    "answer_start": [
+      307,
+      307,
+      307
+    ],
+    "gold_passage_id": "p0001536",
+    "title": "University_of_Chicago",
+    "category": null
+  },
+  {
+    "qa_id": "56e100b6cd28a01900c67406",
+    "question": "When did Astor provide the money?",
+    "answer": [
+      "1899",
+      "In 1899",
+      "1899"
+    ],
+    "answer_start": [
+      3,
+      0,
+      3
+    ],
+    "gold_passage_id": "p0000191",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "56d726b60d65d214001983ea",
+    "question": "Who stripped the ball from Newton on a 3rd and nine?",
+    "answer": [
+      "Miller",
+      "Miller",
+      "Miller"
+    ],
+    "answer_start": [
+      167,
+      167,
+      167
+    ],
+    "gold_passage_id": "p0000051",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "56e1c7e2cd28a01900c67b74",
+    "question": "What is the foundation for separation results within complexity classes?",
+    "answer": [
+      "time and space hierarchy theorems",
+      "The time and space hierarchy theorems",
+      "time and space hierarchy theorems"
+    ],
+    "answer_start": [
+      4,
+      0,
+      4
+    ],
+    "gold_passage_id": "p0000268",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "56f8989f9e9bad19000a01a5",
+    "question": "How did Luther view the Ottoman Turks?",
+    "answer": [
+      "as a scourge",
+      "scourge",
+      "argued against resisting"
+    ],
+    "answer_start": [
+      259,
+      264,
+      120
+    ],
+    "gold_passage_id": "p0000419",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "5733f309d058e614000b664a",
+    "question": "Why was Tanaghrisson supporting British efforts?",
+    "answer": [
+      "regain authority over his own people. They had been inclined to support the French, with whom they had long trading relationships",
+      "gain the support of the British and regain authority over his own people",
+      "had promised",
+      "regain authority over his own people",
+      "to gain the support of the British and regain authority over his own people"
+    ],
+    "answer_start": [
+      763,
+      727,
+      195,
+      763,
+      724
+    ],
+    "gold_passage_id": "p0002000",
+    "title": "French_and_Indian_War",
+    "category": null
+  },
+  {
+    "qa_id": "56f8ce779b226e1400dd103f",
+    "question": "When is Luther commemorated by the Church of England?",
+    "answer": [
+      "31 October",
+      "31 October",
+      "31 October"
+    ],
+    "answer_start": [
+      215,
+      215,
+      215
+    ],
+    "gold_passage_id": "p0000443",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "57273a465951b619008f8703",
+    "question": "Construction takes place on location for who?",
+    "answer": [
+      "a known client",
+      "client",
+      "known client"
+    ],
+    "answer_start": [
+      277,
+      285,
+      279
+    ],
+    "gold_passage_id": "p0001301",
+    "title": "Construction",
+    "category": null
+  },
+  {
+    "qa_id": "573028fa04bcaa1900d7728a",
+    "question": "When did the Democratic Republic of Afghanistan collapse?",
+    "answer": [
+      "1992",
+      "1992",
+      "1992"
+    ],
+    "answer_start": [
+      262,
+      262,
+      262
+    ],
+    "gold_passage_id": "p0001877",
+    "title": "Islamism",
+    "category": null
+  },
+  {
+    "qa_id": "5733834ed058e614000b5c29",
+    "question": "How many companies were listed on the WSE on August 2009?",
+    "answer": [
+      "374",
+      "374",
+      "374"
+    ],
+    "answer_start": [
+      361,
+      361,
+      361
+    ],
+    "gold_passage_id": "p0000100",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "57273eecf1498d1400e8f51e",
+    "question": "To which trading route did Genghis Khan bring a stable political climate?",
+    "answer": [
+      "the Silk Road",
+      "Silk Road",
+      "Silk Road"
+    ],
+    "answer_start": [
+      39,
+      43,
+      43
+    ],
+    "gold_passage_id": "p0001190",
+    "title": "Genghis_Khan",
+    "category": null
+  },
+  {
+    "qa_id": "5727311d5951b619008f86ac",
+    "question": "Where did Jochi remain after Genghis Khan sent for his sons in the spring of 1223?",
+    "answer": [
+      "Khorasan",
+      "Khorasan",
+      "Khorasan"
+    ],
+    "answer_start": [
+      326,
+      326,
+      326
+    ],
+    "gold_passage_id": "p0001178",
+    "title": "Genghis_Khan",
+    "category": null
+  },
+  {
+    "qa_id": "573027d6a23a5019007fcea1",
+    "question": "What did the NIF try to unify Islamist opposition against?",
+    "answer": [
+      "American attack on Iraq",
+      "the American attack on Iraq",
+      "American attack on Iraq"
+    ],
+    "answer_start": [
+      598,
+      594,
+      598
+    ],
+    "gold_passage_id": "p0001875",
+    "title": "Islamism",
+    "category": null
+  },
+  {
+    "qa_id": "5727f746ff5b5019007d9960",
+    "question": "What was the name of the first episode of the new Doctor Who series?",
+    "answer": [
+      "Rose",
+      "Rose",
+      "Rose"
+    ],
+    "answer_start": [
+      46,
+      46,
+      46
+    ],
+    "gold_passage_id": "p0001452",
+    "title": "Doctor_Who",
+    "category": null
+  },
+  {
+    "qa_id": "57294baaaf94a219006aa26b",
+    "question": "What role did Michael Oppenheimer have in the IPCC's reports?",
+    "answer": [
+      "coordinating lead author of the Fifth Assessment Report",
+      "participant in the IPCC and coordinating lead author of the Fifth Assessment Report",
+      "coordinating lead author of the Fifth Assessment Report"
+    ],
+    "answer_start": [
+      61,
+      33,
+      61
+    ],
+    "gold_passage_id": "p0001665",
+    "title": "Intergovernmental_Panel_on_Climate_Change",
+    "category": null
+  },
+  {
+    "qa_id": "57268f2bf1498d1400e8e3c5",
+    "question": "What was an additional projected effect of the attempted reform?",
+    "answer": [
+      "this would have also produced a single constitutional document",
+      "this would have also produced a single constitutional document",
+      "would have also produced a single constitutional document",
+      "this would have also produced a single constitutional document"
+    ],
+    "answer_start": [
+      133,
+      133,
+      138,
+      133
+    ],
+    "gold_passage_id": "p0000749",
+    "title": "European_Union_law",
+    "category": null
+  },
+  {
+    "qa_id": "572989846aef051400154fc3",
+    "question": "What does it mean when a harmonic series diverges?",
+    "answer": [
+      "exceeds any given number",
+      "exceeds any given number",
+      "exceeds any given number",
+      "exceeds any given number"
+    ],
+    "answer_start": [
+      320,
+      320,
+      320,
+      320
+    ],
+    "gold_passage_id": "p0001749",
+    "title": "Prime_number",
+    "category": null
+  },
+  {
+    "qa_id": "56d6f1190d65d21400198272",
+    "question": "What seed was the Carolina Panthers?",
+    "answer": [
+      "number one",
+      "number one",
+      "one"
+    ],
+    "answer_start": [
+      35,
+      35,
+      42
+    ],
+    "gold_passage_id": "p0000008",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "56e20a3ae3433e140042324e",
+    "question": "How many combinatory and graph theoretical problems, formerly believed to be plagued by intractability, did Karp's paper address?",
+    "answer": [
+      "21",
+      "21",
+      "21"
+    ],
+    "answer_start": [
+      502,
+      502,
+      502
+    ],
+    "gold_passage_id": "p0000287",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "57296a65af94a219006aa3c4",
+    "question": "What makes DNA vulnerable to deamination?",
+    "answer": [
+      "when it is single stranded",
+      "when it is single stranded",
+      "replication forks form"
+    ],
+    "answer_start": [
+      103,
+      103,
+      136
+    ],
+    "gold_passage_id": "p0001693",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "5728455bff5b5019007da079",
+    "question": "How much dust is blown out of the Sahara each year?",
+    "answer": [
+      "182 million tons",
+      "182 million tons",
+      "182 million tons"
+    ],
+    "answer_start": [
+      119,
+      119,
+      119
+    ],
+    "gold_passage_id": "p0000789",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "57378e311c456719005744b3",
+    "question": "Who discovered that magnetic and electric could self-generate?",
+    "answer": [
+      "Maxwell",
+      "James Clerk Maxwell",
+      "Maxwell",
+      "Maxwell"
+    ],
+    "answer_start": [
+      444,
+      88,
+      444,
+      444
+    ],
+    "gold_passage_id": "p0002052",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "5726dd71f1498d1400e8eddc",
+    "question": "The largest objects in the V&A ceramics and glass collection were produced in which countries?",
+    "answer": [
+      "Germany and Switzerland",
+      "Germany and Switzerland",
+      "Germany and Switzerland"
+    ],
+    "answer_start": [
+      545,
+      545,
+      545
+    ],
+    "gold_passage_id": "p0001022",
+    "title": "Victoria_and_Albert_Museum",
+    "category": null
+  },
+  {
+    "qa_id": "56e1ded7cd28a01900c67bd6",
+    "question": "What is an example of an NP-intermediate problem not known to exist in P or NP-complete? ",
+    "answer": [
+      "graph isomorphism problem",
+      "the discrete logarithm problem",
+      "graph isomorphism problem, the discrete logarithm problem and the integer factorization problem"
+    ],
+    "answer_start": [
+      164,
+      191,
+      164
+    ],
+    "gold_passage_id": "p0000275",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "5725d34089a1e219009abf51",
+    "question": "What did Distributed Adaptive Message Block Switching do",
+    "answer": [
+      "provide a fault-tolerant, efficient routing method for telecommunication messages",
+      "provide a fault-tolerant, efficient routing method for telecommunication messages",
+      "fault-tolerant, efficient routing method"
+    ],
+    "answer_start": [
+      151,
+      151,
+      161
+    ],
+    "gold_passage_id": "p0000865",
+    "title": "Packet_switching",
+    "category": null
+  },
+  {
+    "qa_id": "5727aa413acd2414000de921",
+    "question": "What individual is the school named after?",
+    "answer": [
+      "John Harvard",
+      "John Harvard",
+      "John Harvard"
+    ],
+    "answer_start": [
+      86,
+      86,
+      86
+    ],
+    "gold_passage_id": "p0001349",
+    "title": "Harvard_University",
+    "category": null
+  },
+  {
+    "qa_id": "56f8c5909b226e1400dd0f7d",
+    "question": "Where was Luther's last sermon preached?",
+    "answer": [
+      "Eisleben",
+      "Eisleben",
+      "Eisleben"
+    ],
+    "answer_start": [
+      33,
+      33,
+      33
+    ],
+    "gold_passage_id": "p0000437",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "5729e2b76aef0514001550d0",
+    "question": "How did the education during the high school education movement differ from the subsequent high school education?",
+    "answer": [
+      "designed to equip students with necessary skill sets to be able to perform at work",
+      "designed to equip students with necessary skill sets to be able to perform at work",
+      "designed to equip students with necessary skill sets to be able to perform at work"
+    ],
+    "answer_start": [
+      204,
+      204,
+      204
+    ],
+    "gold_passage_id": "p0001410",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "56d98a59dc89441400fdb52b",
+    "question": "Who did the Panthers beat to become the NFC champs?",
+    "answer": [
+      "Arizona Cardinals",
+      "the Arizona Cardinals",
+      "Arizona Cardinals"
+    ],
+    "answer_start": [
+      152,
+      148,
+      152
+    ],
+    "gold_passage_id": "p0000001",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "5728349dff5b5019007d9f02",
+    "question": "How many species of trees can be found in the Amazon rainforest?",
+    "answer": [
+      "16,000",
+      "16,000",
+      "16,000"
+    ],
+    "answer_start": [
+      1042,
+      1042,
+      1042
+    ],
+    "gold_passage_id": "p0000785",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "57286f373acd2414000df9df",
+    "question": "When did Buyantu resume testing potential government employees?",
+    "answer": [
+      "1313",
+      "1313",
+      "1313"
+    ],
+    "answer_start": [
+      472,
+      472,
+      472
+    ],
+    "gold_passage_id": "p0001560",
+    "title": "Yuan_dynasty",
+    "category": null
+  },
+  {
+    "qa_id": "570d28bdb3d812140066d4a3",
+    "question": "What political party is strongest in Melbourne's working class suburbs?",
+    "answer": [
+      "Australian Labor Party",
+      "Australian Labor Party",
+      "Labor"
+    ],
+    "answer_start": [
+      16,
+      16,
+      233
+    ],
+    "gold_passage_id": "p0000508",
+    "title": "Victoria_(Australia)",
+    "category": null
+  },
+  {
+    "qa_id": "5728827b2ca10214002da42e",
+    "question": "When did the Il-khanate experiment with paper money?",
+    "answer": [
+      "1294",
+      "1294",
+      "1294"
+    ],
+    "answer_start": [
+      545,
+      545,
+      545
+    ],
+    "gold_passage_id": "p0001584",
+    "title": "Yuan_dynasty",
+    "category": null
+  },
+  {
+    "qa_id": "56e1b169cd28a01900c67a73",
+    "question": "In considering Turing machines and alternate variables, what measurement left unaffected by conversion between machine models? ",
+    "answer": [
+      "computational power",
+      "computational power",
+      "computational power"
+    ],
+    "answer_start": [
+      248,
+      248,
+      248
+    ],
+    "gold_passage_id": "p0000255",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "5733dd4f4776f419006613ac",
+    "question": "How did William Shirley feel about French advancement?",
+    "answer": [
+      "British colonists would not be safe as long as the French were present",
+      "British colonists would not be safe",
+      "British colonists would not be safe as long as the French were present",
+      "British colonists would not be safe",
+      "forceful"
+    ],
+    "answer_start": [
+      532,
+      532,
+      532,
+      532,
+      509
+    ],
+    "gold_passage_id": "p0001991",
+    "title": "French_and_Indian_War",
+    "category": null
+  },
+  {
+    "qa_id": "572643de5951261400b5195c",
+    "question": "WHat did foreign clones of DATAPAC allow for ",
+    "answer": [
+      "A user or host could call a host on a foreign network by including the DNIC of the remote network as part of the destination address",
+      "the interconnection of national X.25 networks",
+      "interconnection of national X.25 networks"
+    ],
+    "answer_start": [
+      611,
+      564,
+      568
+    ],
+    "gold_passage_id": "p0000881",
+    "title": "Packet_switching",
+    "category": null
+  },
+  {
+    "qa_id": "5737821cc3c5551400e51f1a",
+    "question": "In what century was quantum mechanics made? ",
+    "answer": [
+      "20th",
+      "the 20th century",
+      "20th",
+      "20th"
+    ],
+    "answer_start": [
+      479,
+      475,
+      479,
+      479
+    ],
+    "gold_passage_id": "p0002045",
+    "title": "Force",
+    "category": null
+  },
+  {
+    "qa_id": "5730b6592461fd1900a9cfd1",
+    "question": "In which continent besides Asia were major gains made by the British Empire in the late 19th century?",
+    "answer": [
+      "Middle East",
+      "Middle East",
+      "the Middle East",
+      "Africa",
+      "Middle East."
+    ],
+    "answer_start": [
+      109,
+      109,
+      105,
+      66,
+      109
+    ],
+    "gold_passage_id": "p0001919",
+    "title": "Imperialism",
+    "category": null
+  },
+  {
+    "qa_id": "571126dfa58dae1900cd6cb2",
+    "question": "What was the first true engine that was commercially successful?",
+    "answer": [
+      "atmospheric engine",
+      "atmospheric engine",
+      "atmospheric engine",
+      "the atmospheric engine"
+    ],
+    "answer_start": [
+      117,
+      117,
+      117,
+      113
+    ],
+    "gold_passage_id": "p0000575",
+    "title": "Steam_engine",
+    "category": null
+  },
+  {
+    "qa_id": "5726a5f65951b619008f7903",
+    "question": "Who captured and held Temüjin prisoner around 1177?",
+    "answer": [
+      "the Tayichi'ud",
+      "Tayichi'ud",
+      "his father's former allies, the Tayichi'ud"
+    ],
+    "answer_start": [
+      109,
+      113,
+      81
+    ],
+    "gold_passage_id": "p0001151",
+    "title": "Genghis_Khan",
+    "category": null
+  },
+  {
+    "qa_id": "5705e63175f01819005e7723",
+    "question": "What is the eighth most populous city in the nation?",
+    "answer": [
+      "San Diego",
+      "San Diego",
+      "San Diego"
+    ],
+    "answer_start": [
+      324,
+      324,
+      324
+    ],
+    "gold_passage_id": "p0000448",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "57296e43af94a219006aa3e8",
+    "question": "What does the chloroplast peripheral reticulum do?",
+    "answer": [
+      "increase the chloroplast's surface area for cross-membrane transport",
+      "to increase the chloroplast's surface area",
+      "increase the chloroplast's surface area for cross-membrane transport between its stroma and the cell cytoplasm"
+    ],
+    "answer_start": [
+      449,
+      446,
+      449
+    ],
+    "gold_passage_id": "p0001702",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "572953013f37b31900478250",
+    "question": "What is the process of turning CO2 into organic molecules called?",
+    "answer": [
+      "the Calvin cycle",
+      "Calvin cycle",
+      "Calvin cycle"
+    ],
+    "answer_start": [
+      342,
+      346,
+      346
+    ],
+    "gold_passage_id": "p0001670",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "56bea9923aeaaa14008c91ba",
+    "question": "What does AFC stand for?",
+    "answer": [
+      "American Football Conference",
+      "American Football Conference",
+      "American Football Conference"
+    ],
+    "answer_start": [
+      133,
+      133,
+      133
+    ],
+    "gold_passage_id": "p0000000",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "57303048947a6a140053d258",
+    "question": "What was the U.S. Information Agency charged with doing during the Cold War?",
+    "answer": [
+      "undermining the communist ideology",
+      "undermining the communist ideology",
+      "undermining the communist ideology"
+    ],
+    "answer_start": [
+      660,
+      660,
+      660
+    ],
+    "gold_passage_id": "p0001885",
+    "title": "Islamism",
+    "category": null
+  },
+  {
+    "qa_id": "57268731f1498d1400e8e2e6",
+    "question": "What famous musician starred in Stormy Monday?",
+    "answer": [
+      "Sting",
+      "Sting",
+      "Sting"
+    ],
+    "answer_start": [
+      608,
+      608,
+      608
+    ],
+    "gold_passage_id": "p0000970",
+    "title": "Newcastle_upon_Tyne",
+    "category": null
+  },
+  {
+    "qa_id": "57284e9fff5b5019007da153",
+    "question": "The university's center in Beijing is located next to what school's campus?",
+    "answer": [
+      "Renmin University",
+      "Renmin University",
+      "Renmin University"
+    ],
+    "answer_start": [
+      432,
+      432,
+      432
+    ],
+    "gold_passage_id": "p0001519",
+    "title": "University_of_Chicago",
+    "category": null
+  },
+  {
+    "qa_id": "56beb7953aeaaa14008c92ac",
+    "question": "How many points did the Broncos score in the last three minutes of the game versus Pittsburgh?",
+    "answer": [
+      "11",
+      "11",
+      "11"
+    ],
+    "answer_start": [
+      88,
+      88,
+      88
+    ],
+    "gold_passage_id": "p0000016",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "56e1e9dfe3433e1400423200",
+    "question": "Who are commonly associated with the algorithm typically considered the most effective with respect to finite polynomial hierarchy and graph isomorphism?",
+    "answer": [
+      "Laszlo Babai and Eugene Luks",
+      "Babai and Eugene Luks",
+      "Laszlo Babai and Eugene Luks"
+    ],
+    "answer_start": [
+      637,
+      644,
+      637
+    ],
+    "gold_passage_id": "p0000276",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "57275573708984140094dc47",
+    "question": "Since January 2012, all ABC programming has been presented in what format?",
+    "answer": [
+      "HD",
+      "HD",
+      "HD"
+    ],
+    "answer_start": [
+      235,
+      235,
+      235
+    ],
+    "gold_passage_id": "p0001109",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "57266193dd62a815002e832d",
+    "question": "In the layered model of the Earth there are seismic discontinuities in which layer? ",
+    "answer": [
+      "the mantle",
+      "mantle",
+      "mantle",
+      "mantle"
+    ],
+    "answer_start": [
+      362,
+      366,
+      366,
+      366
+    ],
+    "gold_passage_id": "p0000914",
+    "title": "Geology",
+    "category": null
+  },
+  {
+    "qa_id": "5725ceb989a1e219009abf0e",
+    "question": "For about how long would the extended LM allow a surface stay on the moon?",
+    "answer": [
+      "3 days",
+      "3 days.",
+      "over 3 days",
+      "over 3 days",
+      "3 days"
+    ],
+    "answer_start": [
+      870,
+      870,
+      865,
+      865,
+      870
+    ],
+    "gold_passage_id": "p0000710",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "57332f81d058e614000b5776",
+    "question": "What campaign did the Communist regime initiate after WWII?",
+    "answer": [
+      "\"Bricks for Warsaw\"",
+      "Bricks for Warsaw",
+      "Bricks for Warsaw"
+    ],
+    "answer_start": [
+      83,
+      84,
+      84
+    ],
+    "gold_passage_id": "p0000082",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "5725d61038643c19005acdd5",
+    "question": "In what year were the Distinguished Service Medals awarded to Grissom, White, and Chaffee?",
+    "answer": [
+      "1969",
+      "1969",
+      "1969",
+      "1969",
+      "1969"
+    ],
+    "answer_start": [
+      302,
+      302,
+      302,
+      302,
+      302
+    ],
+    "gold_passage_id": "p0000716",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "572f7b33947a6a140053c9a2",
+    "question": "If two thirds of the Rhine flows through the Maas, where doe the other one third flow through?",
+    "answer": [
+      "Pannerdens Kanaal",
+      "Pannerdens Kanaal",
+      "the Pannerdens Kanaal"
+    ],
+    "answer_start": [
+      47,
+      47,
+      43
+    ],
+    "gold_passage_id": "p0001781",
+    "title": "Rhine",
+    "category": null
+  },
+  {
+    "qa_id": "56e0d402231d4119001ac3fc",
+    "question": "In what year did Tesla go to Budapest?",
+    "answer": [
+      "1881",
+      "1881",
+      "1881"
+    ],
+    "answer_start": [
+      3,
+      3,
+      3
+    ],
+    "gold_passage_id": "p0000161",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "56e08a1f7aa994140058e5da",
+    "question": "How old was tesla when he became a US citizen?",
+    "answer": [
+      "35",
+      "35",
+      "35"
+    ],
+    "answer_start": [
+      31,
+      31,
+      31
+    ],
+    "gold_passage_id": "p0000175",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "57284142ff5b5019007da00a",
+    "question": "Who donated property to the University of Chicago?",
+    "answer": [
+      "Marshall Field",
+      "Marshall Field",
+      "Marshall Field",
+      "Marshall Field"
+    ],
+    "answer_start": [
+      235,
+      235,
+      235,
+      235
+    ],
+    "gold_passage_id": "p0001511",
+    "title": "University_of_Chicago",
+    "category": null
+  },
+  {
+    "qa_id": "56de3f784396321400ee26fa",
+    "question": "What ruined Richard's plans to reach Acre?",
+    "answer": [
+      "a storm",
+      "a storm",
+      "a storm"
+    ],
+    "answer_start": [
+      99,
+      99,
+      99
+    ],
+    "gold_passage_id": "p0000133",
+    "title": "Normans",
+    "category": null
+  },
+  {
+    "qa_id": "57295b5b1d04691400779316",
+    "question": "Why aren't some forms of Hæmatococcus pluvialis green?",
+    "answer": [
+      "accessory pigments that override the chlorophylls' green colors",
+      "accessory pigments",
+      "accessory pigments that override the chlorophylls' green colors"
+    ],
+    "answer_start": [
+      449,
+      449,
+      449
+    ],
+    "gold_passage_id": "p0001678",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "56e76de800c9c71400d77125",
+    "question": "What is tertiary education?",
+    "answer": [
+      "universities and/or TAFE colleges",
+      "universities and/or TAFE colleges",
+      "universities and/or TAFE colleges"
+    ],
+    "answer_start": [
+      301,
+      301,
+      301
+    ],
+    "gold_passage_id": "p0000327",
+    "title": "Teacher",
+    "category": null
+  },
+  {
+    "qa_id": "56e777e500c9c71400d77177",
+    "question": "What language is used to educate in Wales?",
+    "answer": [
+      "Welsh",
+      "Welsh",
+      "Welsh"
+    ],
+    "answer_start": [
+      216,
+      216,
+      216
+    ],
+    "gold_passage_id": "p0000337",
+    "title": "Teacher",
+    "category": null
+  },
+  {
+    "qa_id": "572813b52ca10214002d9d6c",
+    "question": "Who was the first person to play the Master?",
+    "answer": [
+      "Roger Delgado",
+      "Roger Delgado",
+      "Roger Delgado"
+    ],
+    "answer_start": [
+      359,
+      359,
+      359
+    ],
+    "gold_passage_id": "p0001475",
+    "title": "Doctor_Who",
+    "category": null
+  },
+  {
+    "qa_id": "57297547af94a219006aa45c",
+    "question": "Who included 1 as the first prime number in the mid 18th century?",
+    "answer": [
+      "Christian Goldbach",
+      "Christian Goldbach",
+      "Christian Goldbach",
+      "mathematicians",
+      "mathematicians"
+    ],
+    "answer_start": [
+      220,
+      220,
+      220,
+      143,
+      143
+    ],
+    "gold_passage_id": "p0001738",
+    "title": "Prime_number",
+    "category": null
+  },
+  {
+    "qa_id": "5705fc3a52bb89140068976d",
+    "question": "How frequent is snow in the Southwest of the state?",
+    "answer": [
+      "very rare",
+      "very rare",
+      "very rare"
+    ],
+    "answer_start": [
+      353,
+      353,
+      353
+    ],
+    "gold_passage_id": "p0000460",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "57283d173acd2414000df790",
+    "question": "Where did water to the east of the Amazon drainage basin flow towards?",
+    "answer": [
+      "the Atlantic",
+      "the Atlantic",
+      "Atlantic"
+    ],
+    "answer_start": [
+      179,
+      179,
+      516
+    ],
+    "gold_passage_id": "p0000787",
+    "title": "Amazon_rainforest",
+    "category": null
+  },
+  {
+    "qa_id": "57294209af94a219006aa204",
+    "question": "What reconstructions supported the 1999 paper's information?",
+    "answer": [
+      "Jones et al. 1998, Pollack, Huang & Shen 1998, Crowley & Lowery 2000 and Briffa 2000",
+      "Jones et al. and Briffa reconstructions",
+      "temperatures increased on the basis of documentary evidence of Medieval vineyards in England"
+    ],
+    "answer_start": [
+      1049,
+      1173,
+      755
+    ],
+    "gold_passage_id": "p0001659",
+    "title": "Intergovernmental_Panel_on_Climate_Change",
+    "category": null
+  },
+  {
+    "qa_id": "5730aa52069b531400832220",
+    "question": "Where did France win a war in the 1950's",
+    "answer": [
+      "Algeria",
+      "Algeria",
+      "Algeria",
+      "Algeria",
+      "Algeria"
+    ],
+    "answer_start": [
+      297,
+      297,
+      297,
+      297,
+      297
+    ],
+    "gold_passage_id": "p0001911",
+    "title": "Imperialism",
+    "category": null
+  },
+  {
+    "qa_id": "57273f27dd62a815002e9a0b",
+    "question": "There are other categories for what?",
+    "answer": [
+      "construction service firms (e.g., engineering, architecture) and construction managers",
+      "service firms",
+      "construction service firms (e.g., engineering, architecture) and construction managers"
+    ],
+    "answer_start": [
+      415,
+      428,
+      415
+    ],
+    "gold_passage_id": "p0001305",
+    "title": "Construction",
+    "category": null
+  },
+  {
+    "qa_id": "571a484210f8ca1400304fc0",
+    "question": "How many atoms combine to form dioxygen?",
+    "answer": [
+      "two atoms",
+      "two",
+      "two",
+      "two",
+      "two"
+    ],
+    "answer_start": [
+      377,
+      377,
+      377,
+      377,
+      377
+    ],
+    "gold_passage_id": "p0000620",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "57296e43af94a219006aa3e6",
+    "question": "Where is the chloroplast peripheral reticulum less commonly found?",
+    "answer": [
+      "in some C3 angiosperms, and even some gymnosperms",
+      "C3 angiosperms",
+      "C3 angiosperms, and even some gymnosperms"
+    ],
+    "answer_start": [
+      165,
+      173,
+      173
+    ],
+    "gold_passage_id": "p0001702",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "57113c6da58dae1900cd6d36",
+    "question": "In what year did Jerónimo de Ayanz y Beaumont patent a water pump for draining mines?",
+    "answer": [
+      "1606",
+      "1606",
+      "1606",
+      "1606"
+    ],
+    "answer_start": [
+      532,
+      532,
+      532,
+      532
+    ],
+    "gold_passage_id": "p0000582",
+    "title": "Steam_engine",
+    "category": null
+  },
+  {
+    "qa_id": "57267ebfdd62a815002e872f",
+    "question": "What does critically tapered mean? ",
+    "answer": [
+      "all angles remain the same",
+      "all angles remain the same",
+      "all angles remain the same"
+    ],
+    "answer_start": [
+      404,
+      404,
+      404
+    ],
+    "gold_passage_id": "p0000929",
+    "title": "Geology",
+    "category": null
+  },
+  {
+    "qa_id": "5728fb002ca10214002dab6e",
+    "question": "The flushing action of what expels pathogens from the eyes?",
+    "answer": [
+      "tears",
+      "tears",
+      "tears"
+    ],
+    "answer_start": [
+      637,
+      637,
+      637
+    ],
+    "gold_passage_id": "p0001233",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "5726a340dd62a815002e8bbd",
+    "question": "Who were Temüjin's three full brothers?",
+    "answer": [
+      "Hasar, Hachiun, and Temüge",
+      "Hasar, Hachiun, and Temüge",
+      "Hasar, Hachiun, and Temüge"
+    ],
+    "answer_start": [
+      33,
+      33,
+      33
+    ],
+    "gold_passage_id": "p0001149",
+    "title": "Genghis_Khan",
+    "category": null
+  },
+  {
+    "qa_id": "5727cff1ff5b5019007d95c5",
+    "question": "How great were the losses suffered in the the financial crisis of 2008-09 to Harvard endowment?",
+    "answer": [
+      "30% loss",
+      "$12 billion",
+      "30% loss"
+    ],
+    "answer_start": [
+      272,
+      653,
+      272
+    ],
+    "gold_passage_id": "p0001363",
+    "title": "Harvard_University",
+    "category": null
+  },
+  {
+    "qa_id": "57291a7b1d04691400779042",
+    "question": "How did this effect the producer prices?",
+    "answer": [
+      ", helped to increase local producer prices by 20–25%",
+      "increase local producer prices by 20–25%",
+      "increase"
+    ],
+    "answer_start": [
+      550,
+      562,
+      562
+    ],
+    "gold_passage_id": "p0001621",
+    "title": "Kenya",
+    "category": null
+  },
+  {
+    "qa_id": "5729de24af94a219006aa68c",
+    "question": "What motivation is opportunity-based entrepreneurship driven by?",
+    "answer": [
+      "achievement-oriented",
+      "achievement-oriented motivations (\"pull\")",
+      "achievement-oriented motivations"
+    ],
+    "answer_start": [
+      381,
+      381,
+      381
+    ],
+    "gold_passage_id": "p0001406",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "56e75e4500c9c71400d7702e",
+    "question": "What country has a problem with classroom discipline, even though scores on tests are high?",
+    "answer": [
+      "Japan",
+      "Japan",
+      "Japan"
+    ],
+    "answer_start": [
+      202,
+      202,
+      202
+    ],
+    "gold_passage_id": "p0000310",
+    "title": "Teacher",
+    "category": null
+  },
+  {
+    "qa_id": "5725f39638643c19005acefa",
+    "question": "Which company was tasked with trying to restore the original tapes?",
+    "answer": [
+      "Lowry Digital",
+      "CBS",
+      "Lowry Digital",
+      "Lowry Digital",
+      "Lowry Digital"
+    ],
+    "answer_start": [
+      126,
+      308,
+      126,
+      126,
+      126
+    ],
+    "gold_passage_id": "p0000743",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "571cd88ddd7acb1400e4c18d",
+    "question": "What event would necessitate airline passengers to need a supplemental supply of oxygen? ",
+    "answer": [
+      "cabin depressurization",
+      "cabin depressurization",
+      "cabin depressurization",
+      "cabin depressurization",
+      "depressurization"
+    ],
+    "answer_start": [
+      251,
+      251,
+      251,
+      251,
+      257
+    ],
+    "gold_passage_id": "p0000656",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "573166ede6313a140071cef4",
+    "question": "What river runs through Warsaw?",
+    "answer": [
+      "Vistula River",
+      "Vistula River",
+      "Vistula"
+    ],
+    "answer_start": [
+      129,
+      129,
+      129
+    ],
+    "gold_passage_id": "p0000102",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "5726ce11f1498d1400e8ebc4",
+    "question": "The National Art Library at the V&A is known by what other name?",
+    "answer": [
+      "Word and Image Department",
+      "Word and Image Department",
+      "Word and Image Department"
+    ],
+    "answer_start": [
+      38,
+      38,
+      38
+    ],
+    "gold_passage_id": "p0001016",
+    "title": "Victoria_and_Albert_Museum",
+    "category": null
+  },
+  {
+    "qa_id": "56d703d10d65d214001982d8",
+    "question": "How many years had Thomas Davis played in the league when he broke his arm during the NFC Championship game?",
+    "answer": [
+      "11",
+      "11",
+      "11"
+    ],
+    "answer_start": [
+      56,
+      56,
+      56
+    ],
+    "gold_passage_id": "p0000017",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "572ffabf04bcaa1900d76fa3",
+    "question": "What, rather than Islamism, requires explanation?",
+    "answer": [
+      "non-political Islam",
+      "quietist/non-political Islam",
+      "quietist/non-political Islam"
+    ],
+    "answer_start": [
+      598,
+      589,
+      589
+    ],
+    "gold_passage_id": "p0001851",
+    "title": "Islamism",
+    "category": null
+  },
+  {
+    "qa_id": "57299021af94a219006aa50f",
+    "question": "Which theorem states that every large even integer can be written as a prime summed with a semiprime?",
+    "answer": [
+      "Chen's theorem",
+      "Chen's",
+      "Chen's theorem",
+      "Chen's theorem"
+    ],
+    "answer_start": [
+      661,
+      661,
+      661,
+      661
+    ],
+    "gold_passage_id": "p0001751",
+    "title": "Prime_number",
+    "category": null
+  },
+  {
+    "qa_id": "57264cac708984140094c1b7",
+    "question": "How was scarcity managed in many countries?",
+    "answer": [
+      "rationing",
+      "rationing",
+      "rationing",
+      "rationing",
+      "rationing"
+    ],
+    "answer_start": [
+      445,
+      445,
+      445,
+      445,
+      445
+    ],
+    "gold_passage_id": "p0000674",
+    "title": "1973_oil_crisis",
+    "category": null
+  },
+  {
+    "qa_id": "572ffbaa947a6a140053ceea",
+    "question": "What did the non-Afghan veterans returning home have in addition to their prestige?",
+    "answer": [
+      "considerable impact",
+      "experience, ideology, and weapons",
+      "experience, ideology, and weapons"
+    ],
+    "answer_start": [
+      626,
+      582,
+      582
+    ],
+    "gold_passage_id": "p0001852",
+    "title": "Islamism",
+    "category": null
+  },
+  {
+    "qa_id": "571cb010dd7acb1400e4c129",
+    "question": "To what is singlet oxygen more reactive?",
+    "answer": [
+      "organic molecules",
+      "common organic molecules",
+      "common organic molecules",
+      "common organic molecules",
+      "common organic molecules"
+    ],
+    "answer_start": [
+      165,
+      158,
+      158,
+      158,
+      158
+    ],
+    "gold_passage_id": "p0000641",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "56be5438acb8001400a5031a",
+    "question": "Which Louisiana venue was one of three considered for Super Bowl 50?",
+    "answer": [
+      "New Orleans' Mercedes-Benz Superdome",
+      "New Orleans' Mercedes-Benz Superdome",
+      "Mercedes-Benz Superdome"
+    ],
+    "answer_start": [
+      56,
+      56,
+      69
+    ],
+    "gold_passage_id": "p0000005",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "56de51c64396321400ee27f7",
+    "question": "In what century did important classical music developments occur in Normandy?",
+    "answer": [
+      "11th",
+      "the 11th",
+      "11th"
+    ],
+    "answer_start": [
+      97,
+      93,
+      97
+    ],
+    "gold_passage_id": "p0000146",
+    "title": "Normans",
+    "category": null
+  },
+  {
+    "qa_id": "57340549d058e614000b67de",
+    "question": "How successful was the French revised efforts?",
+    "answer": [
+      "The invasion failed both militarily and politically, as Pitt again planned significant campaigns against New France",
+      "failed",
+      "invasion failed",
+      "failed",
+      "The invasion failed both militarily and politically"
+    ],
+    "answer_start": [
+      273,
+      286,
+      277,
+      286,
+      273
+    ],
+    "gold_passage_id": "p0002016",
+    "title": "French_and_Indian_War",
+    "category": null
+  },
+  {
+    "qa_id": "57335c20d058e614000b58f9",
+    "question": "How many geomorphologic formations is Warsaw on?",
+    "answer": [
+      "two",
+      "two",
+      "two"
+    ],
+    "answer_start": [
+      21,
+      21,
+      21
+    ],
+    "gold_passage_id": "p0000085",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "57261f9f271a42140099d4ab",
+    "question": "Scholars stated that there was already an existing settlement between 2 parties prior to which date?",
+    "answer": [
+      "1973",
+      "1973",
+      "1973",
+      "1973"
+    ],
+    "answer_start": [
+      136,
+      136,
+      136,
+      136
+    ],
+    "gold_passage_id": "p0000670",
+    "title": "1973_oil_crisis",
+    "category": null
+  },
+  {
+    "qa_id": "56de15dbcffd8e1900b4b5ca",
+    "question": "To where did Ethelred flee?",
+    "answer": [
+      "Normandy",
+      "Normandy",
+      "Normandy"
+    ],
+    "answer_start": [
+      423,
+      423,
+      423
+    ],
+    "gold_passage_id": "p0000121",
+    "title": "Normans",
+    "category": null
+  },
+  {
+    "qa_id": "56d9b5ffdc89441400fdb721",
+    "question": "According to the text, how much money did the Host Committee raise?",
+    "answer": [
+      "over $40 million",
+      "over $40 million",
+      "$40 million"
+    ],
+    "answer_start": [
+      334,
+      334,
+      339
+    ],
+    "gold_passage_id": "p0000029",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "57268294708984140094c87a",
+    "question": "Which cultures are represented in the V&A's collections?",
+    "answer": [
+      "Europe, North America, Asia and North Africa",
+      "Europe, North America, Asia and North Africa",
+      "Europe, North America, Asia and North Africa",
+      "Europe, North America, Asia and North Africa"
+    ],
+    "answer_start": [
+      158,
+      158,
+      158,
+      158
+    ],
+    "gold_passage_id": "p0000990",
+    "title": "Victoria_and_Albert_Museum",
+    "category": null
+  },
+  {
+    "qa_id": "56de4c324396321400ee27ac",
+    "question": "What is Norman art's most well known piece?",
+    "answer": [
+      "Bayeux Tapestry",
+      "the Bayeux Tapestry",
+      "the Bayeux Tapestry"
+    ],
+    "answer_start": [
+      49,
+      45,
+      45
+    ],
+    "gold_passage_id": "p0000144",
+    "title": "Normans",
+    "category": null
+  },
+  {
+    "qa_id": "57290d811d04691400778fd2",
+    "question": "Who called themselves the \"People's President\"?",
+    "answer": [
+      "Odinga",
+      "Odinga",
+      "Odinga"
+    ],
+    "answer_start": [
+      957,
+      957,
+      957
+    ],
+    "gold_passage_id": "p0001608",
+    "title": "Kenya",
+    "category": null
+  },
+  {
+    "qa_id": "5725c948ec44d21400f3d577",
+    "question": "What was the advantage that the LOR method produced in the event of a spacecraft failure?",
+    "answer": [
+      "spacecraft to be used as a \"lifeboat\"",
+      "allowing the lander spacecraft to be used as a \"lifeboat",
+      "allowing the lander spacecraft to be used as a \"lifeboat\"",
+      "lifeboat",
+      "allowing the lander spacecraft to be used as a \"lifeboat\""
+    ],
+    "answer_start": [
+      56,
+      36,
+      36,
+      84,
+      36
+    ],
+    "gold_passage_id": "p0000705",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "572648e8dd62a815002e8076",
+    "question": "What are the hairs on ctenophores called?",
+    "answer": [
+      "cilia",
+      "cilia",
+      "cilia"
+    ],
+    "answer_start": [
+      133,
+      133,
+      133
+    ],
+    "gold_passage_id": "p0000813",
+    "title": "Ctenophora",
+    "category": null
+  },
+  {
+    "qa_id": "57283db6ff5b5019007d9fbd",
+    "question": "Who helped develop the first man-made self-sustaining nuclear reaction?",
+    "answer": [
+      "Chicago's physics department",
+      "Chicago's physics department",
+      "Chicago's physics department",
+      "Chicago's physics department"
+    ],
+    "answer_start": [
+      360,
+      360,
+      360,
+      360
+    ],
+    "gold_passage_id": "p0001509",
+    "title": "University_of_Chicago",
+    "category": null
+  },
+  {
+    "qa_id": "571a4ead10f8ca1400304fde",
+    "question": "Pneumatica was written by what Greek writer?",
+    "answer": [
+      "Philo of Byzantium",
+      "Philo of Byzantium",
+      "Philo",
+      "Philo",
+      "Philo of Byzantium"
+    ],
+    "answer_start": [
+      146,
+      146,
+      190,
+      146,
+      146
+    ],
+    "gold_passage_id": "p0000624",
+    "title": "Oxygen",
+    "category": null
+  },
+  {
+    "qa_id": "57296e43af94a219006aa3e5",
+    "question": "Where is the chloroplast peripheral reticulum usually found?",
+    "answer": [
+      "in the chloroplasts of C4 plants",
+      "in the chloroplasts of C4 plants,",
+      "chloroplasts of C4 plants"
+    ],
+    "answer_start": [
+      101,
+      101,
+      108
+    ],
+    "gold_passage_id": "p0001702",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "56f7e9caaef2371900625c58",
+    "question": "How early did Luther say he had to awaken every day?",
+    "answer": [
+      "at four",
+      "four",
+      "four"
+    ],
+    "answer_start": [
+      140,
+      143,
+      143
+    ],
+    "gold_passage_id": "p0000350",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "572fff45947a6a140053cf29",
+    "question": "What covered Scandinavia, the Baltics, Scotland, and the Alps in the last Ice Age?",
+    "answer": [
+      "ice-sheets",
+      "ice-sheets",
+      "ice-sheets"
+    ],
+    "answer_start": [
+      321,
+      321,
+      321
+    ],
+    "gold_passage_id": "p0001793",
+    "title": "Rhine",
+    "category": null
+  },
+  {
+    "qa_id": "572fadcbb2c2fd1400568329",
+    "question": "Where was an elected assembly to be set up, under the terms of the Scotland Act of 1978?",
+    "answer": [
+      "Edinburgh",
+      "Edinburgh",
+      "Edinburgh"
+    ],
+    "answer_start": [
+      81,
+      81,
+      81
+    ],
+    "gold_passage_id": "p0001811",
+    "title": "Scottish_Parliament",
+    "category": null
+  },
+  {
+    "qa_id": "57280b2b2ca10214002d9c67",
+    "question": "Which episode featured the return of William Hartnell?",
+    "answer": [
+      "The Three Doctors",
+      "The Three Doctors",
+      "The Three Doctors"
+    ],
+    "answer_start": [
+      117,
+      117,
+      117
+    ],
+    "gold_passage_id": "p0001467",
+    "title": "Doctor_Who",
+    "category": null
+  },
+  {
+    "qa_id": "5725dd1689a1e219009abfe3",
+    "question": "What was found to be at fault for the fire in the cabin on Apollo 1 regarding the CM design?",
+    "answer": [
+      "deficiencies",
+      "workmanship and quality control",
+      "deficiencies existed in Command Module design, workmanship and quality control",
+      "\"deficiencies existed in Command Module design, workmanship and quality control.\""
+    ],
+    "answer_start": [
+      194,
+      241,
+      194,
+      193
+    ],
+    "gold_passage_id": "p0000724",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "57280cac2ca10214002d9ca9",
+    "question": "What special audio recording was released for the 40th anniversary?",
+    "answer": [
+      "Zagreus",
+      "Zagreus",
+      "Zagreus"
+    ],
+    "answer_start": [
+      287,
+      287,
+      287
+    ],
+    "gold_passage_id": "p0001468",
+    "title": "Doctor_Who",
+    "category": null
+  },
+  {
+    "qa_id": "572a07fc6aef0514001551df",
+    "question": "Evolution of what part of the immune system occurred in the evolutionary ancestor of jawed vertebrates?",
+    "answer": [
+      "adaptive immune system",
+      "adaptive",
+      "the adaptive immune system"
+    ],
+    "answer_start": [
+      17,
+      17,
+      125
+    ],
+    "gold_passage_id": "p0001264",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "57109180a58dae1900cd6a44",
+    "question": "The French church in Portarlington was built when?",
+    "answer": [
+      "1696",
+      "1696",
+      "1696"
+    ],
+    "answer_start": [
+      505,
+      505,
+      505
+    ],
+    "gold_passage_id": "p0000546",
+    "title": "Huguenot",
+    "category": null
+  },
+  {
+    "qa_id": "56e10d2dcd28a01900c674da",
+    "question": "What did he hope to locate underground?",
+    "answer": [
+      "mineral deposits",
+      "mineral deposits",
+      "mineral deposits"
+    ],
+    "answer_start": [
+      267,
+      267,
+      267
+    ],
+    "gold_passage_id": "p0000206",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "56e1127bcd28a01900c6754d",
+    "question": "When are the ashes now?",
+    "answer": [
+      "Nikola Tesla Museum",
+      "the Nikola Tesla Museum",
+      "the Nikola Tesla Museum"
+    ],
+    "answer_start": [
+      321,
+      317,
+      317
+    ],
+    "gold_passage_id": "p0000215",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "57274d9bf1498d1400e8f5f9",
+    "question": "What is the name of the post-independence government school system in Malaysia?",
+    "answer": [
+      "National School",
+      "National Type",
+      "National School"
+    ],
+    "answer_start": [
+      135,
+      271,
+      135
+    ],
+    "gold_passage_id": "p0001335",
+    "title": "Private_school",
+    "category": null
+  },
+  {
+    "qa_id": "572734af708984140094dae5",
+    "question": "What colors was the 2001 ABC logo?",
+    "answer": [
+      "black-and-yellow",
+      "black-and-yellow",
+      "black-and-yellow"
+    ],
+    "answer_start": [
+      409,
+      409,
+      409
+    ],
+    "gold_passage_id": "p0001071",
+    "title": "American_Broadcasting_Company",
+    "category": null
+  },
+  {
+    "qa_id": "57274046dd62a815002e9a16",
+    "question": "What do those in the field do to ensure a positive outcome?",
+    "answer": [
+      "make detailed plans and maintain careful oversight",
+      "make detailed plans and maintain careful oversight",
+      "make detailed plans and maintain careful oversight during the project"
+    ],
+    "answer_start": [
+      652,
+      652,
+      652
+    ],
+    "gold_passage_id": "p0001306",
+    "title": "Construction",
+    "category": null
+  },
+  {
+    "qa_id": "5727213c708984140094da35",
+    "question": "After the Peterloo massacre what poet wrote The Massacre of Anarchy?",
+    "answer": [
+      "Percy Shelley",
+      "Percy Shelley",
+      "Percy Shelley",
+      "Percy Shelley",
+      "Percy Shelley"
+    ],
+    "answer_start": [
+      46,
+      46,
+      46,
+      46,
+      46
+    ],
+    "gold_passage_id": "p0001277",
+    "title": "Civil_disobedience",
+    "category": null
+  },
+  {
+    "qa_id": "5727f3193acd2414000df0a8",
+    "question": "What type of beings does Doctor Who usually take with him on his travels?",
+    "answer": [
+      "humans",
+      "companions",
+      "usually humans"
+    ],
+    "answer_start": [
+      126,
+      61,
+      118
+    ],
+    "gold_passage_id": "p0001448",
+    "title": "Doctor_Who",
+    "category": null
+  },
+  {
+    "qa_id": "5733a45d4776f41900660f26",
+    "question": "When is the oldest armed seal of Warsaw from?",
+    "answer": [
+      "1390",
+      "1390",
+      "1390"
+    ],
+    "answer_start": [
+      245,
+      245,
+      245
+    ],
+    "gold_passage_id": "p0000069",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "56e11c24e3433e1400422c1b",
+    "question": "Where did he live while he was looking good?",
+    "answer": [
+      "New York City",
+      "New York City",
+      "New York City"
+    ],
+    "answer_start": [
+      169,
+      169,
+      169
+    ],
+    "gold_passage_id": "p0000221",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "5733638fd058e614000b59ec",
+    "question": "What were the Saxon Palace and Brühl Palace in prewar Warsaw?",
+    "answer": [
+      "the most distinctive buildings",
+      "the most distinctive buildings",
+      "most distinctive buildings"
+    ],
+    "answer_start": [
+      712,
+      712,
+      716
+    ],
+    "gold_passage_id": "p0000090",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "5729f5a03f37b31900478609",
+    "question": "What kind of human T cells respond to common molecules produced by microbes?",
+    "answer": [
+      "Vγ9/Vδ2 T cells",
+      "Vγ9/Vδ2",
+      "Vγ9/Vδ2 T cells"
+    ],
+    "answer_start": [
+      822,
+      822,
+      822
+    ],
+    "gold_passage_id": "p0001246",
+    "title": "Immune_system",
+    "category": null
+  },
+  {
+    "qa_id": "5726d993f1498d1400e8ed16",
+    "question": "Which Ancient Roman monument is replicated in full-scale in the Cast Courts?",
+    "answer": [
+      "Trajan's Column",
+      "sculpture wing",
+      "Trajan's Column"
+    ],
+    "answer_start": [
+      264,
+      71,
+      264
+    ],
+    "gold_passage_id": "p0001020",
+    "title": "Victoria_and_Albert_Museum",
+    "category": null
+  },
+  {
+    "qa_id": "56e1c4fce3433e1400423152",
+    "question": "IP and AM are most commonly defined by what type of proof system?",
+    "answer": [
+      "Interactive",
+      "Interactive",
+      "Interactive"
+    ],
+    "answer_start": [
+      357,
+      357,
+      357
+    ],
+    "gold_passage_id": "p0000266",
+    "title": "Computational_complexity_theory",
+    "category": null
+  },
+  {
+    "qa_id": "57268b43dd62a815002e88f1",
+    "question": "What are the main sources of primary law?",
+    "answer": [
+      "the Treaties establishing the European Union",
+      "the Treaties establishing the European Union",
+      "the Treaties establishing the European Union",
+      "the Treaties establishing the European Union"
+    ],
+    "answer_start": [
+      313,
+      313,
+      313,
+      313
+    ],
+    "gold_passage_id": "p0000744",
+    "title": "European_Union_law",
+    "category": null
+  },
+  {
+    "qa_id": "571095a8a58dae1900cd6a7a",
+    "question": "By what document did the Huguenots confess their faith to the Portuguese in Brazil?",
+    "answer": [
+      "the Guanabara Confession of Faith",
+      "Guanabara Confession of Faith",
+      "the Guanabara Confession of Faith"
+    ],
+    "answer_start": [
+      905,
+      909,
+      905
+    ],
+    "gold_passage_id": "p0000550",
+    "title": "Huguenot",
+    "category": null
+  },
+  {
+    "qa_id": "57109180a58dae1900cd6a40",
+    "question": "What Irish cities had Huguenot mayors in the 1600s and 1700s?",
+    "answer": [
+      "Dublin, Cork, Youghal and Waterford",
+      "Dublin, Cork, Youghal and Waterford",
+      "Dublin, Cork, Youghal and Waterford"
+    ],
+    "answer_start": [
+      42,
+      42,
+      42
+    ],
+    "gold_passage_id": "p0000546",
+    "title": "Huguenot",
+    "category": null
+  },
+  {
+    "qa_id": "572968cf1d046914007793ce",
+    "question": "When was the first plastome sequenced?",
+    "answer": [
+      "1986",
+      "1986",
+      "1986"
+    ],
+    "answer_start": [
+      168,
+      168,
+      168
+    ],
+    "gold_passage_id": "p0001690",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "5727e9523acd2414000def95",
+    "question": "What philosophy of thought  addresses wealth inequality?",
+    "answer": [
+      "Neoclassical economics",
+      "Neoclassical economics",
+      "Neoclassical economics"
+    ],
+    "answer_start": [
+      0,
+      0,
+      0
+    ],
+    "gold_passage_id": "p0001402",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "56f82b25a6d7ea1400e17458",
+    "question": "What did Luther explain about acquiring God's grace?",
+    "answer": [
+      "cannot be earned",
+      "cannot be earned",
+      "cannot be earned",
+      "All humans are sinners by nature, he explained, and God's grace (which cannot be earned) alone can make them just."
+    ],
+    "answer_start": [
+      204,
+      204,
+      204,
+      133
+    ],
+    "gold_passage_id": "p0000377",
+    "title": "Martin_Luther",
+    "category": null
+  },
+  {
+    "qa_id": "57273a465951b619008f86ff",
+    "question": "What is the process of constructing a building or infrastructure?",
+    "answer": [
+      "Construction",
+      "Construction",
+      "Construction"
+    ],
+    "answer_start": [
+      0,
+      0,
+      0
+    ],
+    "gold_passage_id": "p0001301",
+    "title": "Construction",
+    "category": null
+  },
+  {
+    "qa_id": "570d4606b3d812140066d61d",
+    "question": "To where is most of the abalone and lobster caught in Victorian waters shipped?",
+    "answer": [
+      "Asia",
+      "Asia",
+      "Asia"
+    ],
+    "answer_start": [
+      617,
+      617,
+      617
+    ],
+    "gold_passage_id": "p0000523",
+    "title": "Victoria_(Australia)",
+    "category": null
+  },
+  {
+    "qa_id": "572648e8dd62a815002e8077",
+    "question": "What are cilia used for?",
+    "answer": [
+      "method of locomotion",
+      "their main method of locomotion",
+      "locomotion"
+    ],
+    "answer_start": [
+      163,
+      152,
+      173
+    ],
+    "gold_passage_id": "p0000813",
+    "title": "Ctenophora",
+    "category": null
+  },
+  {
+    "qa_id": "572a18a4af94a219006aa7df",
+    "question": "When were theories developed suggesting inequality may have some positive effect on economic development?",
+    "answer": [
+      "the 1970s",
+      "1970s",
+      "1970s"
+    ],
+    "answer_start": [
+      27,
+      31,
+      31
+    ],
+    "gold_passage_id": "p0001434",
+    "title": "Economic_inequality",
+    "category": null
+  },
+  {
+    "qa_id": "5725c743ec44d21400f3d54c",
+    "question": "What court is able to interpret European Union law?",
+    "answer": [
+      "The European Court of Justice",
+      "The European Court of Justice",
+      "The European Court of Justice",
+      "The European Court of Justice"
+    ],
+    "answer_start": [
+      1179,
+      1179,
+      1179,
+      1179
+    ],
+    "gold_passage_id": "p0000746",
+    "title": "European_Union_law",
+    "category": null
+  },
+  {
+    "qa_id": "56e0c2307aa994140058e6e0",
+    "question": "What disease did Tesla catch?",
+    "answer": [
+      "cholera",
+      "cholera",
+      "cholera"
+    ],
+    "answer_start": [
+      94,
+      94,
+      94
+    ],
+    "gold_passage_id": "p0000155",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "572810ec2ca10214002d9d07",
+    "question": "Soon after gaining Florida, what did the English do?",
+    "answer": [
+      "constructed the King's Road",
+      "constructed the King's Road",
+      "constructed the King's Road"
+    ],
+    "answer_start": [
+      97,
+      97,
+      97
+    ],
+    "gold_passage_id": "p0001384",
+    "title": "Jacksonville,_Florida",
+    "category": null
+  },
+  {
+    "qa_id": "572978f91d046914007794d3",
+    "question": "What is the name of the Egyptian papyrus that suggests that they may have had knowledge of prime numbers?",
+    "answer": [
+      "the Rhind papyrus",
+      "Rhind",
+      "Rhind",
+      "Egyptian fraction",
+      "Rhind papyrus"
+    ],
+    "answer_start": [
+      149,
+      153,
+      153,
+      117,
+      153
+    ],
+    "gold_passage_id": "p0001740",
+    "title": "Prime_number",
+    "category": null
+  },
+  {
+    "qa_id": "56e11ba9cd28a01900c675d7",
+    "question": "What animals did Tesla care for?",
+    "answer": [
+      "pigeons",
+      "pigeons",
+      "pigeons"
+    ],
+    "answer_start": [
+      73,
+      73,
+      73
+    ],
+    "gold_passage_id": "p0000220",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "57337ea24776f41900660bd1",
+    "question": "What was there a significant minority of in Warsaw?",
+    "answer": [
+      "Jewish",
+      "Jewish",
+      "Jewish"
+    ],
+    "answer_start": [
+      171,
+      171,
+      171
+    ],
+    "gold_passage_id": "p0000057",
+    "title": "Warsaw",
+    "category": null
+  },
+  {
+    "qa_id": "57296f85af94a219006aa406",
+    "question": "What do pyrenoids store?",
+    "answer": [
+      "starch",
+      "starch",
+      "starch"
+    ],
+    "answer_start": [
+      200,
+      200,
+      200
+    ],
+    "gold_passage_id": "p0001706",
+    "title": "Chloroplast",
+    "category": null
+  },
+  {
+    "qa_id": "56d6f3500d65d21400198290",
+    "question": "How many interceptions are the Panthers defense credited with in 2015?",
+    "answer": [
+      "24",
+      "24",
+      "24"
+    ],
+    "answer_start": [
+      124,
+      124,
+      124
+    ],
+    "gold_passage_id": "p0000011",
+    "title": "Super_Bowl_50",
+    "category": null
+  },
+  {
+    "qa_id": "56e1097dcd28a01900c67491",
+    "question": "What was the rumored reason Edison and Tesla were not awarded the prize?",
+    "answer": [
+      "Tesla and/or Edison had refused the prize",
+      "Tesla and/or Edison had refused the prize",
+      "Tesla and/or Edison had refused the prize"
+    ],
+    "answer_start": [
+      428,
+      428,
+      428
+    ],
+    "gold_passage_id": "p0000201",
+    "title": "Nikola_Tesla",
+    "category": null
+  },
+  {
+    "qa_id": "5725c01389a1e219009abdd9",
+    "question": "How high in altitude in feet could the vacuum chambers simulate?",
+    "answer": [
+      "250,000 feet",
+      "250,000 feet",
+      "250,000",
+      "250,000 feet",
+      "250,000 feet ("
+    ],
+    "answer_start": [
+      721,
+      721,
+      721,
+      721,
+      721
+    ],
+    "gold_passage_id": "p0000698",
+    "title": "Apollo_program",
+    "category": null
+  },
+  {
+    "qa_id": "570602fa52bb8914006897a0",
+    "question": "Cities that anchor the regions are often the hub for what kind of activity?",
+    "answer": [
+      "economic",
+      "economic",
+      "economic activity"
+    ],
+    "answer_start": [
+      254,
+      254,
+      254
+    ],
+    "gold_passage_id": "p0000464",
+    "title": "Southern_California",
+    "category": null
+  },
+  {
+    "qa_id": "572a058aaf94a219006aa752",
+    "question": "What is the active form of vitamin D known as?",
+    "answer": [
+      "calcitriol",
+      "calcitriol",
+      "steroid hormone calcitriol"
+    ],
+    "answer_start": [
+      201,
+      201,
+      185
+    ],
+    "gold_passage_id": "p0001262",
+    "title": "Immune_system",
+    "category": null
+  }
+]

@@ -1,0 +1,890 @@
+[
+  {
+    "qa_id": "571c91c8dd7acb1400e4c10e",
+    "question": "For what purpose is oxygen used by animal life?",
+    "answer": [
+      "cellular respiration",
+      "cellular respiration",
+      "cellular respiration",
+      "in cellular respiration",
+      "cellular respiration"
+    ],
+    "answer_start": [
+      479,
+      479,
+      479,
+      476,
+      479
+    ],
+    "gold_passage_id": "p0000635",
+    "title": "Oxygen",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "57265bdfdd62a815002e82a0",
+    "question": "By which year did the American cars mpg start to improve?",
+    "answer": [
+      "1985",
+      "1985",
+      "1985",
+      "1985",
+      "1985"
+    ],
+    "answer_start": [
+      338,
+      338,
+      338,
+      338,
+      338
+    ],
+    "gold_passage_id": "p0000684",
+    "title": "1973_oil_crisis",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "57287fec4b864d1900164a3d",
+    "question": "Which religion did Kublai prefer?",
+    "answer": [
+      "Buddhism, especially the Tibetan variants",
+      "Buddhism",
+      "Buddhism"
+    ],
+    "answer_start": [
+      345,
+      345,
+      345
+    ],
+    "gold_passage_id": "p0001577",
+    "title": "Yuan_dynasty",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "57308f6b8ab72b1400f9c581",
+    "question": "Early Western texts referencing the East describe the people as being what?",
+    "answer": [
+      "irrational and backward",
+      "them",
+      "as irrational and backward",
+      "irrational and backward",
+      "irrational and backward"
+    ],
+    "answer_start": [
+      605,
+      404,
+      602,
+      605,
+      605
+    ],
+    "gold_passage_id": "p0001896",
+    "title": "Imperialism",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56bebbbf3aeaaa14008c9317",
+    "question": "Who is the NFL's vice president of brand and creative?",
+    "answer": [
+      "Jaime Weston",
+      "Jaime Weston",
+      "Weston"
+    ],
+    "answer_start": [
+      339,
+      339,
+      345
+    ],
+    "gold_passage_id": "p0000024",
+    "title": "Super_Bowl_50",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572f58d9a23a5019007fc57f",
+    "question": "What does Obersee mean?",
+    "answer": [
+      "upper lake",
+      "upper lake",
+      "(\"upper lake\"",
+      "upper lake"
+    ],
+    "answer_start": [
+      64,
+      64,
+      62,
+      64
+    ],
+    "gold_passage_id": "p0001770",
+    "title": "Rhine",
+    "category": "simple"
+  },
+  {
+    "qa_id": "57112686b654c5140001fbd7",
+    "question": "What types of engines are steam engines?",
+    "answer": [
+      "external combustion",
+      "external combustion",
+      "external combustion engines",
+      "external combustion"
+    ],
+    "answer_start": [
+      18,
+      18,
+      18,
+      18
+    ],
+    "gold_passage_id": "p0000574",
+    "title": "Steam_engine",
+    "category": "simple"
+  },
+  {
+    "qa_id": "572975511d046914007794a8",
+    "question": "In what process are electrons recycled?",
+    "answer": [
+      "cyclic photophosphorylation",
+      "cyclic photophosphorylation",
+      "cyclic photophosphorylation"
+    ],
+    "answer_start": [
+      404,
+      404,
+      404
+    ],
+    "gold_passage_id": "p0001721",
+    "title": "Chloroplast",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5728ebcb3acd2414000e01dd",
+    "question": "What third type of plea uses creative words?",
+    "answer": [
+      "creative plea",
+      "no contest",
+      "creative plea",
+      "creative plea",
+      "creative plea",
+      "creative plea"
+    ],
+    "answer_start": [
+      1177,
+      948,
+      1177,
+      1177,
+      1177,
+      1177
+    ],
+    "gold_passage_id": "p0001292",
+    "title": "Civil_disobedience",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "571cb010dd7acb1400e4c12c",
+    "question": "What objects in organisms absorb singlet oxygen to prevent harm?",
+    "answer": [
+      "Carotenoids",
+      "Carotenoids",
+      "Carotenoids",
+      "Carotenoids",
+      "Carotenoids"
+    ],
+    "answer_start": [
+      476,
+      476,
+      476,
+      476,
+      476
+    ],
+    "gold_passage_id": "p0000641",
+    "title": "Oxygen",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5729d51d3f37b31900478593",
+    "question": "In a market economy, what is inequality a reflection of?",
+    "answer": [
+      "productivity gap between highly-paid professions and lower-paid professions",
+      "productivity gap",
+      "productivity gap"
+    ],
+    "answer_start": [
+      467,
+      467,
+      467
+    ],
+    "gold_passage_id": "p0001402",
+    "title": "Economic_inequality",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572ffd9e04bcaa1900d76fcb",
+    "question": "What interpretation of Islam is, for many of the adherents, the \"gold standard\" of their religion?",
+    "answer": [
+      "Saudi",
+      "the Saudi-interpretation",
+      "Saudi"
+    ],
+    "answer_start": [
+      611,
+      607,
+      611
+    ],
+    "gold_passage_id": "p0001854",
+    "title": "Islamism",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572646655951b619008f6ec3",
+    "question": "Ctenophores are less complex than what other group?",
+    "answer": [
+      "bilaterians",
+      "bilaterians",
+      "bilaterians"
+    ],
+    "answer_start": [
+      155,
+      155,
+      155
+    ],
+    "gold_passage_id": "p0000811",
+    "title": "Ctenophora",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56be53b8acb8001400a50314",
+    "question": "Who was the NFL Commissioner in early 2012?",
+    "answer": [
+      "Roger Goodell",
+      "Roger Goodell",
+      "Goodell"
+    ],
+    "answer_start": [
+      32,
+      32,
+      38
+    ],
+    "gold_passage_id": "p0000004",
+    "title": "Super_Bowl_50",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56f8cc399e9bad19000a0515",
+    "question": "In contrast how were Catholic saints portrayed?",
+    "answer": [
+      "frail Catholic saints",
+      "frail",
+      "frail"
+    ],
+    "answer_start": [
+      155,
+      155,
+      155
+    ],
+    "gold_passage_id": "p0000442",
+    "title": "Martin_Luther",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "57273d8bf1498d1400e8f500",
+    "question": "Infrastructure is often called what?",
+    "answer": [
+      "heavy/highway, heavy civil or heavy engineering",
+      "heavy/highway, heavy civil or heavy engineering",
+      "heavy/highway, heavy civil or heavy engineering"
+    ],
+    "answer_start": [
+      240,
+      240,
+      240
+    ],
+    "gold_passage_id": "p0001303",
+    "title": "Construction",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5726de7a5951b619008f80ab",
+    "question": "How many years does the V&A glass collection cover?",
+    "answer": [
+      "4000",
+      "4000 years",
+      "4000"
+    ],
+    "answer_start": [
+      28,
+      28,
+      28
+    ],
+    "gold_passage_id": "p0001023",
+    "title": "Victoria_and_Albert_Museum",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5725cb33271a42140099d1df",
+    "question": "What does ctenophore use to capture prey?",
+    "answer": [
+      "colloblasts",
+      "colloblasts",
+      "colloblasts"
+    ],
+    "answer_start": [
+      456,
+      456,
+      456
+    ],
+    "gold_passage_id": "p0000811",
+    "title": "Ctenophora",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56f8b2499b226e1400dd0e3b",
+    "question": "What did Luther speak out about in Saxony?",
+    "answer": [
+      "the Jews",
+      "Jews",
+      "Jews"
+    ],
+    "answer_start": [
+      25,
+      29,
+      29
+    ],
+    "gold_passage_id": "p0000428",
+    "title": "Martin_Luther",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "571a52cb4faf5e1900b8a968",
+    "question": "What chemical element was the cause of the Apollo 1 disastrous outcome?",
+    "answer": [
+      "pure O"
+    ],
+    "answer_start": [
+      435
+    ],
+    "gold_passage_id": "p0000626",
+    "title": "Oxygen",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5726bf325951b619008f7cfd",
+    "question": "Approximately how many works of art are included in the Far Eastern collections?",
+    "answer": [
+      "more than 70,000",
+      "more than 70,000",
+      "70,000"
+    ],
+    "answer_start": [
+      36,
+      36,
+      46
+    ],
+    "gold_passage_id": "p0001011",
+    "title": "Victoria_and_Albert_Museum",
+    "category": "simple"
+  },
+  {
+    "qa_id": "56e126dae3433e1400422c7e",
+    "question": "How many types of science fiction have been impacted by Tesla?",
+    "answer": [
+      "several",
+      "several",
+      "several"
+    ],
+    "answer_start": [
+      187,
+      187,
+      187
+    ],
+    "gold_passage_id": "p0000238",
+    "title": "Nikola_Tesla",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56e1075ae3433e1400422afc",
+    "question": "What did he do with Wardenclyffe?",
+    "answer": [
+      "sold",
+      "sold",
+      "sold"
+    ],
+    "answer_start": [
+      171,
+      171,
+      171
+    ],
+    "gold_passage_id": "p0000199",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5726c9b0dd62a815002e9047",
+    "question": "Whose plan called for the Mongolian army to split in two after the Khwarezmian conquest?",
+    "answer": [
+      "Subutai",
+      "Subutai",
+      "Subutai"
+    ],
+    "answer_start": [
+      167,
+      167,
+      167
+    ],
+    "gold_passage_id": "p0001172",
+    "title": "Genghis_Khan",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56e1127bcd28a01900c67549",
+    "question": "Where was Tesla's property sent?",
+    "answer": [
+      "Belgrade",
+      "Belgrade",
+      "Belgrade"
+    ],
+    "answer_start": [
+      102,
+      102,
+      102
+    ],
+    "gold_passage_id": "p0000215",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5727448b5951b619008f87a2",
+    "question": "When did Sunday Night Football premiere on NBC?",
+    "answer": [
+      "2006",
+      "2006",
+      "2006"
+    ],
+    "answer_start": [
+      209,
+      209,
+      209
+    ],
+    "gold_passage_id": "p0001092",
+    "title": "American_Broadcasting_Company",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5726f4a0708984140094d6ea",
+    "question": "How many paintings did John Sheeshanks give to the museum?",
+    "answer": [
+      "233",
+      "233",
+      "233"
+    ],
+    "answer_start": [
+      33,
+      33,
+      33
+    ],
+    "gold_passage_id": "p0001035",
+    "title": "Victoria_and_Albert_Museum",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "57309564069b5314008321a9",
+    "question": "Who was made rich and prosperous prior to World War 1",
+    "answer": [
+      "many imperial powers",
+      "imperial powers",
+      "imperial powers",
+      "imperial powers"
+    ],
+    "answer_start": [
+      844,
+      849,
+      849,
+      849
+    ],
+    "gold_passage_id": "p0001901",
+    "title": "Imperialism",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5729e500af94a219006aa6b7",
+    "question": "After the Oligocene period, under what period did the amazon rainforest begin to expand?",
+    "answer": [
+      "Middle Miocene",
+      "Middle Miocene",
+      "Middle Miocene"
+    ],
+    "answer_start": [
+      470,
+      470,
+      470
+    ],
+    "gold_passage_id": "p0000786",
+    "title": "Amazon_rainforest",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56d9c660dc89441400fdb7e7",
+    "question": "Which retired ref disagreed with the outcome of the challenge of a incomplete pass?",
+    "answer": [
+      "Mike Carey",
+      "Mike Carey",
+      "Carey"
+    ],
+    "answer_start": [
+      219,
+      219,
+      224
+    ],
+    "gold_passage_id": "p0000046",
+    "title": "Super_Bowl_50",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572a07a86aef0514001551d5",
+    "question": "Where are health and social problems most common?",
+    "answer": [
+      "among states in the US with larger income inequalities",
+      "countries with bigger income inequalities",
+      "countries with bigger income inequalities"
+    ],
+    "answer_start": [
+      342,
+      282,
+      282
+    ],
+    "gold_passage_id": "p0001423",
+    "title": "Economic_inequality",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572968cf1d046914007793cd",
+    "question": "When was the plastome discovered?",
+    "answer": [
+      "1962",
+      "1962",
+      "1962"
+    ],
+    "answer_start": [
+      139,
+      139,
+      139
+    ],
+    "gold_passage_id": "p0001690",
+    "title": "Chloroplast",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e76b8337bdd419002c3f82",
+    "question": "Which study showed double the rate of anxiety?",
+    "answer": [
+      "2012",
+      "2012",
+      "2012 study"
+    ],
+    "answer_start": [
+      123,
+      123,
+      123
+    ],
+    "gold_passage_id": "p0000324",
+    "title": "Teacher",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5726c0c5dd62a815002e8f7a",
+    "question": "What trading route joined Khwarezmia and the Mongol Empire?",
+    "answer": [
+      "the Silk Road",
+      "Silk Road",
+      "Silk Road"
+    ],
+    "answer_start": [
+      186,
+      190,
+      190
+    ],
+    "gold_passage_id": "p0001166",
+    "title": "Genghis_Khan",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e0d402231d4119001ac3fd",
+    "question": "Where did Tesla work in Budapest?",
+    "answer": [
+      "a telegraph company",
+      "the Budapest Telephone Exchange",
+      "Budapest Telephone Exchange"
+    ],
+    "answer_start": [
+      64,
+      85,
+      89
+    ],
+    "gold_passage_id": "p0000161",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "572980f9af94a219006aa4d4",
+    "question": "What is the name of one type of prime where p+1 or p-1 takes a certain shape?",
+    "answer": [
+      "primorial primes",
+      "Fermat",
+      "Sophie Germain",
+      "Sophie Germain",
+      "Sophie Germain"
+    ],
+    "answer_start": [
+      211,
+      229,
+      147,
+      147,
+      147
+    ],
+    "gold_passage_id": "p0001745",
+    "title": "Prime_number",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5725ff8238643c19005acf4a",
+    "question": "Where is the Santa Fe Railroad Depot located?",
+    "answer": [
+      "Downtown Fresno",
+      "Downtown Fresno",
+      "Downtown Fresno"
+    ],
+    "answer_start": [
+      153,
+      153,
+      153
+    ],
+    "gold_passage_id": "p0000864",
+    "title": "Fresno,_California",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5733f8dc4776f419006615f9",
+    "question": "Who won the battle of Lake George?",
+    "answer": [
+      "inconclusively, with both sides withdrawing from the field",
+      "The battle ended inconclusively",
+      "ended inconclusively",
+      "both sides withdrawing from the field",
+      "The battle ended inconclusively"
+    ],
+    "answer_start": [
+      755,
+      738,
+      749,
+      776,
+      738
+    ],
+    "gold_passage_id": "p0002005",
+    "title": "French_and_Indian_War",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5730cb0fb7151e1900c0154c",
+    "question": "Clergy are members of what group rather than of any local congregation?",
+    "answer": [
+      "their Annual Conference",
+      "Annual Conference",
+      "their Annual Conference"
+    ],
+    "answer_start": [
+      403,
+      409,
+      403
+    ],
+    "gold_passage_id": "p0001960",
+    "title": "United_Methodist_Church",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "57274e6a5951b619008f87f4",
+    "question": "On December 22nd 2009, ABC reached an agreement with Apple to make ABC shows available on what service?",
+    "answer": [
+      "iTunes",
+      "iTunes",
+      "iTunes"
+    ],
+    "answer_start": [
+      640,
+      640,
+      640
+    ],
+    "gold_passage_id": "p0001103",
+    "title": "American_Broadcasting_Company",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "572fb059947a6a140053cb80",
+    "question": "Who did the Parliament rent additional buildings from?",
+    "answer": [
+      "City of Edinburgh Council",
+      "City of Edinburgh Council",
+      "the City of Edinburgh Council"
+    ],
+    "answer_start": [
+      93,
+      93,
+      89
+    ],
+    "gold_passage_id": "p0001815",
+    "title": "Scottish_Parliament",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "571098f8a58dae1900cd6ab3",
+    "question": "What style of lace is erroneously believed by some to have Huguenot influence?",
+    "answer": [
+      "'Bucks Point'",
+      "Bucks Point",
+      "Bucks Point"
+    ],
+    "answer_start": [
+      523,
+      524,
+      524
+    ],
+    "gold_passage_id": "p0000553",
+    "title": "Huguenot",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56de40da4396321400ee270a",
+    "question": "Who led Richard's troops when Cyprus was conquered?",
+    "answer": [
+      "Guy de Lusignan",
+      "Guy de Lusignan",
+      "Guy de Lusignan"
+    ],
+    "answer_start": [
+      85,
+      508,
+      508
+    ],
+    "gold_passage_id": "p0000134",
+    "title": "Normans",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "56d9c92bdc89441400fdb80e",
+    "question": "Who did Newton get a pass to in the Panther starting plays of Super Bowl 50?",
+    "answer": [
+      "Ted Ginn Jr.",
+      "Ted Ginn Jr"
+    ],
+    "answer_start": [
+      118,
+      118
+    ],
+    "gold_passage_id": "p0000049",
+    "title": "Super_Bowl_50",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5725bad5271a42140099d0bd",
+    "question": "When did Syria and Egypt launch a surprise attack on Israel?",
+    "answer": [
+      "On October 6, 1973",
+      "October 6, 1973",
+      "October 6, 1973",
+      "October 6, 1973",
+      "October 6, 1973"
+    ],
+    "answer_start": [
+      0,
+      3,
+      3,
+      3,
+      3
+    ],
+    "gold_passage_id": "p0000667",
+    "title": "1973_oil_crisis",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5725edfe38643c19005acea1",
+    "question": "The west side of Fresno is the center of which ethnic community?",
+    "answer": [
+      "African-American",
+      "African-American",
+      "African-American"
+    ],
+    "answer_start": [
+      420,
+      420,
+      420
+    ],
+    "gold_passage_id": "p0000851",
+    "title": "Fresno,_California",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e0d6367aa994140058e773",
+    "question": "How much did Tesla say Edison offered him to redesign his motor and generators?",
+    "answer": [
+      "fifty thousand dollars",
+      "fifty thousand dollars",
+      "fifty thousand dollars"
+    ],
+    "answer_start": [
+      281,
+      281,
+      281
+    ],
+    "gold_passage_id": "p0000163",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "57265ceddd62a815002e82b8",
+    "question": "By which year did full sized American cars shrink to be smaller?",
+    "answer": [
+      "1979",
+      "1979",
+      "1979",
+      "1979",
+      "1979"
+    ],
+    "answer_start": [
+      275,
+      275,
+      275,
+      275,
+      275
+    ],
+    "gold_passage_id": "p0000685",
+    "title": "1973_oil_crisis",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e1239acd28a01900c67642",
+    "question": "When did he talk about his thoughts on gender?",
+    "answer": [
+      "1926",
+      "1926",
+      "1926"
+    ],
+    "answer_start": [
+      3,
+      3,
+      3
+    ],
+    "gold_passage_id": "p0000232",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5726c9b0dd62a815002e904a",
+    "question": "Who led the Kievian Rus' troops against Subutai's Mongol army?",
+    "answer": [
+      "Mstislav the Bold of Halych and Mstislav III of Kiev",
+      "Mstislav the Bold of Halych and Mstislav III of Kiev",
+      "Mstislav the Bold of Halych and Mstislav III of Kiev"
+    ],
+    "answer_start": [
+      761,
+      761,
+      761
+    ],
+    "gold_passage_id": "p0001172",
+    "title": "Genghis_Khan",
+    "category": "comparison"
+  }
+]

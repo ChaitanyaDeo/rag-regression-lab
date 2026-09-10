@@ -1,0 +1,265 @@
+[
+  {
+    "qa_id": "573786b51c4567190057448d",
+    "question": "How might gravity effects be observed differently according to Newton?",
+    "answer": [
+      "at larger distances.",
+      "at larger distances",
+      "at larger distances",
+      "at larger distances"
+    ],
+    "answer_start": [
+      87,
+      87,
+      87,
+      87
+    ],
+    "gold_passage_id": "p0002047",
+    "title": "Force",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e1ddfce3433e14004231d8",
+    "question": "What is the prize offered for finding a solution to P=NP?",
+    "answer": [
+      "$1,000,000",
+      "US$1,000,000",
+      "US$1,000,000"
+    ],
+    "answer_start": [
+      595,
+      593,
+      593
+    ],
+    "gold_passage_id": "p0000274",
+    "title": "Computational_complexity_theory",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56bf48cc3aeaaa14008c95af",
+    "question": "What color were the Bronco's uniforms in Super Bowl 50?",
+    "answer": [
+      "white",
+      "matching white jerseys",
+      "white"
+    ],
+    "answer_start": [
+      117,
+      248,
+      209
+    ],
+    "gold_passage_id": "p0000022",
+    "title": "Super_Bowl_50",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "5725c337271a42140099d164",
+    "question": "What are the little tentacles that cydippids have called?",
+    "answer": [
+      "tentilla",
+      "tentilla",
+      "tentilla"
+    ],
+    "answer_start": [
+      552,
+      552,
+      552
+    ],
+    "gold_passage_id": "p0000807",
+    "title": "Ctenophora",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5725e44238643c19005ace36",
+    "question": "Which lunar probe was near the Apollo 12 crew's landing site?",
+    "answer": [
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3"
+    ],
+    "answer_start": [
+      148,
+      148,
+      148,
+      148,
+      148
+    ],
+    "gold_passage_id": "p0000731",
+    "title": "Apollo_program",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "571ccfbadd7acb1400e4c164",
+    "question": "Electrolysis of what can be used to produce oxygen and hydrogen?",
+    "answer": [
+      "water",
+      "water",
+      "water",
+      "water"
+    ],
+    "answer_start": [
+      56,
+      56,
+      56,
+      56
+    ],
+    "gold_passage_id": "p0000651",
+    "title": "Oxygen",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56f827caa6d7ea1400e1743a",
+    "question": "When was the Edict of Worms presented?",
+    "answer": [
+      "25 May 1521",
+      "25 May 1521",
+      "25 May 1521"
+    ],
+    "answer_start": [
+      146,
+      146,
+      146
+    ],
+    "gold_passage_id": "p0000375",
+    "title": "Martin_Luther",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e127bccd28a01900c6765f",
+    "question": "How many other important people sent letters?",
+    "answer": [
+      "more than 70",
+      "more than 70",
+      "more than 70"
+    ],
+    "answer_start": [
+      217,
+      217,
+      217
+    ],
+    "gold_passage_id": "p0000239",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "572976183f37b31900478431",
+    "question": "What is an alternate way to make starch?",
+    "answer": [
+      "glucose monomers in the chloroplast can be linked together",
+      "glucose monomers",
+      "glucose monomers in the chloroplast"
+    ],
+    "answer_start": [
+      15,
+      15,
+      15
+    ],
+    "gold_passage_id": "p0001723",
+    "title": "Chloroplast",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56e0f32d231d4119001ac4cb",
+    "question": "What type of image was Tesla thought to have accidentally taken a week prior to the announcement of its discovery?",
+    "answer": [
+      "X-ray image",
+      "X-ray",
+      "X-ray image"
+    ],
+    "answer_start": [
+      659,
+      659,
+      659
+    ],
+    "gold_passage_id": "p0000177",
+    "title": "Nikola_Tesla",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "5730005db2c2fd1400568707",
+    "question": "Where did Maududi's books place Islam?",
+    "answer": [
+      "in a modern context",
+      "a modern context",
+      "modern context"
+    ],
+    "answer_start": [
+      566,
+      569,
+      571
+    ],
+    "gold_passage_id": "p0001858",
+    "title": "Islamism",
+    "category": "comparison"
+  },
+  {
+    "qa_id": "57273a465951b619008f86ff",
+    "question": "What is the process of constructing a building or infrastructure?",
+    "answer": [
+      "Construction",
+      "Construction",
+      "Construction"
+    ],
+    "answer_start": [
+      0,
+      0,
+      0
+    ],
+    "gold_passage_id": "p0001301",
+    "title": "Construction",
+    "category": "simple"
+  },
+  {
+    "qa_id": "56d71d150d65d2140019836f",
+    "question": "How many will the host committee dedicate to local charities?",
+    "answer": [
+      "25 percent",
+      "25 percent of all money",
+      "25"
+    ],
+    "answer_start": [
+      102,
+      102,
+      102
+    ],
+    "gold_passage_id": "p0000030",
+    "title": "Super_Bowl_50",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56bebde53aeaaa14008c9338",
+    "question": "In what city is SAP Center located?",
+    "answer": [
+      "San Jose",
+      "San Jose",
+      "San Jose."
+    ],
+    "answer_start": [
+      223,
+      223,
+      223
+    ],
+    "gold_passage_id": "p0000028",
+    "title": "Super_Bowl_50",
+    "category": "simple"
+  },
+  {
+    "qa_id": "56e10b6ee3433e1400422b25",
+    "question": "For what invention was U.S. Patent 1,655,114 granted?",
+    "answer": [
+      "VTOL aircraft",
+      "VTOL aircraft",
+      "a biplane capable of taking off vertically"
+    ],
+    "answer_start": [
+      112,
+      112,
+      68
+    ],
+    "gold_passage_id": "p0000204",
+    "title": "Nikola_Tesla",
+    "category": "simple_with_condition"
+  }
+]
