@@ -12,7 +12,9 @@
       456,
       456
     ],
-    "gold_passage_id": "p0000811",
+    "gold_passage_ids": [
+      "p0000811"
+    ],
     "title": "Ctenophora",
     "category": null
   },
@@ -29,7 +31,9 @@
       120,
       120
     ],
-    "gold_passage_id": "p0001410",
+    "gold_passage_ids": [
+      "p0001410"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -50,7 +54,9 @@
       308,
       308
     ],
-    "gold_passage_id": "p0002034",
+    "gold_passage_ids": [
+      "p0002034"
+    ],
     "title": "Force",
     "category": null
   },
@@ -67,7 +73,9 @@
       278,
       278
     ],
-    "gold_passage_id": "p0001116",
+    "gold_passage_ids": [
+      "p0001116"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -84,7 +92,9 @@
       64,
       80
     ],
-    "gold_passage_id": "p0000452",
+    "gold_passage_ids": [
+      "p0000452"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -101,7 +111,9 @@
       348,
       348
     ],
-    "gold_passage_id": "p0001137",
+    "gold_passage_ids": [
+      "p0001137"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -118,7 +130,9 @@
       233,
       3
     ],
-    "gold_passage_id": "p0001075",
+    "gold_passage_ids": [
+      "p0001075"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -135,7 +149,9 @@
       754,
       752
     ],
-    "gold_passage_id": "p0000612",
+    "gold_passage_ids": [
+      "p0000612"
+    ],
     "title": "Steam_engine",
     "category": null
   },
@@ -152,7 +168,9 @@
       485,
       485
     ],
-    "gold_passage_id": "p0000789",
+    "gold_passage_ids": [
+      "p0000789"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -169,7 +187,9 @@
       54,
       54
     ],
-    "gold_passage_id": "p0000148",
+    "gold_passage_ids": [
+      "p0000148"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -190,7 +210,9 @@
       729,
       729
     ],
-    "gold_passage_id": "p0001920",
+    "gold_passage_ids": [
+      "p0001920"
+    ],
     "title": "Imperialism",
     "category": null
   },
@@ -211,7 +233,9 @@
       0,
       0
     ],
-    "gold_passage_id": "p0002031",
+    "gold_passage_ids": [
+      "p0002031"
+    ],
     "title": "Force",
     "category": null
   },
@@ -228,7 +252,9 @@
       144,
       147
     ],
-    "gold_passage_id": "p0000482",
+    "gold_passage_ids": [
+      "p0000482"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -245,7 +271,9 @@
       516,
       516
     ],
-    "gold_passage_id": "p0001683",
+    "gold_passage_ids": [
+      "p0001683"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -266,7 +294,9 @@
       592,
       592
     ],
-    "gold_passage_id": "p0000730",
+    "gold_passage_ids": [
+      "p0000730"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -283,7 +313,9 @@
       45,
       45
     ],
-    "gold_passage_id": "p0000455",
+    "gold_passage_ids": [
+      "p0000455"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -300,7 +332,9 @@
       336,
       336
     ],
-    "gold_passage_id": "p0001432",
+    "gold_passage_ids": [
+      "p0001432"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -317,7 +351,9 @@
       220,
       255
     ],
-    "gold_passage_id": "p0001170",
+    "gold_passage_ids": [
+      "p0001170"
+    ],
     "title": "Genghis_Khan",
     "category": null
   },
@@ -334,7 +370,9 @@
       219,
       219
     ],
-    "gold_passage_id": "p0000793",
+    "gold_passage_ids": [
+      "p0000793"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -353,7 +391,9 @@
       170,
       170
     ],
-    "gold_passage_id": "p0002049",
+    "gold_passage_ids": [
+      "p0002049"
+    ],
     "title": "Force",
     "category": null
   },
@@ -372,7 +412,9 @@
       25,
       25
     ],
-    "gold_passage_id": "p0001762",
+    "gold_passage_ids": [
+      "p0001762"
+    ],
     "title": "Prime_number",
     "category": null
   },
@@ -393,7 +435,9 @@
       106,
       106
     ],
-    "gold_passage_id": "p0000639",
+    "gold_passage_ids": [
+      "p0000639"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -410,7 +454,9 @@
       322,
       322
     ],
-    "gold_passage_id": "p0000971",
+    "gold_passage_ids": [
+      "p0000971"
+    ],
     "title": "Newcastle_upon_Tyne",
     "category": null
   },
@@ -427,7 +473,9 @@
       168,
       487
     ],
-    "gold_passage_id": "p0000075",
+    "gold_passage_ids": [
+      "p0000075"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -448,7 +496,9 @@
       0,
       4
     ],
-    "gold_passage_id": "p0000671",
+    "gold_passage_ids": [
+      "p0000671"
+    ],
     "title": "1973_oil_crisis",
     "category": null
   },
@@ -465,7 +515,9 @@
       135,
       135
     ],
-    "gold_passage_id": "p0000031",
+    "gold_passage_ids": [
+      "p0000031"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -482,7 +534,9 @@
       123,
       123
     ],
-    "gold_passage_id": "p0000942",
+    "gold_passage_ids": [
+      "p0000942"
+    ],
     "title": "Newcastle_upon_Tyne",
     "category": null
   },
@@ -499,7 +553,9 @@
       360,
       360
     ],
-    "gold_passage_id": "p0001241",
+    "gold_passage_ids": [
+      "p0001241"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -516,7 +572,9 @@
       198,
       198
     ],
-    "gold_passage_id": "p0000790",
+    "gold_passage_ids": [
+      "p0000790"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -533,7 +591,9 @@
       282,
       282
     ],
-    "gold_passage_id": "p0000113",
+    "gold_passage_ids": [
+      "p0000113"
+    ],
     "title": "Normans",
     "category": null
   },
@@ -550,7 +610,9 @@
       390,
       390
     ],
-    "gold_passage_id": "p0000617",
+    "gold_passage_ids": [
+      "p0000617"
+    ],
     "title": "Steam_engine",
     "category": null
   },
@@ -567,7 +629,9 @@
       204,
       192
     ],
-    "gold_passage_id": "p0001780",
+    "gold_passage_ids": [
+      "p0001780"
+    ],
     "title": "Rhine",
     "category": null
   },
@@ -584,7 +648,9 @@
       323,
       323
     ],
-    "gold_passage_id": "p0000939",
+    "gold_passage_ids": [
+      "p0000939"
+    ],
     "title": "Newcastle_upon_Tyne",
     "category": null
   },
@@ -605,7 +671,9 @@
       392,
       392
     ],
-    "gold_passage_id": "p0000621",
+    "gold_passage_ids": [
+      "p0000621"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -622,7 +690,9 @@
       191,
       191
     ],
-    "gold_passage_id": "p0001556",
+    "gold_passage_ids": [
+      "p0001556"
+    ],
     "title": "Yuan_dynasty",
     "category": null
   },
@@ -641,7 +711,9 @@
       115,
       107
     ],
-    "gold_passage_id": "p0001226",
+    "gold_passage_ids": [
+      "p0001226"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -660,7 +732,9 @@
       623,
       627
     ],
-    "gold_passage_id": "p0002058",
+    "gold_passage_ids": [
+      "p0002058"
+    ],
     "title": "Force",
     "category": null
   },
@@ -677,7 +751,9 @@
       451,
       451
     ],
-    "gold_passage_id": "p0001421",
+    "gold_passage_ids": [
+      "p0001421"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -694,7 +770,9 @@
       49,
       49
     ],
-    "gold_passage_id": "p0000386",
+    "gold_passage_ids": [
+      "p0000386"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -711,7 +789,9 @@
       389,
       400
     ],
-    "gold_passage_id": "p0000787",
+    "gold_passage_ids": [
+      "p0000787"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -728,7 +808,9 @@
       87,
       87
     ],
-    "gold_passage_id": "p0000375",
+    "gold_passage_ids": [
+      "p0000375"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -749,7 +831,9 @@
       514,
       514
     ],
-    "gold_passage_id": "p0000738",
+    "gold_passage_ids": [
+      "p0000738"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -768,7 +852,9 @@
       231,
       231
     ],
-    "gold_passage_id": "p0001770",
+    "gold_passage_ids": [
+      "p0001770"
+    ],
     "title": "Rhine",
     "category": null
   },
@@ -785,7 +871,9 @@
       118,
       118
     ],
-    "gold_passage_id": "p0001701",
+    "gold_passage_ids": [
+      "p0001701"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -802,7 +890,9 @@
       1888,
       959
     ],
-    "gold_passage_id": "p0000784",
+    "gold_passage_ids": [
+      "p0000784"
+    ],
     "title": "European_Union_law",
     "category": null
   },
@@ -819,7 +909,9 @@
       289,
       289
     ],
-    "gold_passage_id": "p0001839",
+    "gold_passage_ids": [
+      "p0001839"
+    ],
     "title": "Scottish_Parliament",
     "category": null
   },
@@ -836,7 +928,9 @@
       116,
       116
     ],
-    "gold_passage_id": "p0001325",
+    "gold_passage_ids": [
+      "p0001325"
+    ],
     "title": "Private_school",
     "category": null
   },
@@ -853,7 +947,9 @@
       86,
       82
     ],
-    "gold_passage_id": "p0001836",
+    "gold_passage_ids": [
+      "p0001836"
+    ],
     "title": "Scottish_Parliament",
     "category": null
   },
@@ -870,7 +966,9 @@
       54,
       54
     ],
-    "gold_passage_id": "p0001235",
+    "gold_passage_ids": [
+      "p0001235"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -887,7 +985,9 @@
       42,
       42
     ],
-    "gold_passage_id": "p0001105",
+    "gold_passage_ids": [
+      "p0001105"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -908,7 +1008,9 @@
       112,
       112
     ],
-    "gold_passage_id": "p0000638",
+    "gold_passage_ids": [
+      "p0000638"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -925,7 +1027,9 @@
       682,
       682
     ],
-    "gold_passage_id": "p0000370",
+    "gold_passage_ids": [
+      "p0000370"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -942,7 +1046,9 @@
       306,
       306
     ],
-    "gold_passage_id": "p0001591",
+    "gold_passage_ids": [
+      "p0001591"
+    ],
     "title": "Yuan_dynasty",
     "category": null
   },
@@ -959,7 +1065,9 @@
       307,
       307
     ],
-    "gold_passage_id": "p0001536",
+    "gold_passage_ids": [
+      "p0001536"
+    ],
     "title": "University_of_Chicago",
     "category": null
   },
@@ -976,7 +1084,9 @@
       0,
       3
     ],
-    "gold_passage_id": "p0000191",
+    "gold_passage_ids": [
+      "p0000191"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -993,7 +1103,9 @@
       167,
       167
     ],
-    "gold_passage_id": "p0000051",
+    "gold_passage_ids": [
+      "p0000051"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -1010,7 +1122,9 @@
       0,
       4
     ],
-    "gold_passage_id": "p0000268",
+    "gold_passage_ids": [
+      "p0000268"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -1027,7 +1141,9 @@
       264,
       120
     ],
-    "gold_passage_id": "p0000419",
+    "gold_passage_ids": [
+      "p0000419"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -1048,7 +1164,9 @@
       763,
       724
     ],
-    "gold_passage_id": "p0002000",
+    "gold_passage_ids": [
+      "p0002000"
+    ],
     "title": "French_and_Indian_War",
     "category": null
   },
@@ -1065,7 +1183,9 @@
       215,
       215
     ],
-    "gold_passage_id": "p0000443",
+    "gold_passage_ids": [
+      "p0000443"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -1082,7 +1202,9 @@
       285,
       279
     ],
-    "gold_passage_id": "p0001301",
+    "gold_passage_ids": [
+      "p0001301"
+    ],
     "title": "Construction",
     "category": null
   },
@@ -1099,7 +1221,9 @@
       262,
       262
     ],
-    "gold_passage_id": "p0001877",
+    "gold_passage_ids": [
+      "p0001877"
+    ],
     "title": "Islamism",
     "category": null
   },
@@ -1116,7 +1240,9 @@
       361,
       361
     ],
-    "gold_passage_id": "p0000100",
+    "gold_passage_ids": [
+      "p0000100"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -1133,7 +1259,9 @@
       43,
       43
     ],
-    "gold_passage_id": "p0001190",
+    "gold_passage_ids": [
+      "p0001190"
+    ],
     "title": "Genghis_Khan",
     "category": null
   },
@@ -1150,7 +1278,9 @@
       326,
       326
     ],
-    "gold_passage_id": "p0001178",
+    "gold_passage_ids": [
+      "p0001178"
+    ],
     "title": "Genghis_Khan",
     "category": null
   },
@@ -1167,7 +1297,9 @@
       594,
       598
     ],
-    "gold_passage_id": "p0001875",
+    "gold_passage_ids": [
+      "p0001875"
+    ],
     "title": "Islamism",
     "category": null
   },
@@ -1184,7 +1316,9 @@
       46,
       46
     ],
-    "gold_passage_id": "p0001452",
+    "gold_passage_ids": [
+      "p0001452"
+    ],
     "title": "Doctor_Who",
     "category": null
   },
@@ -1201,7 +1335,9 @@
       33,
       61
     ],
-    "gold_passage_id": "p0001665",
+    "gold_passage_ids": [
+      "p0001665"
+    ],
     "title": "Intergovernmental_Panel_on_Climate_Change",
     "category": null
   },
@@ -1220,7 +1356,9 @@
       138,
       133
     ],
-    "gold_passage_id": "p0000749",
+    "gold_passage_ids": [
+      "p0000749"
+    ],
     "title": "European_Union_law",
     "category": null
   },
@@ -1239,7 +1377,9 @@
       320,
       320
     ],
-    "gold_passage_id": "p0001749",
+    "gold_passage_ids": [
+      "p0001749"
+    ],
     "title": "Prime_number",
     "category": null
   },
@@ -1256,7 +1396,9 @@
       35,
       42
     ],
-    "gold_passage_id": "p0000008",
+    "gold_passage_ids": [
+      "p0000008"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -1273,7 +1415,9 @@
       502,
       502
     ],
-    "gold_passage_id": "p0000287",
+    "gold_passage_ids": [
+      "p0000287"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -1290,7 +1434,9 @@
       103,
       136
     ],
-    "gold_passage_id": "p0001693",
+    "gold_passage_ids": [
+      "p0001693"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -1307,7 +1453,9 @@
       119,
       119
     ],
-    "gold_passage_id": "p0000789",
+    "gold_passage_ids": [
+      "p0000789"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -1326,7 +1474,9 @@
       444,
       444
     ],
-    "gold_passage_id": "p0002052",
+    "gold_passage_ids": [
+      "p0002052"
+    ],
     "title": "Force",
     "category": null
   },
@@ -1343,7 +1493,9 @@
       545,
       545
     ],
-    "gold_passage_id": "p0001022",
+    "gold_passage_ids": [
+      "p0001022"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": null
   },
@@ -1360,7 +1512,9 @@
       191,
       164
     ],
-    "gold_passage_id": "p0000275",
+    "gold_passage_ids": [
+      "p0000275"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -1377,7 +1531,9 @@
       151,
       161
     ],
-    "gold_passage_id": "p0000865",
+    "gold_passage_ids": [
+      "p0000865"
+    ],
     "title": "Packet_switching",
     "category": null
   },
@@ -1394,7 +1550,9 @@
       86,
       86
     ],
-    "gold_passage_id": "p0001349",
+    "gold_passage_ids": [
+      "p0001349"
+    ],
     "title": "Harvard_University",
     "category": null
   },
@@ -1411,7 +1569,9 @@
       33,
       33
     ],
-    "gold_passage_id": "p0000437",
+    "gold_passage_ids": [
+      "p0000437"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -1428,7 +1588,9 @@
       204,
       204
     ],
-    "gold_passage_id": "p0001410",
+    "gold_passage_ids": [
+      "p0001410"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -1445,7 +1607,9 @@
       148,
       152
     ],
-    "gold_passage_id": "p0000001",
+    "gold_passage_ids": [
+      "p0000001"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -1462,7 +1626,9 @@
       1042,
       1042
     ],
-    "gold_passage_id": "p0000785",
+    "gold_passage_ids": [
+      "p0000785"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -1479,7 +1645,9 @@
       472,
       472
     ],
-    "gold_passage_id": "p0001560",
+    "gold_passage_ids": [
+      "p0001560"
+    ],
     "title": "Yuan_dynasty",
     "category": null
   },
@@ -1496,7 +1664,9 @@
       16,
       233
     ],
-    "gold_passage_id": "p0000508",
+    "gold_passage_ids": [
+      "p0000508"
+    ],
     "title": "Victoria_(Australia)",
     "category": null
   },
@@ -1513,7 +1683,9 @@
       545,
       545
     ],
-    "gold_passage_id": "p0001584",
+    "gold_passage_ids": [
+      "p0001584"
+    ],
     "title": "Yuan_dynasty",
     "category": null
   },
@@ -1530,7 +1702,9 @@
       248,
       248
     ],
-    "gold_passage_id": "p0000255",
+    "gold_passage_ids": [
+      "p0000255"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -1551,7 +1725,9 @@
       532,
       509
     ],
-    "gold_passage_id": "p0001991",
+    "gold_passage_ids": [
+      "p0001991"
+    ],
     "title": "French_and_Indian_War",
     "category": null
   },
@@ -1568,7 +1744,9 @@
       564,
       568
     ],
-    "gold_passage_id": "p0000881",
+    "gold_passage_ids": [
+      "p0000881"
+    ],
     "title": "Packet_switching",
     "category": null
   },
@@ -1587,7 +1765,9 @@
       479,
       479
     ],
-    "gold_passage_id": "p0002045",
+    "gold_passage_ids": [
+      "p0002045"
+    ],
     "title": "Force",
     "category": null
   },
@@ -1608,7 +1788,9 @@
       66,
       109
     ],
-    "gold_passage_id": "p0001919",
+    "gold_passage_ids": [
+      "p0001919"
+    ],
     "title": "Imperialism",
     "category": null
   },
@@ -1627,7 +1809,9 @@
       117,
       113
     ],
-    "gold_passage_id": "p0000575",
+    "gold_passage_ids": [
+      "p0000575"
+    ],
     "title": "Steam_engine",
     "category": null
   },
@@ -1644,7 +1828,9 @@
       113,
       81
     ],
-    "gold_passage_id": "p0001151",
+    "gold_passage_ids": [
+      "p0001151"
+    ],
     "title": "Genghis_Khan",
     "category": null
   },
@@ -1661,7 +1847,9 @@
       324,
       324
     ],
-    "gold_passage_id": "p0000448",
+    "gold_passage_ids": [
+      "p0000448"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -1678,7 +1866,9 @@
       446,
       449
     ],
-    "gold_passage_id": "p0001702",
+    "gold_passage_ids": [
+      "p0001702"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -1695,7 +1885,9 @@
       346,
       346
     ],
-    "gold_passage_id": "p0001670",
+    "gold_passage_ids": [
+      "p0001670"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -1712,7 +1904,9 @@
       133,
       133
     ],
-    "gold_passage_id": "p0000000",
+    "gold_passage_ids": [
+      "p0000000"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -1729,7 +1923,9 @@
       660,
       660
     ],
-    "gold_passage_id": "p0001885",
+    "gold_passage_ids": [
+      "p0001885"
+    ],
     "title": "Islamism",
     "category": null
   },
@@ -1746,7 +1942,9 @@
       608,
       608
     ],
-    "gold_passage_id": "p0000970",
+    "gold_passage_ids": [
+      "p0000970"
+    ],
     "title": "Newcastle_upon_Tyne",
     "category": null
   },
@@ -1763,7 +1961,9 @@
       432,
       432
     ],
-    "gold_passage_id": "p0001519",
+    "gold_passage_ids": [
+      "p0001519"
+    ],
     "title": "University_of_Chicago",
     "category": null
   },
@@ -1780,7 +1980,9 @@
       88,
       88
     ],
-    "gold_passage_id": "p0000016",
+    "gold_passage_ids": [
+      "p0000016"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -1797,7 +1999,9 @@
       644,
       637
     ],
-    "gold_passage_id": "p0000276",
+    "gold_passage_ids": [
+      "p0000276"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -1814,7 +2018,9 @@
       235,
       235
     ],
-    "gold_passage_id": "p0001109",
+    "gold_passage_ids": [
+      "p0001109"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -1833,7 +2039,9 @@
       366,
       366
     ],
-    "gold_passage_id": "p0000914",
+    "gold_passage_ids": [
+      "p0000914"
+    ],
     "title": "Geology",
     "category": null
   },
@@ -1854,7 +2062,9 @@
       865,
       870
     ],
-    "gold_passage_id": "p0000710",
+    "gold_passage_ids": [
+      "p0000710"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -1871,7 +2081,9 @@
       84,
       84
     ],
-    "gold_passage_id": "p0000082",
+    "gold_passage_ids": [
+      "p0000082"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -1892,7 +2104,9 @@
       302,
       302
     ],
-    "gold_passage_id": "p0000716",
+    "gold_passage_ids": [
+      "p0000716"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -1909,7 +2123,9 @@
       47,
       43
     ],
-    "gold_passage_id": "p0001781",
+    "gold_passage_ids": [
+      "p0001781"
+    ],
     "title": "Rhine",
     "category": null
   },
@@ -1926,7 +2142,9 @@
       3,
       3
     ],
-    "gold_passage_id": "p0000161",
+    "gold_passage_ids": [
+      "p0000161"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -1943,7 +2161,9 @@
       31,
       31
     ],
-    "gold_passage_id": "p0000175",
+    "gold_passage_ids": [
+      "p0000175"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -1962,7 +2182,9 @@
       235,
       235
     ],
-    "gold_passage_id": "p0001511",
+    "gold_passage_ids": [
+      "p0001511"
+    ],
     "title": "University_of_Chicago",
     "category": null
   },
@@ -1979,7 +2201,9 @@
       99,
       99
     ],
-    "gold_passage_id": "p0000133",
+    "gold_passage_ids": [
+      "p0000133"
+    ],
     "title": "Normans",
     "category": null
   },
@@ -1996,7 +2220,9 @@
       449,
       449
     ],
-    "gold_passage_id": "p0001678",
+    "gold_passage_ids": [
+      "p0001678"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -2013,7 +2239,9 @@
       301,
       301
     ],
-    "gold_passage_id": "p0000327",
+    "gold_passage_ids": [
+      "p0000327"
+    ],
     "title": "Teacher",
     "category": null
   },
@@ -2030,7 +2258,9 @@
       216,
       216
     ],
-    "gold_passage_id": "p0000337",
+    "gold_passage_ids": [
+      "p0000337"
+    ],
     "title": "Teacher",
     "category": null
   },
@@ -2047,7 +2277,9 @@
       359,
       359
     ],
-    "gold_passage_id": "p0001475",
+    "gold_passage_ids": [
+      "p0001475"
+    ],
     "title": "Doctor_Who",
     "category": null
   },
@@ -2068,7 +2300,9 @@
       143,
       143
     ],
-    "gold_passage_id": "p0001738",
+    "gold_passage_ids": [
+      "p0001738"
+    ],
     "title": "Prime_number",
     "category": null
   },
@@ -2085,7 +2319,9 @@
       353,
       353
     ],
-    "gold_passage_id": "p0000460",
+    "gold_passage_ids": [
+      "p0000460"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -2102,7 +2338,9 @@
       179,
       516
     ],
-    "gold_passage_id": "p0000787",
+    "gold_passage_ids": [
+      "p0000787"
+    ],
     "title": "Amazon_rainforest",
     "category": null
   },
@@ -2119,7 +2357,9 @@
       1173,
       755
     ],
-    "gold_passage_id": "p0001659",
+    "gold_passage_ids": [
+      "p0001659"
+    ],
     "title": "Intergovernmental_Panel_on_Climate_Change",
     "category": null
   },
@@ -2140,7 +2380,9 @@
       297,
       297
     ],
-    "gold_passage_id": "p0001911",
+    "gold_passage_ids": [
+      "p0001911"
+    ],
     "title": "Imperialism",
     "category": null
   },
@@ -2157,7 +2399,9 @@
       428,
       415
     ],
-    "gold_passage_id": "p0001305",
+    "gold_passage_ids": [
+      "p0001305"
+    ],
     "title": "Construction",
     "category": null
   },
@@ -2178,7 +2422,9 @@
       377,
       377
     ],
-    "gold_passage_id": "p0000620",
+    "gold_passage_ids": [
+      "p0000620"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -2195,7 +2441,9 @@
       173,
       173
     ],
-    "gold_passage_id": "p0001702",
+    "gold_passage_ids": [
+      "p0001702"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -2214,7 +2462,9 @@
       532,
       532
     ],
-    "gold_passage_id": "p0000582",
+    "gold_passage_ids": [
+      "p0000582"
+    ],
     "title": "Steam_engine",
     "category": null
   },
@@ -2231,7 +2481,9 @@
       404,
       404
     ],
-    "gold_passage_id": "p0000929",
+    "gold_passage_ids": [
+      "p0000929"
+    ],
     "title": "Geology",
     "category": null
   },
@@ -2248,7 +2500,9 @@
       637,
       637
     ],
-    "gold_passage_id": "p0001233",
+    "gold_passage_ids": [
+      "p0001233"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -2265,7 +2519,9 @@
       33,
       33
     ],
-    "gold_passage_id": "p0001149",
+    "gold_passage_ids": [
+      "p0001149"
+    ],
     "title": "Genghis_Khan",
     "category": null
   },
@@ -2282,7 +2538,9 @@
       653,
       272
     ],
-    "gold_passage_id": "p0001363",
+    "gold_passage_ids": [
+      "p0001363"
+    ],
     "title": "Harvard_University",
     "category": null
   },
@@ -2299,7 +2557,9 @@
       562,
       562
     ],
-    "gold_passage_id": "p0001621",
+    "gold_passage_ids": [
+      "p0001621"
+    ],
     "title": "Kenya",
     "category": null
   },
@@ -2316,7 +2576,9 @@
       381,
       381
     ],
-    "gold_passage_id": "p0001406",
+    "gold_passage_ids": [
+      "p0001406"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -2333,7 +2595,9 @@
       202,
       202
     ],
-    "gold_passage_id": "p0000310",
+    "gold_passage_ids": [
+      "p0000310"
+    ],
     "title": "Teacher",
     "category": null
   },
@@ -2354,7 +2618,9 @@
       126,
       126
     ],
-    "gold_passage_id": "p0000743",
+    "gold_passage_ids": [
+      "p0000743"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -2375,7 +2641,9 @@
       251,
       257
     ],
-    "gold_passage_id": "p0000656",
+    "gold_passage_ids": [
+      "p0000656"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -2392,7 +2660,9 @@
       129,
       129
     ],
-    "gold_passage_id": "p0000102",
+    "gold_passage_ids": [
+      "p0000102"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -2409,7 +2679,9 @@
       38,
       38
     ],
-    "gold_passage_id": "p0001016",
+    "gold_passage_ids": [
+      "p0001016"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": null
   },
@@ -2426,7 +2698,9 @@
       56,
       56
     ],
-    "gold_passage_id": "p0000017",
+    "gold_passage_ids": [
+      "p0000017"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -2443,7 +2717,9 @@
       589,
       589
     ],
-    "gold_passage_id": "p0001851",
+    "gold_passage_ids": [
+      "p0001851"
+    ],
     "title": "Islamism",
     "category": null
   },
@@ -2462,7 +2738,9 @@
       661,
       661
     ],
-    "gold_passage_id": "p0001751",
+    "gold_passage_ids": [
+      "p0001751"
+    ],
     "title": "Prime_number",
     "category": null
   },
@@ -2483,7 +2761,9 @@
       445,
       445
     ],
-    "gold_passage_id": "p0000674",
+    "gold_passage_ids": [
+      "p0000674"
+    ],
     "title": "1973_oil_crisis",
     "category": null
   },
@@ -2500,7 +2780,9 @@
       582,
       582
     ],
-    "gold_passage_id": "p0001852",
+    "gold_passage_ids": [
+      "p0001852"
+    ],
     "title": "Islamism",
     "category": null
   },
@@ -2521,7 +2803,9 @@
       158,
       158
     ],
-    "gold_passage_id": "p0000641",
+    "gold_passage_ids": [
+      "p0000641"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -2538,7 +2822,9 @@
       56,
       69
     ],
-    "gold_passage_id": "p0000005",
+    "gold_passage_ids": [
+      "p0000005"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -2555,7 +2841,9 @@
       93,
       97
     ],
-    "gold_passage_id": "p0000146",
+    "gold_passage_ids": [
+      "p0000146"
+    ],
     "title": "Normans",
     "category": null
   },
@@ -2576,7 +2864,9 @@
       286,
       273
     ],
-    "gold_passage_id": "p0002016",
+    "gold_passage_ids": [
+      "p0002016"
+    ],
     "title": "French_and_Indian_War",
     "category": null
   },
@@ -2593,7 +2883,9 @@
       21,
       21
     ],
-    "gold_passage_id": "p0000085",
+    "gold_passage_ids": [
+      "p0000085"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -2612,7 +2904,9 @@
       136,
       136
     ],
-    "gold_passage_id": "p0000670",
+    "gold_passage_ids": [
+      "p0000670"
+    ],
     "title": "1973_oil_crisis",
     "category": null
   },
@@ -2629,7 +2923,9 @@
       423,
       423
     ],
-    "gold_passage_id": "p0000121",
+    "gold_passage_ids": [
+      "p0000121"
+    ],
     "title": "Normans",
     "category": null
   },
@@ -2646,7 +2942,9 @@
       334,
       339
     ],
-    "gold_passage_id": "p0000029",
+    "gold_passage_ids": [
+      "p0000029"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -2665,7 +2963,9 @@
       158,
       158
     ],
-    "gold_passage_id": "p0000990",
+    "gold_passage_ids": [
+      "p0000990"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": null
   },
@@ -2682,7 +2982,9 @@
       45,
       45
     ],
-    "gold_passage_id": "p0000144",
+    "gold_passage_ids": [
+      "p0000144"
+    ],
     "title": "Normans",
     "category": null
   },
@@ -2699,7 +3001,9 @@
       957,
       957
     ],
-    "gold_passage_id": "p0001608",
+    "gold_passage_ids": [
+      "p0001608"
+    ],
     "title": "Kenya",
     "category": null
   },
@@ -2720,7 +3024,9 @@
       84,
       36
     ],
-    "gold_passage_id": "p0000705",
+    "gold_passage_ids": [
+      "p0000705"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -2737,7 +3043,9 @@
       133,
       133
     ],
-    "gold_passage_id": "p0000813",
+    "gold_passage_ids": [
+      "p0000813"
+    ],
     "title": "Ctenophora",
     "category": null
   },
@@ -2756,7 +3064,9 @@
       360,
       360
     ],
-    "gold_passage_id": "p0001509",
+    "gold_passage_ids": [
+      "p0001509"
+    ],
     "title": "University_of_Chicago",
     "category": null
   },
@@ -2777,7 +3087,9 @@
       146,
       146
     ],
-    "gold_passage_id": "p0000624",
+    "gold_passage_ids": [
+      "p0000624"
+    ],
     "title": "Oxygen",
     "category": null
   },
@@ -2794,7 +3106,9 @@
       101,
       108
     ],
-    "gold_passage_id": "p0001702",
+    "gold_passage_ids": [
+      "p0001702"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -2811,7 +3125,9 @@
       143,
       143
     ],
-    "gold_passage_id": "p0000350",
+    "gold_passage_ids": [
+      "p0000350"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -2828,7 +3144,9 @@
       321,
       321
     ],
-    "gold_passage_id": "p0001793",
+    "gold_passage_ids": [
+      "p0001793"
+    ],
     "title": "Rhine",
     "category": null
   },
@@ -2845,7 +3163,9 @@
       81,
       81
     ],
-    "gold_passage_id": "p0001811",
+    "gold_passage_ids": [
+      "p0001811"
+    ],
     "title": "Scottish_Parliament",
     "category": null
   },
@@ -2862,7 +3182,9 @@
       117,
       117
     ],
-    "gold_passage_id": "p0001467",
+    "gold_passage_ids": [
+      "p0001467"
+    ],
     "title": "Doctor_Who",
     "category": null
   },
@@ -2881,7 +3203,9 @@
       194,
       193
     ],
-    "gold_passage_id": "p0000724",
+    "gold_passage_ids": [
+      "p0000724"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -2898,7 +3222,9 @@
       287,
       287
     ],
-    "gold_passage_id": "p0001468",
+    "gold_passage_ids": [
+      "p0001468"
+    ],
     "title": "Doctor_Who",
     "category": null
   },
@@ -2915,7 +3241,9 @@
       17,
       125
     ],
-    "gold_passage_id": "p0001264",
+    "gold_passage_ids": [
+      "p0001264"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -2932,7 +3260,9 @@
       505,
       505
     ],
-    "gold_passage_id": "p0000546",
+    "gold_passage_ids": [
+      "p0000546"
+    ],
     "title": "Huguenot",
     "category": null
   },
@@ -2949,7 +3279,9 @@
       267,
       267
     ],
-    "gold_passage_id": "p0000206",
+    "gold_passage_ids": [
+      "p0000206"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -2966,7 +3298,9 @@
       317,
       317
     ],
-    "gold_passage_id": "p0000215",
+    "gold_passage_ids": [
+      "p0000215"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -2983,7 +3317,9 @@
       271,
       135
     ],
-    "gold_passage_id": "p0001335",
+    "gold_passage_ids": [
+      "p0001335"
+    ],
     "title": "Private_school",
     "category": null
   },
@@ -3000,7 +3336,9 @@
       409,
       409
     ],
-    "gold_passage_id": "p0001071",
+    "gold_passage_ids": [
+      "p0001071"
+    ],
     "title": "American_Broadcasting_Company",
     "category": null
   },
@@ -3017,7 +3355,9 @@
       652,
       652
     ],
-    "gold_passage_id": "p0001306",
+    "gold_passage_ids": [
+      "p0001306"
+    ],
     "title": "Construction",
     "category": null
   },
@@ -3038,7 +3378,9 @@
       46,
       46
     ],
-    "gold_passage_id": "p0001277",
+    "gold_passage_ids": [
+      "p0001277"
+    ],
     "title": "Civil_disobedience",
     "category": null
   },
@@ -3055,7 +3397,9 @@
       61,
       118
     ],
-    "gold_passage_id": "p0001448",
+    "gold_passage_ids": [
+      "p0001448"
+    ],
     "title": "Doctor_Who",
     "category": null
   },
@@ -3072,7 +3416,9 @@
       245,
       245
     ],
-    "gold_passage_id": "p0000069",
+    "gold_passage_ids": [
+      "p0000069"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -3089,7 +3435,9 @@
       169,
       169
     ],
-    "gold_passage_id": "p0000221",
+    "gold_passage_ids": [
+      "p0000221"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -3106,7 +3454,9 @@
       712,
       716
     ],
-    "gold_passage_id": "p0000090",
+    "gold_passage_ids": [
+      "p0000090"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -3123,7 +3473,9 @@
       822,
       822
     ],
-    "gold_passage_id": "p0001246",
+    "gold_passage_ids": [
+      "p0001246"
+    ],
     "title": "Immune_system",
     "category": null
   },
@@ -3140,7 +3492,9 @@
       71,
       264
     ],
-    "gold_passage_id": "p0001020",
+    "gold_passage_ids": [
+      "p0001020"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": null
   },
@@ -3157,7 +3511,9 @@
       357,
       357
     ],
-    "gold_passage_id": "p0000266",
+    "gold_passage_ids": [
+      "p0000266"
+    ],
     "title": "Computational_complexity_theory",
     "category": null
   },
@@ -3176,7 +3532,9 @@
       313,
       313
     ],
-    "gold_passage_id": "p0000744",
+    "gold_passage_ids": [
+      "p0000744"
+    ],
     "title": "European_Union_law",
     "category": null
   },
@@ -3193,7 +3551,9 @@
       909,
       905
     ],
-    "gold_passage_id": "p0000550",
+    "gold_passage_ids": [
+      "p0000550"
+    ],
     "title": "Huguenot",
     "category": null
   },
@@ -3210,7 +3570,9 @@
       42,
       42
     ],
-    "gold_passage_id": "p0000546",
+    "gold_passage_ids": [
+      "p0000546"
+    ],
     "title": "Huguenot",
     "category": null
   },
@@ -3227,7 +3589,9 @@
       168,
       168
     ],
-    "gold_passage_id": "p0001690",
+    "gold_passage_ids": [
+      "p0001690"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -3244,7 +3608,9 @@
       0,
       0
     ],
-    "gold_passage_id": "p0001402",
+    "gold_passage_ids": [
+      "p0001402"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -3263,7 +3629,9 @@
       204,
       133
     ],
-    "gold_passage_id": "p0000377",
+    "gold_passage_ids": [
+      "p0000377"
+    ],
     "title": "Martin_Luther",
     "category": null
   },
@@ -3280,7 +3648,9 @@
       0,
       0
     ],
-    "gold_passage_id": "p0001301",
+    "gold_passage_ids": [
+      "p0001301"
+    ],
     "title": "Construction",
     "category": null
   },
@@ -3297,7 +3667,9 @@
       617,
       617
     ],
-    "gold_passage_id": "p0000523",
+    "gold_passage_ids": [
+      "p0000523"
+    ],
     "title": "Victoria_(Australia)",
     "category": null
   },
@@ -3314,7 +3686,9 @@
       152,
       173
     ],
-    "gold_passage_id": "p0000813",
+    "gold_passage_ids": [
+      "p0000813"
+    ],
     "title": "Ctenophora",
     "category": null
   },
@@ -3331,7 +3705,9 @@
       31,
       31
     ],
-    "gold_passage_id": "p0001434",
+    "gold_passage_ids": [
+      "p0001434"
+    ],
     "title": "Economic_inequality",
     "category": null
   },
@@ -3350,7 +3726,9 @@
       1179,
       1179
     ],
-    "gold_passage_id": "p0000746",
+    "gold_passage_ids": [
+      "p0000746"
+    ],
     "title": "European_Union_law",
     "category": null
   },
@@ -3367,7 +3745,9 @@
       94,
       94
     ],
-    "gold_passage_id": "p0000155",
+    "gold_passage_ids": [
+      "p0000155"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -3384,7 +3764,9 @@
       97,
       97
     ],
-    "gold_passage_id": "p0001384",
+    "gold_passage_ids": [
+      "p0001384"
+    ],
     "title": "Jacksonville,_Florida",
     "category": null
   },
@@ -3405,7 +3787,9 @@
       117,
       153
     ],
-    "gold_passage_id": "p0001740",
+    "gold_passage_ids": [
+      "p0001740"
+    ],
     "title": "Prime_number",
     "category": null
   },
@@ -3422,7 +3806,9 @@
       73,
       73
     ],
-    "gold_passage_id": "p0000220",
+    "gold_passage_ids": [
+      "p0000220"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -3439,7 +3825,9 @@
       171,
       171
     ],
-    "gold_passage_id": "p0000057",
+    "gold_passage_ids": [
+      "p0000057"
+    ],
     "title": "Warsaw",
     "category": null
   },
@@ -3456,7 +3844,9 @@
       200,
       200
     ],
-    "gold_passage_id": "p0001706",
+    "gold_passage_ids": [
+      "p0001706"
+    ],
     "title": "Chloroplast",
     "category": null
   },
@@ -3473,7 +3863,9 @@
       124,
       124
     ],
-    "gold_passage_id": "p0000011",
+    "gold_passage_ids": [
+      "p0000011"
+    ],
     "title": "Super_Bowl_50",
     "category": null
   },
@@ -3490,7 +3882,9 @@
       428,
       428
     ],
-    "gold_passage_id": "p0000201",
+    "gold_passage_ids": [
+      "p0000201"
+    ],
     "title": "Nikola_Tesla",
     "category": null
   },
@@ -3511,7 +3905,9 @@
       721,
       721
     ],
-    "gold_passage_id": "p0000698",
+    "gold_passage_ids": [
+      "p0000698"
+    ],
     "title": "Apollo_program",
     "category": null
   },
@@ -3528,7 +3924,9 @@
       254,
       254
     ],
-    "gold_passage_id": "p0000464",
+    "gold_passage_ids": [
+      "p0000464"
+    ],
     "title": "Southern_California",
     "category": null
   },
@@ -3545,7 +3943,9 @@
       201,
       185
     ],
-    "gold_passage_id": "p0001262",
+    "gold_passage_ids": [
+      "p0001262"
+    ],
     "title": "Immune_system",
     "category": null
   }

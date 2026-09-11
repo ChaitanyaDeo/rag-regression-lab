@@ -14,7 +14,9 @@
       87,
       87
     ],
-    "gold_passage_id": "p0002047",
+    "gold_passage_ids": [
+      "p0002047"
+    ],
     "title": "Force",
     "category": "simple_with_condition"
   },
@@ -31,7 +33,9 @@
       593,
       593
     ],
-    "gold_passage_id": "p0000274",
+    "gold_passage_ids": [
+      "p0000274"
+    ],
     "title": "Computational_complexity_theory",
     "category": "simple_with_condition"
   },
@@ -48,7 +52,9 @@
       248,
       209
     ],
-    "gold_passage_id": "p0000022",
+    "gold_passage_ids": [
+      "p0000022"
+    ],
     "title": "Super_Bowl_50",
     "category": "simple_with_condition"
   },
@@ -65,7 +71,9 @@
       552,
       552
     ],
-    "gold_passage_id": "p0000807",
+    "gold_passage_ids": [
+      "p0000807"
+    ],
     "title": "Ctenophora",
     "category": "comparison"
   },
@@ -86,7 +94,9 @@
       148,
       148
     ],
-    "gold_passage_id": "p0000731",
+    "gold_passage_ids": [
+      "p0000731"
+    ],
     "title": "Apollo_program",
     "category": "comparison"
   },
@@ -105,7 +115,9 @@
       56,
       56
     ],
-    "gold_passage_id": "p0000651",
+    "gold_passage_ids": [
+      "p0000651"
+    ],
     "title": "Oxygen",
     "category": "simple_with_condition"
   },
@@ -122,7 +134,9 @@
       146,
       146
     ],
-    "gold_passage_id": "p0000375",
+    "gold_passage_ids": [
+      "p0000375"
+    ],
     "title": "Martin_Luther",
     "category": "simple_with_condition"
   },
@@ -139,7 +153,9 @@
       217,
       217
     ],
-    "gold_passage_id": "p0000239",
+    "gold_passage_ids": [
+      "p0000239"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -156,7 +172,9 @@
       15,
       15
     ],
-    "gold_passage_id": "p0001723",
+    "gold_passage_ids": [
+      "p0001723"
+    ],
     "title": "Chloroplast",
     "category": "simple_with_condition"
   },
@@ -173,7 +191,9 @@
       659,
       659
     ],
-    "gold_passage_id": "p0000177",
+    "gold_passage_ids": [
+      "p0000177"
+    ],
     "title": "Nikola_Tesla",
     "category": "comparison"
   },
@@ -190,7 +210,9 @@
       569,
       571
     ],
-    "gold_passage_id": "p0001858",
+    "gold_passage_ids": [
+      "p0001858"
+    ],
     "title": "Islamism",
     "category": "comparison"
   },
@@ -207,7 +229,9 @@
       0,
       0
     ],
-    "gold_passage_id": "p0001301",
+    "gold_passage_ids": [
+      "p0001301"
+    ],
     "title": "Construction",
     "category": "simple"
   },
@@ -224,7 +248,9 @@
       102,
       102
     ],
-    "gold_passage_id": "p0000030",
+    "gold_passage_ids": [
+      "p0000030"
+    ],
     "title": "Super_Bowl_50",
     "category": "simple_with_condition"
   },
@@ -241,7 +267,9 @@
       223,
       223
     ],
-    "gold_passage_id": "p0000028",
+    "gold_passage_ids": [
+      "p0000028"
+    ],
     "title": "Super_Bowl_50",
     "category": "simple"
   },
@@ -258,7 +286,9 @@
       112,
       68
     ],
-    "gold_passage_id": "p0000204",
+    "gold_passage_ids": [
+      "p0000204"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   }

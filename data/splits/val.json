@@ -16,7 +16,9 @@
       476,
       479
     ],
-    "gold_passage_id": "p0000635",
+    "gold_passage_ids": [
+      "p0000635"
+    ],
     "title": "Oxygen",
     "category": "simple_with_condition"
   },
@@ -37,7 +39,9 @@
       338,
       338
     ],
-    "gold_passage_id": "p0000684",
+    "gold_passage_ids": [
+      "p0000684"
+    ],
     "title": "1973_oil_crisis",
     "category": "simple_with_condition"
   },
@@ -54,7 +58,9 @@
       345,
       345
     ],
-    "gold_passage_id": "p0001577",
+    "gold_passage_ids": [
+      "p0001577"
+    ],
     "title": "Yuan_dynasty",
     "category": "comparison"
   },
@@ -75,7 +81,9 @@
       605,
       605
     ],
-    "gold_passage_id": "p0001896",
+    "gold_passage_ids": [
+      "p0001896"
+    ],
     "title": "Imperialism",
     "category": "comparison"
   },
@@ -92,7 +100,9 @@
       339,
       345
     ],
-    "gold_passage_id": "p0000024",
+    "gold_passage_ids": [
+      "p0000024"
+    ],
     "title": "Super_Bowl_50",
     "category": "comparison"
   },
@@ -111,7 +121,9 @@
       62,
       64
     ],
-    "gold_passage_id": "p0001770",
+    "gold_passage_ids": [
+      "p0001770"
+    ],
     "title": "Rhine",
     "category": "simple"
   },
@@ -130,7 +142,9 @@
       18,
       18
     ],
-    "gold_passage_id": "p0000574",
+    "gold_passage_ids": [
+      "p0000574"
+    ],
     "title": "Steam_engine",
     "category": "simple"
   },
@@ -147,7 +161,9 @@
       404,
       404
     ],
-    "gold_passage_id": "p0001721",
+    "gold_passage_ids": [
+      "p0001721"
+    ],
     "title": "Chloroplast",
     "category": "comparison"
   },
@@ -170,7 +186,9 @@
       1177,
       1177
     ],
-    "gold_passage_id": "p0001292",
+    "gold_passage_ids": [
+      "p0001292"
+    ],
     "title": "Civil_disobedience",
     "category": "comparison"
   },
@@ -191,7 +209,9 @@
       476,
       476
     ],
-    "gold_passage_id": "p0000641",
+    "gold_passage_ids": [
+      "p0000641"
+    ],
     "title": "Oxygen",
     "category": "comparison"
   },
@@ -208,7 +228,9 @@
       467,
       467
     ],
-    "gold_passage_id": "p0001402",
+    "gold_passage_ids": [
+      "p0001402"
+    ],
     "title": "Economic_inequality",
     "category": "comparison"
   },
@@ -225,7 +247,9 @@
       607,
       611
     ],
-    "gold_passage_id": "p0001854",
+    "gold_passage_ids": [
+      "p0001854"
+    ],
     "title": "Islamism",
     "category": "comparison"
   },
@@ -242,7 +266,9 @@
       155,
       155
     ],
-    "gold_passage_id": "p0000811",
+    "gold_passage_ids": [
+      "p0000811"
+    ],
     "title": "Ctenophora",
     "category": "comparison"
   },
@@ -259,7 +285,9 @@
       32,
       38
     ],
-    "gold_passage_id": "p0000004",
+    "gold_passage_ids": [
+      "p0000004"
+    ],
     "title": "Super_Bowl_50",
     "category": "simple_with_condition"
   },
@@ -276,7 +304,9 @@
       155,
       155
     ],
-    "gold_passage_id": "p0000442",
+    "gold_passage_ids": [
+      "p0000442"
+    ],
     "title": "Martin_Luther",
     "category": "comparison"
   },
@@ -293,7 +323,9 @@
       240,
       240
     ],
-    "gold_passage_id": "p0001303",
+    "gold_passage_ids": [
+      "p0001303"
+    ],
     "title": "Construction",
     "category": "comparison"
   },
@@ -310,7 +342,9 @@
       28,
       28
     ],
-    "gold_passage_id": "p0001023",
+    "gold_passage_ids": [
+      "p0001023"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": "simple_with_condition"
   },
@@ -327,7 +361,9 @@
       456,
       456
     ],
-    "gold_passage_id": "p0000811",
+    "gold_passage_ids": [
+      "p0000811"
+    ],
     "title": "Ctenophora",
     "category": "comparison"
   },
@@ -344,7 +380,9 @@
       29,
       29
     ],
-    "gold_passage_id": "p0000428",
+    "gold_passage_ids": [
+      "p0000428"
+    ],
     "title": "Martin_Luther",
     "category": "simple_with_condition"
   },
@@ -357,7 +395,9 @@
     "answer_start": [
       435
     ],
-    "gold_passage_id": "p0000626",
+    "gold_passage_ids": [
+      "p0000626"
+    ],
     "title": "Oxygen",
     "category": "simple_with_condition"
   },
@@ -374,7 +414,9 @@
       36,
       46
     ],
-    "gold_passage_id": "p0001011",
+    "gold_passage_ids": [
+      "p0001011"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": "simple"
   },
@@ -391,7 +433,9 @@
       187,
       187
     ],
-    "gold_passage_id": "p0000238",
+    "gold_passage_ids": [
+      "p0000238"
+    ],
     "title": "Nikola_Tesla",
     "category": "comparison"
   },
@@ -408,7 +452,9 @@
       171,
       171
     ],
-    "gold_passage_id": "p0000199",
+    "gold_passage_ids": [
+      "p0000199"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -425,7 +471,9 @@
       167,
       167
     ],
-    "gold_passage_id": "p0001172",
+    "gold_passage_ids": [
+      "p0001172"
+    ],
     "title": "Genghis_Khan",
     "category": "comparison"
   },
@@ -442,7 +490,9 @@
       102,
       102
     ],
-    "gold_passage_id": "p0000215",
+    "gold_passage_ids": [
+      "p0000215"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -459,7 +509,9 @@
       209,
       209
     ],
-    "gold_passage_id": "p0001092",
+    "gold_passage_ids": [
+      "p0001092"
+    ],
     "title": "American_Broadcasting_Company",
     "category": "comparison"
   },
@@ -476,7 +528,9 @@
       33,
       33
     ],
-    "gold_passage_id": "p0001035",
+    "gold_passage_ids": [
+      "p0001035"
+    ],
     "title": "Victoria_and_Albert_Museum",
     "category": "simple_with_condition"
   },
@@ -495,7 +549,9 @@
       849,
       849
     ],
-    "gold_passage_id": "p0001901",
+    "gold_passage_ids": [
+      "p0001901"
+    ],
     "title": "Imperialism",
     "category": "comparison"
   },
@@ -512,7 +568,9 @@
       470,
       470
     ],
-    "gold_passage_id": "p0000786",
+    "gold_passage_ids": [
+      "p0000786"
+    ],
     "title": "Amazon_rainforest",
     "category": "comparison"
   },
@@ -529,7 +587,9 @@
       219,
       224
     ],
-    "gold_passage_id": "p0000046",
+    "gold_passage_ids": [
+      "p0000046"
+    ],
     "title": "Super_Bowl_50",
     "category": "comparison"
   },
@@ -546,7 +606,9 @@
       282,
       282
     ],
-    "gold_passage_id": "p0001423",
+    "gold_passage_ids": [
+      "p0001423"
+    ],
     "title": "Economic_inequality",
     "category": "comparison"
   },
@@ -563,7 +625,9 @@
       139,
       139
     ],
-    "gold_passage_id": "p0001690",
+    "gold_passage_ids": [
+      "p0001690"
+    ],
     "title": "Chloroplast",
     "category": "simple_with_condition"
   },
@@ -580,7 +644,9 @@
       123,
       123
     ],
-    "gold_passage_id": "p0000324",
+    "gold_passage_ids": [
+      "p0000324"
+    ],
     "title": "Teacher",
     "category": "comparison"
   },
@@ -597,7 +663,9 @@
       190,
       190
     ],
-    "gold_passage_id": "p0001166",
+    "gold_passage_ids": [
+      "p0001166"
+    ],
     "title": "Genghis_Khan",
     "category": "simple_with_condition"
   },
@@ -614,7 +682,9 @@
       85,
       89
     ],
-    "gold_passage_id": "p0000161",
+    "gold_passage_ids": [
+      "p0000161"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -635,7 +705,9 @@
       147,
       147
     ],
-    "gold_passage_id": "p0001745",
+    "gold_passage_ids": [
+      "p0001745"
+    ],
     "title": "Prime_number",
     "category": "comparison"
   },
@@ -652,7 +724,9 @@
       153,
       153
     ],
-    "gold_passage_id": "p0000864",
+    "gold_passage_ids": [
+      "p0000864"
+    ],
     "title": "Fresno,_California",
     "category": "simple_with_condition"
   },
@@ -673,7 +747,9 @@
       776,
       738
     ],
-    "gold_passage_id": "p0002005",
+    "gold_passage_ids": [
+      "p0002005"
+    ],
     "title": "French_and_Indian_War",
     "category": "comparison"
   },
@@ -690,7 +766,9 @@
       409,
       403
     ],
-    "gold_passage_id": "p0001960",
+    "gold_passage_ids": [
+      "p0001960"
+    ],
     "title": "United_Methodist_Church",
     "category": "comparison"
   },
@@ -707,7 +785,9 @@
       640,
       640
     ],
-    "gold_passage_id": "p0001103",
+    "gold_passage_ids": [
+      "p0001103"
+    ],
     "title": "American_Broadcasting_Company",
     "category": "comparison"
   },
@@ -724,7 +804,9 @@
       93,
       89
     ],
-    "gold_passage_id": "p0001815",
+    "gold_passage_ids": [
+      "p0001815"
+    ],
     "title": "Scottish_Parliament",
     "category": "simple_with_condition"
   },
@@ -741,7 +823,9 @@
       524,
       524
     ],
-    "gold_passage_id": "p0000553",
+    "gold_passage_ids": [
+      "p0000553"
+    ],
     "title": "Huguenot",
     "category": "comparison"
   },
@@ -758,7 +842,9 @@
       508,
       508
     ],
-    "gold_passage_id": "p0000134",
+    "gold_passage_ids": [
+      "p0000134"
+    ],
     "title": "Normans",
     "category": "comparison"
   },
@@ -773,7 +859,9 @@
       118,
       118
     ],
-    "gold_passage_id": "p0000049",
+    "gold_passage_ids": [
+      "p0000049"
+    ],
     "title": "Super_Bowl_50",
     "category": "simple_with_condition"
   },
@@ -794,7 +882,9 @@
       3,
       3
     ],
-    "gold_passage_id": "p0000667",
+    "gold_passage_ids": [
+      "p0000667"
+    ],
     "title": "1973_oil_crisis",
     "category": "simple_with_condition"
   },
@@ -811,7 +901,9 @@
       420,
       420
     ],
-    "gold_passage_id": "p0000851",
+    "gold_passage_ids": [
+      "p0000851"
+    ],
     "title": "Fresno,_California",
     "category": "simple_with_condition"
   },
@@ -828,7 +920,9 @@
       281,
       281
     ],
-    "gold_passage_id": "p0000163",
+    "gold_passage_ids": [
+      "p0000163"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -849,7 +943,9 @@
       275,
       275
     ],
-    "gold_passage_id": "p0000685",
+    "gold_passage_ids": [
+      "p0000685"
+    ],
     "title": "1973_oil_crisis",
     "category": "simple_with_condition"
   },
@@ -866,7 +962,9 @@
       3,
       3
     ],
-    "gold_passage_id": "p0000232",
+    "gold_passage_ids": [
+      "p0000232"
+    ],
     "title": "Nikola_Tesla",
     "category": "simple_with_condition"
   },
@@ -883,7 +981,9 @@
       761,
       761
     ],
-    "gold_passage_id": "p0001172",
+    "gold_passage_ids": [
+      "p0001172"
+    ],
     "title": "Genghis_Khan",
     "category": "comparison"
   }

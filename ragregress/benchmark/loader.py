@@ -76,7 +76,7 @@ def build_corpus_and_qa_pairs(validation_split) -> Tuple[List[Passage], List[QAP
                 question = row["question"],
                 answer=row["answers"]["text"],
                 answer_start = row["answers"]["answer_start"],
-                gold_passage_id = gold_passage_id,
+                gold_passage_ids = [gold_passage_id],
                 title = title,
                 category = None
             )

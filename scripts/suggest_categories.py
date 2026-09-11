@@ -25,6 +25,8 @@ import json
 import re
 from pathlib import Path
 
+from typing import Dict
+
 import requests
  
 from ragregress.benchmark.schemas import CRAG_CATEGORY_DEFINITIONS
@@ -136,7 +138,7 @@ def main() -> None:
     unresolved = 0
 
     for i, qa in enumerate(qa_pairs):
-        passage_text = passage_lookup[qa["gold_passage_id"]]
+        passage_text = passage_lookup[qa["gold_passage_ids"][0]]
         question = qa["question"]
         category = classify_question(question, passage_text, definitions, category_block)
         qa["category"] = category

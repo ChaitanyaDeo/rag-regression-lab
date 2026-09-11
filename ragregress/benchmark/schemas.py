@@ -31,7 +31,7 @@ CRAG_CATEGORY_DEFINITIONS = {
 
 
 class Passage(BaseModel):
-    """A single deduplicated corpus document"""""
+    """A single deduplicated corpus document"""
 
     passage_id: str = Field(..., description = "Unique identifier for this passage. Stable id assigned at dedup time, e.g. 'p0000042'")
     title: str = Field(..., description = "SQuAD article title this passage came from")
@@ -48,7 +48,7 @@ class QAPair(BaseModel):
     answer: List[str] = Field(..., description = "All accepted answerr strings for QA pair")
     answer_start: List[int] = Field(..., description = "All accpeted answer start offsets for QA pair")
 
-    gold_passage_id: str = Field(..., description="passage_id of the exact source context for this question")
+    gold_passage_ids: List[str] = Field(..., description="passage_id(s) of the exact source context(s) for this question.")
 
     title: str = Field(..., description = "article title (denormalized for convenience)")
 
