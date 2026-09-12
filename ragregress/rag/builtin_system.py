@@ -16,13 +16,15 @@ from typing import List
 from ragregress.benchmark.schemas import Passage
 from ragregress.rag.chunker import ChunkerConfig, chunk_passages
 from ragregress.rag.embedder import DEFAULT_EMBEDDING_MODEL, Embedder, LangChainEmbeddingsAdapter
-from ragregress.rag.interface import Chunk
+from ragregress.rag.interface import Chunk, GenerationResult
 from ragregress.rag.retriever import ChromaRetriever, collection_name
+from ragregress.rag.generator import GeneratorConfig, generate_with_citations
 
 
 class BuiltinRAGSystem:
-    def __init__(self, chunker_config: ChunkerConfig, 
-                 embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+    def __init__(self, chunker_config: ChunkerConfig,
+                 generator_config: GeneratorConfig = None,
+                 embedding_model: str = DEFAULT_EMBEDDING_MODEL,
                  persist_directory: str = "artifacts/chroma",
     ):
         self.chunker_config = chunker_config
@@ -34,6 +36,8 @@ class BuiltinRAGSystem:
             persist_directory=persist_directory,
             collection_name=collection_name(embedding_model, chunker_config),
         )
+
+        self.generator_config = generator_config or GeneratorConfig()
 
 
 
@@ -59,11 +63,15 @@ class BuiltinRAGSystem:
         """
         return self.retriever.query(query, k=k)
 
-    def generate(self, query: str, contexts: List[Chunk]) -> str:
+    def generate(self, query: str, contexts: List[Chunk]) -> GenerationResult:
         """generates the answer via (generator.py + ChatOllama wiring)
 
-        TODO: implement generator
+        Orchestration only — prompt-building, the LLM call, and citation
+        parsing all live in generator.py so the same logic can be reused
+        (e.g. by the no-RAG baseline generator).
         """
-        raise NotImplementedError("generator is not implemented yet")
+
+        return generate_with_citations(query, contexts, self.generator_config)
+        
     
 

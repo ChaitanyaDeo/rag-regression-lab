@@ -37,13 +37,30 @@ class Chunk(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
+class GenerationResult(BaseModel):
+    """Output of a RAGSystem's generate() call.
+
+    raw_output: exactly what the LLM generates
+
+    answer: citation-stripped text.
+
+    citations: parsed passage_ids, in order of first appearance
+    """
+
+    raw_output: str      # exactly what the LLM returned
+    answer: str         # citation-stripped text — this is what answer_f1() scores against
+    citations: List[str] = Field(default_factory=List)       # List of citation 
+
+
+
+
 class RAGSystem(Protocol):
 
     def retrieve(self, query: str, k: int) -> List[Chunk]:
         """Return the top-k retrieved chunks for the given query"""
         ...
 
-    def generate(self, query: str, contexts: List[Chunk]) -> str:
+    def generate(self, query: str, contexts: List[Chunk]) -> GenerationResult:
         """Return the generated answer for the given query and retrieved contexts"""
         ...
 
