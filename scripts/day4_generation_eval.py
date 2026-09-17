@@ -13,7 +13,7 @@ from ragregress.rag.builtin_system import BuiltinRAGSystem
 from ragregress.rag.chunker import ChunkerConfig
 from ragregress.rag.generator import ABSTENTION_MESSAGE
 from ragregress.rag.interface import RAGSystem
-from ragregress.evaluation.generator_eval import answer_precision_recall_f1
+from ragregress.evaluation.metrics import token_level_prf1
 
 from ragregress.rag.no_rag_baseline import NoRAGBaseline
 
@@ -78,7 +78,7 @@ def evaluate_generation(qa_pairs: List[QAPair], rag_system: RAGSystem, k:int)->D
         if abstained:
             precision = recall = f1_score = None
         else:
-            prf1 = answer_precision_recall_f1(pred_res.answer, qa.answer)
+            prf1 = token_level_prf1(pred_res.answer, qa.answer)
             precision, recall, f1_score = prf1.precision, prf1.recall, prf1.f1
 
         rows.append(

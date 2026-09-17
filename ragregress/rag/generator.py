@@ -98,9 +98,6 @@ def run_generation(question: str, contexts: List[Chunk], config: GeneratorConfig
 
     context = build_context(contexts)
 
-
-    prompt_text = GENERATION_PROMPT.format(context = context, question = question, abstention_message = ABSTENTION_MESSAGE)
-
     llm = ChatOllama(model=config.model_name, temperature=config.temperature)
 
     chain = GENERATION_PROMPT | llm 

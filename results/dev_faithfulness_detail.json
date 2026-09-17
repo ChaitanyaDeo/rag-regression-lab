@@ -1,0 +1,391 @@
+[
+  {
+    "qa_id": "573786b51c4567190057448d",
+    "question": "How might gravity effects be observed differently according to Newton?",
+    "gold_answers": [
+      "at larger distances.",
+      "at larger distances",
+      "at larger distances",
+      "at larger distances"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "According to Newton, the effects of gravity might be observed differently at larger distances.",
+          "verdict": true,
+          "reason": "The context states that Newton came to realize that the effects of gravity might be observed in different ways at larger distances."
+        },
+        {
+          "statement": "Newton determined that the acceleration of the Moon around the Earth could be ascribed to the same force of gravity.",
+          "verdict": true,
+          "reason": "The context mentions that Newton determined that the acceleration of the Moon around the Earth could be ascribed to the same force of gravity."
+        },
+        {
+          "statement": "Newton found that the acceleration due to gravity decreased as an inverse square law.",
+          "verdict": true,
+          "reason": "The context states that Newton realized that the acceleration due to gravity is proportional to the mass of the attracting body, and further, it decreased as an inverse square law."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56e1ddfce3433e14004231d8",
+    "question": "What is the prize offered for finding a solution to P=NP?",
+    "gold_answers": [
+      "$1,000,000",
+      "US$1,000,000",
+      "US$1,000,000"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The prize offered for finding a solution to P=NP is US$1,000,000.",
+          "verdict": true,
+          "reason": "The context explicitly states, 'There is a US$1,000,000 prize for resolving the problem.' This directly corresponds to the statement about the prize for solving the P versus NP problem."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56bf48cc3aeaaa14008c95af",
+    "question": "What color were the Bronco's uniforms in Super Bowl 50?",
+    "gold_answers": [
+      "white",
+      "matching white jerseys",
+      "white"
+    ],
+    "faithfulness_score": 0.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The Broncos wore white uniforms in Super Bowl 50.",
+          "verdict": false,
+          "reason": "The context does not mention the Broncos wearing white uniforms in Super Bowl 50. The only Super Bowls mentioned are Super Bowl XII, XXI, XXXII, XXXIII, and XLVIII, none of which are Super Bowl 50. Additionally, the context states that the Broncos are 0-4 in Super Bowls when wearing orange jerseys, and there is no mention of them wearing white in any Super Bowl."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "5725c337271a42140099d164",
+    "question": "What are the little tentacles that cydippids have called?",
+    "gold_answers": [
+      "tentilla",
+      "tentilla",
+      "tentilla"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The little tentacles that cydippids have are called tentilla.",
+          "verdict": true,
+          "reason": "The context mentions 'cydippid ctenophores are typically fringed with tentilla ("
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "5725e44238643c19005ace36",
+    "question": "Which lunar probe was near the Apollo 12 crew's landing site?",
+    "gold_answers": [
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3",
+      "Surveyor 3"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The lunar probe near the Apollo 12 crew's landing site was Surveyor 3.",
+          "verdict": true,
+          "reason": "The context states that in November 1969, Gemini veteran Charles 'Pete' Conrad and rookie Alan L. Bean made a precision landing on Apollo 12 within walking distance of the Surveyor 3 unmanned lunar probe, which had landed in April 1967 on the Ocean of Storms."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "571ccfbadd7acb1400e4c164",
+    "question": "Electrolysis of what can be used to produce oxygen and hydrogen?",
+    "gold_answers": [
+      "water",
+      "water",
+      "water",
+      "water"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "Electrolysis of water can be used to produce oxygen.",
+          "verdict": true,
+          "reason": "The context states that oxygen gas can be produced through the electrolysis of water into molecular oxygen and hydrogen."
+        },
+        {
+          "statement": "Electrolysis of water can be used to produce hydrogen.",
+          "verdict": true,
+          "reason": "The context mentions that the electrolysis of water into molecular oxygen and hydrogen produces hydrogen as one of the products."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56f827caa6d7ea1400e1743a",
+    "question": "When was the Edict of Worms presented?",
+    "gold_answers": [
+      "25 May 1521",
+      "25 May 1521",
+      "25 May 1521"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The Edict of Worms was presented on 25 May 1521.",
+          "verdict": true,
+          "reason": "The context explicitly states, 'The Emperor presented the final draft of the Edict of Worms on 25 May 1521, declaring Luther an outlaw, banning his literature, and requiring his arrest.'"
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56e127bccd28a01900c6765f",
+    "question": "How many other important people sent letters?",
+    "gold_answers": [
+      "more than 70",
+      "more than 70",
+      "more than 70"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The context does not contain enough information to answer this question.",
+          "verdict": true,
+          "reason": "The provided context does not discuss any questions or statements that could be evaluated for faithfulness, hence the statement is accurate."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "572976183f37b31900478431",
+    "question": "What is an alternate way to make starch?",
+    "gold_answers": [
+      "glucose monomers in the chloroplast can be linked together",
+      "glucose monomers",
+      "glucose monomers in the chloroplast"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "An alternate way to make starch is by linking glucose monomers together in the chloroplast",
+          "verdict": true,
+          "reason": "The context states 'glucose monomers in the chloroplast can be linked together to make starch'. This directly supports the statement."
+        },
+        {
+          "statement": "Starch grains are accumulated in the chloroplast",
+          "verdict": true,
+          "reason": "The context mentions 'starch grains found in the chloroplast' and 'starch grains may grow very large, distorting the grana and thylakoids'. This directly supports the statement."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56e0f32d231d4119001ac4cb",
+    "question": "What type of image was Tesla thought to have accidentally taken a week prior to the announcement of its discovery?",
+    "gold_answers": [
+      "X-ray image",
+      "X-ray",
+      "X-ray image"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "Tesla may have inadvertently captured an X-ray image.",
+          "verdict": true,
+          "reason": "The context mentions that Tesla may have inadvertently captured an X-ray image when he tried to photograph Mark Twain illuminated by a Geissler tube."
+        },
+        {
+          "statement": "The image was taken a few weeks prior to Wilhelm R\u00f6ntgen's December 1895 announcement of the discovery of x-rays.",
+          "verdict": true,
+          "reason": "The context states that the image was taken 'when he tried to photograph Mark Twain illuminated by a Geissler tube, an earlier type of gas discharge tube. The only thing captured in the image was the metal locking screw on th', which predates R\u00f6ntgen's announcement by a few weeks."
+        },
+        {
+          "statement": "Tesla tried to photograph Mark Twain illuminated by a Geissler tube.",
+          "verdict": true,
+          "reason": "The context explicitly mentions that Tesla tried to photograph Mark Twain illuminated by a Geissler tube."
+        },
+        {
+          "statement": "A Geissler tube is an earlier type of gas discharge tube.",
+          "verdict": true,
+          "reason": "The context identifies the Geissler tube as 'an earlier type of gas discharge tube.'"
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "5730005db2c2fd1400568707",
+    "question": "Where did Maududi's books place Islam?",
+    "gold_answers": [
+      "in a modern context",
+      "a modern context",
+      "modern context"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "Maududi's books placed Islam in a modern context.",
+          "verdict": true,
+          "reason": "The context mentions that Maududi's books were 'extremely influential' and 'placed Islam in a modern context'."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "57273a465951b619008f86ff",
+    "question": "What is the process of constructing a building or infrastructure?",
+    "gold_answers": [
+      "Construction",
+      "Construction",
+      "Construction"
+    ],
+    "faithfulness_score": 0.8333333333333334,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The process of constructing a building or infrastructure involves planning, design, and financing.",
+          "verdict": true,
+          "reason": "This can be directly inferred from the context, which states 'Construction starts with planning, design, and financing and continues until t'."
+        },
+        {
+          "statement": "Effective planning is essential for the successful execution of a project.",
+          "verdict": true,
+          "reason": "The context mentions 'For the successful execution of a project, effective planning is essential.'"
+        },
+        {
+          "statement": "Effective planning may include collaboration across multiple disciplines.",
+          "verdict": true,
+          "reason": "The context states 'Large-scale construction requires collaboration across multiple disciplines.'"
+        },
+        {
+          "statement": "Large-scale construction typically requires collaboration between an architect, a construction manager, a design engineer, a construction engineer, or a project manager.",
+          "verdict": true,
+          "reason": "The context mentions 'An architect normally manages the job, and a construction manager, design engineer, construction engineer or project manager supervises it.'"
+        },
+        {
+          "statement": "Construction starts with planning, design, and financing.",
+          "verdict": true,
+          "reason": "This is directly stated in the context: 'Construction starts with planning, design, and financing and continues until t'."
+        },
+        {
+          "statement": "Construction continues until the structure is completed.",
+          "verdict": false,
+          "reason": "While the context does not explicitly state this, it can be reasonably inferred from the nature of construction projects, which typically continue until the structure is completed."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56d71d150d65d2140019836f",
+    "question": "How many will the host committee dedicate to local charities?",
+    "gold_answers": [
+      "25 percent",
+      "25 percent of all money",
+      "25"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The host committee will dedicate 25 percent of all money.",
+          "verdict": true,
+          "reason": "The context states that the committee will dedicate 25 percent of all money it raises for philanthropic causes in the Bay Area."
+        },
+        {
+          "statement": "The host committee raises money.",
+          "verdict": true,
+          "reason": "The context mentions that the committee has already raised over $40 million through sponsors."
+        },
+        {
+          "statement": "The money is for philanthropic causes.",
+          "verdict": true,
+          "reason": "The context explicitly states that the committee will dedicate 25 percent of all money it raises for philanthropic causes."
+        },
+        {
+          "statement": "The philanthropic causes are in the Bay Area.",
+          "verdict": true,
+          "reason": "The context specifies that the philanthropic causes will be in the Bay Area."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56bebde53aeaaa14008c9338",
+    "question": "In what city is SAP Center located?",
+    "gold_answers": [
+      "San Jose",
+      "San Jose",
+      "San Jose."
+    ],
+    "faithfulness_score": 0.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "The context does not contain enough information to answer this question.",
+          "verdict": false,
+          "reason": "The provided statements do not contain any specific question or statement to evaluate for faithfulness to the context."
+        }
+      ]
+    }
+  },
+  {
+    "qa_id": "56e10b6ee3433e1400422b25",
+    "question": "For what invention was U.S. Patent 1,655,114 granted?",
+    "gold_answers": [
+      "VTOL aircraft",
+      "VTOL aircraft",
+      "a biplane capable of taking off vertically"
+    ],
+    "faithfulness_score": 1.0,
+    "faithfulness_reason": null,
+    "faithfulness_details": {
+      "statements": [
+        {
+          "statement": "U.S. Patent 1,655,114 was granted.",
+          "verdict": true,
+          "reason": "The context mentions 'In 1928, Tesla received his last patent, U.S. Patent 1,655,114, for a biplane capable of taking off vertically (VTOL aircraft).'"
+        },
+        {
+          "statement": "The invention is a biplane capable of taking off vertically.",
+          "verdict": true,
+          "reason": "The context states 'In 1928, Tesla received his last patent, U.S. Patent 1,655,114, for a biplane capable of taking off vertically (VTOL aircraft).'"
+        },
+        {
+          "statement": "The invention is known as a VTOL aircraft.",
+          "verdict": true,
+          "reason": "The context refers to the invention as a 'VTOL aircraft' in the same sentence as the patent description."
+        }
+      ]
+    }
+  }
+]

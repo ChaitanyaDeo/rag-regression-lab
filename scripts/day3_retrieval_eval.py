@@ -43,7 +43,7 @@ def print_report(split_name: str, result: dict) -> None:
  
     for row in result["rows"]:
         rank_display = row["rank"] if row["rank"] is not None else "not in top-k"
-        print(f"  [{row['qa_id']}] rank={rank_display}  recall@{K}={row['recall_at_k']:.3f}  mrr={row['mrr']:.3f}")
+        print(f"  [{row['qa_id']}] rank={rank_display}  recall@{K}={row['recall_at_k'].value:.3f}  mrr={row['mrr'].value:.3f}")
         print(f"    question:          {row['question']}")
         print(f"    gold_passage_ids:  {row['gold_passage_ids']}")
         print(f"    retrieved_ids:     {row['retrieved_ids']}")
