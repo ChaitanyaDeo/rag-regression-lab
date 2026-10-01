@@ -1,0 +1,9 @@
+{
+  "dependencies": [
+    "."
+  ],
+  "graphs": {
+    "rag_regression_pipeline": "ragregress/pipeline/graph.py:graph"
+  },
+  "env": ".env"
+}

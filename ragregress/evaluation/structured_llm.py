@@ -46,7 +46,7 @@ class LangChainStructuredLLM:
             try:
                 result = structured_model.invoke(prompt)
                 # raw_ans = self.chat_model.invoke(prompt, )
-                print(f"[DEBUG] schema={schema.__name__} result={result!r}")
+                # print(f"[DEBUG] schema={schema.__name__} result={result!r}")
                 return result
                 
             except Exception as e:

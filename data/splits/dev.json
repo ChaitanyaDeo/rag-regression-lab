@@ -37,7 +37,7 @@
       "p0000274"
     ],
     "title": "Computational_complexity_theory",
-    "category": "simple_with_condition"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "56bf48cc3aeaaa14008c95af",
@@ -56,7 +56,7 @@
       "p0000022"
     ],
     "title": "Super_Bowl_50",
-    "category": "simple_with_condition"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "5725c337271a42140099d164",
@@ -75,7 +75,7 @@
       "p0000807"
     ],
     "title": "Ctenophora",
-    "category": "comparison"
+    "category": "simple"
   },
   {
     "qa_id": "5725e44238643c19005ace36",
@@ -98,7 +98,7 @@
       "p0000731"
     ],
     "title": "Apollo_program",
-    "category": "comparison"
+    "category": "UNRESOLVED:multi_hop"
   },
   {
     "qa_id": "571ccfbadd7acb1400e4c164",
@@ -119,7 +119,7 @@
       "p0000651"
     ],
     "title": "Oxygen",
-    "category": "simple_with_condition"
+    "category": "simple"
   },
   {
     "qa_id": "56f827caa6d7ea1400e1743a",
@@ -157,7 +157,7 @@
       "p0000239"
     ],
     "title": "Nikola_Tesla",
-    "category": "simple_with_condition"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "572976183f37b31900478431",
@@ -176,7 +176,7 @@
       "p0001723"
     ],
     "title": "Chloroplast",
-    "category": "simple_with_condition"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "56e0f32d231d4119001ac4cb",
@@ -195,7 +195,7 @@
       "p0000177"
     ],
     "title": "Nikola_Tesla",
-    "category": "comparison"
+    "category": "UNRESOLVED:multi_hop"
   },
   {
     "qa_id": "5730005db2c2fd1400568707",
@@ -214,7 +214,7 @@
       "p0001858"
     ],
     "title": "Islamism",
-    "category": "comparison"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "57273a465951b619008f86ff",
@@ -252,7 +252,7 @@
       "p0000030"
     ],
     "title": "Super_Bowl_50",
-    "category": "simple_with_condition"
+    "category": "aggregation"
   },
   {
     "qa_id": "56bebde53aeaaa14008c9338",
@@ -271,7 +271,7 @@
       "p0000028"
     ],
     "title": "Super_Bowl_50",
-    "category": "simple"
+    "category": "post_processing_heavy"
   },
   {
     "qa_id": "56e10b6ee3433e1400422b25",
@@ -290,6 +290,6 @@
       "p0000204"
     ],
     "title": "Nikola_Tesla",
-    "category": "simple_with_condition"
+    "category": "simple"
   }
 ]

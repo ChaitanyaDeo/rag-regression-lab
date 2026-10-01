@@ -48,6 +48,8 @@ def evaluate(rag_system: RAGSystem, qa_pairs: List[QAPair],
         from ragregress.evaluation.metrics import MRR
         from ragregress.evaluation.metrics import TokenPRF1
 
+        metrics = [TokenPRF1, MRR, RecallAtK, Faithfulness]
+
     needed = set().union(*(m.required_inputs for m in metrics) if metrics else set())
 
     needs_generation = bool(needed & GENERATION_FIELDS)
