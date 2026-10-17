@@ -35,6 +35,17 @@ def _chunker_figerprint(chunker_config: ChunkerConfig) -> str:
     payload = repr(sorted(asdict(chunker_config).items())).encode("utf-8")
     return hashlib.blake2b(payload, digest_size=8).hexdigest()
 
+def content_fingerprint(chunks: List[Chunk]) -> str:
+    """Hash of every chunk's id and text, order-independent"""
+    h = hashlib.blake2b(digest_size=8)
+    for c in sorted(chunks, key=lambda c: c.chunk_id):
+        h.update(c.chunk_id.encode("utf-8"))
+        h.update(b"\x00")
+        h.update(c.text.encode("utf-8"))
+        h.update(b"\x01")
+    return h.hexdigest()
+
+_FP_KEY = "content_fp"
 
 def collection_name(embedding_model: str, chunker_config: ChunkerConfig) -> str:
     """passages_{model}_{chunk_size}_{fingerprint}
@@ -84,6 +95,32 @@ class ChromaRetriever:
 
         self.store.add_texts(texts=texts, metadatas=metadatas, ids=ids)
 
+    def count(self) -> int:
+            """Return number of chunks in this collection"""
+    
+            return len(self.store.get(include=[])['ids'])
+
+    def _raw_collection(self):
+        col = getattr(self.store, "_collection", None)
+        if col is None:
+            raise RuntimeError(
+                "langchain-chroma no longer exposes Chroma._collection; "
+                "update ChromaRetriever._raw_collection for this version."
+            )
+        return col
+
+    def replace_all(self, chunks: List[Chunk], fingerprint: str) -> None:
+        """Empty the collection, upsert `chunks`, then record `fingerprint`"""
+        
+        self.store.reset_collection()
+        self.upsert(chunks)
+        self._raw_collection().modify(metadata={_FP_KEY: fingerprint})
+    
+
+    def stored_fingerprint(self) -> str | None:
+        """Content fingerprint recorded by replace_all(), or None if absent."""
+        return (self._raw_collection().metadata or {}).get(_FP_KEY)
+
     def query(self, query_text: str, k: int = 5)-> List[Chunk]:
 
         results = self.store.similarity_search(query_text, k)
@@ -104,5 +141,9 @@ class ChromaRetriever:
             )
 
         return out
+
+    
+
+    
 
     

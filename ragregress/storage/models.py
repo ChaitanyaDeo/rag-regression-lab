@@ -25,6 +25,7 @@ class Run:
     config: dict[str, Any]
     run_status: str | None = None
     run_status_detail: str | None = None
+    config_hash: str | None = None
 
 
 @dataclass

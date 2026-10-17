@@ -11,8 +11,9 @@ Ingest -> Retrive -> Generate -> judge -> Aggregate -> persists -> Compare
 import math
 import time
 import uuid
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List, Optional, TYPE_CHECKING, Union, Callable
 from datetime import datetime, timezone
+import threading
 
 from langgraph.graph import StateGraph, START, END
 from langgraph.types import Send
@@ -33,7 +34,8 @@ from ragregress.pipeline.pipeline_constants import (
     QA_ID, QUESTION, GOLD_IDS, GENERATION, METRIC_RESULTS, LAST_ERROR, LATENCY_MS,
     CATEGORY, CHUNKS
 )
-
+if TYPE_CHECKING:
+    from ragregress.core.config import RunConfig     # Type-only: keeps the pipeline free of a runtime dependency on config.py
 from ragregress.storage.database import DB_PATH_DEFAULT, init_db
 from ragregress.storage.models import QueryResult, Run
 from ragregress.storage.repositories import Repository
@@ -73,6 +75,8 @@ def _snapshot(qs: QueryState, update: Dict[str, Any]) -> Dict[str, Any]:
 
 
 class Pipeline:
+    _run_config: Optional["RunConfig"] = None
+    on_row_done: Optional[Callable[[int, int, float], None]] = None
 
     def __init__(
         self,
@@ -98,6 +102,25 @@ class Pipeline:
         init_db(db_path)
         self._repo = Repository(db_path)
 
+    @classmethod
+    def from_config(cls, run_config:"RunConfig", rag_system: RAGSystem,metrics: List[Metric],) -> "Pipeline":
+        """Build a Pipeline whose k, max_workers, db_path, is_dev, stored config
+        and config_hash all come from one validated RunConfig
+
+        rag_system and metrics are still supplied by the caller
+        """
+
+        pipeline = cls(
+            rag_system=rag_system,
+            metrics=metrics,
+            k=run_config.top_k,  # config-facing name -> internal `k` (DEC-D7-06)
+            max_workers=run_config.max_workers,
+            db_path=run_config.db_path,
+        )
+
+        pipeline._run_config = run_config
+
+        return pipeline
 
     # Graph construction
 
@@ -114,8 +137,11 @@ class Pipeline:
 
         sg.add_node(Node.RETRIEVE, self._retrieve)
         sg.add_node(Node.GENERATE, self._generate)
-        sg.add_node(Node.JUDGE, self._judge)
-        sg.add_node(Node.FAILED_QUERY, self._failed_query)
+        # sg.add_node(Node.JUDGE, self._judge)
+        # sg.add_node(Node.FAILED_QUERY, self._failed_query)
+
+        sg.add_node(Node.JUDGE, self._with_progress(self._judge))       # progress bar wrapper for terminal node
+        sg.add_node(Node.FAILED_QUERY, self._with_progress(self._failed_query))
 
         sg.add_edge(START, Node.RETRIEVE)
 
@@ -191,6 +217,41 @@ class Pipeline:
         g.add_edge(Node.COMPARE, END)
 
         return g
+
+    # Progress bar wrappers
+    def _with_progress(self, node_fn):
+        """Wrap a terminal per-row node: after it runs, count the row as finished."""
+        def wrapper(qs: QueryState):
+            update = node_fn(qs)
+            self._row_finished()
+            return update
+        wrapper.__name__ = node_fn.__name__
+        return wrapper
+
+    def _row_finished(self):
+        cb = self.on_row_done
+        if cb is None:
+            return 
+        with self._progress_lock:
+            self._rows_done += 1
+            done, total = self._rows_done, self._rows_total
+
+        try:
+            cb(done, total, time.monotonic() - self._t_start)
+        except Exception:
+            pass
+
+    def _start_progress(self, total: int):
+        self._progress_lock = threading.Lock()
+        self._rows_done = 0
+        self._rows_total = total
+        self._t_start = time.monotonic()
+        if self.on_row_done is not None:
+            try:
+                self.on_row_done(0, total, 0.0)
+            except Exception:
+                pass
+            
 
     # Ingest Run Level
     def _ingest(self, state: RunState) -> Dict[str, Any]:
@@ -467,7 +528,20 @@ class Pipeline:
 
     def run(self, qa_pairs: List[QAPair], run_id:str=None, is_dev:bool=True, passages=None)-> Dict[str, Any]:
 
+        """Built via from_config: the run row stores the full validated RunConfig dump plus its config_hash
+
+        """
         run_id = run_id or str(uuid.uuid4())
+
+        if self._run_config is not None:
+            is_dev = self._run_config.is_dev
+            persisted_config = self._run_config.model_dump(mode="json")
+            config_hash = self._run_config.config_hash()
+        else:
+            persisted_config = {"is_dev": is_dev, "k": self.k}
+            config_hash = None
+
+        
 
         initial_state: RunState ={
             "run_id": run_id,
@@ -489,8 +563,11 @@ class Pipeline:
             is_dev=is_dev,
             k=self.k,
             max_workers=self.max_workers,
-            config=initial_state["config"],
+            config=persisted_config,
+            config_hash=config_hash
         ))
+
+        self._start_progress(len(qa_pairs)) # progress bar callback will be called after each row is done
         
         config = {"max_concurrency": self.max_workers}
 

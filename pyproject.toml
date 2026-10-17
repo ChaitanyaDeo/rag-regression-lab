@@ -2,6 +2,12 @@
 name = "ragregress"
 version = "0.1.0"
 requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2",
+    "pyyaml>=6",
+    "typer>=0.27",
+    "tqdm",
+]
 
 [project.scripts]
 ragregress = "ragregress.cli:app"

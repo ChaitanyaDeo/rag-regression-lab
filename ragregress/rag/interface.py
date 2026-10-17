@@ -17,7 +17,7 @@ never the underlying chunker/embedder/retriever modules directly.
 
 """
 
-from typing import Any, Dict, List, Protocol
+from typing import Any, Dict, List, Protocol, runtime_checkable
 
 from pydantic import BaseModel, Field
 
@@ -49,11 +49,11 @@ class GenerationResult(BaseModel):
 
     raw_output: str      # exactly what the LLM returned
     answer: str         # citation-stripped text — this is what answer_f1() scores against
-    citations: List[str] = Field(default_factory=List)       # List of citation 
+    citations: List[str] = Field(default_factory=list)       # List of citation 
 
 
 
-
+@runtime_checkable
 class RAGSystem(Protocol):
 
     def retrieve(self, query: str, k: int) -> List[Chunk]:

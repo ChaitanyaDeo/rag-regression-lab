@@ -17,7 +17,7 @@ from ragregress.benchmark.schemas import Passage
 from ragregress.rag.chunker import ChunkerConfig, chunk_passages
 from ragregress.rag.embedder import DEFAULT_EMBEDDING_MODEL, Embedder, LangChainEmbeddingsAdapter
 from ragregress.rag.interface import Chunk, GenerationResult
-from ragregress.rag.retriever import ChromaRetriever, collection_name
+from ragregress.rag.retriever import ChromaRetriever, collection_name, content_fingerprint
 from ragregress.rag.generator import GeneratorConfig, generate_with_citations
 
 
@@ -53,6 +53,28 @@ class BuiltinRAGSystem:
         """
 
         chunks = chunk_passages(passages, self.chunker_config)
+        self.retriever.upsert(chunks)
+        return len(chunks)
+
+    def ensure_indexed(self, passages: List[Passage],  force: bool = False)-> int:
+        """ 
+            A content fingerprint (hash of all chunk ids + texts) is stored in the
+            collection metadata. The collection is rebuilt from scratch when:
+            - `force` is True (CLI --reindex), or
+            - no fingerprint is stored (never indexed, partial ingest, or an
+                index built before fingerprints existed), or
+            - the fingerprint differs (chunking code or corpus changed), or
+            - the stored count differs from the expected count.
+
+            Returns the number of chunks embedded 
+        """
+
+        chunks = chunk_passages(passages, self.chunker_config)
+        fp = content_fingerprint(chunks)
+
+        if (not force and self.retriever.stored_fingerprint() == fp and self.retriever.count() == len(chunks)):
+            return 0
+
         self.retriever.upsert(chunks)
         return len(chunks)
 

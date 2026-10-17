@@ -18,17 +18,33 @@ _INSERT_QUERY_RESULT_SQL = """
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
+# _UPSERT_RUN_SQL = """
+#     INSERT INTO runs (run_id, created_at, is_dev, k, max_workers,
+#                        config_json, run_status, run_status_detail)
+#     VALUES (:run_id, :created_at, :is_dev, :k, :max_workers,
+#             :config_json, :run_status, :run_status_detail)
+#     ON CONFLICT(run_id) DO UPDATE SET
+#         created_at=excluded.created_at,
+#         is_dev=excluded.is_dev,
+#         k=excluded.k,
+#         max_workers=excluded.max_workers,
+#         config_json=excluded.config_json,
+#         run_status=excluded.run_status,
+#         run_status_detail=excluded.run_status_detail
+# """
+
 _UPSERT_RUN_SQL = """
     INSERT INTO runs (run_id, created_at, is_dev, k, max_workers,
-                       config_json, run_status, run_status_detail)
+                       config_json, config_hash, run_status, run_status_detail)
     VALUES (:run_id, :created_at, :is_dev, :k, :max_workers,
-            :config_json, :run_status, :run_status_detail)
+            :config_json, :config_hash, :run_status, :run_status_detail)
     ON CONFLICT(run_id) DO UPDATE SET
         created_at=excluded.created_at,
         is_dev=excluded.is_dev,
         k=excluded.k,
         max_workers=excluded.max_workers,
         config_json=excluded.config_json,
+        config_hash=excluded.config_hash,
         run_status=excluded.run_status,
         run_status_detail=excluded.run_status_detail
 """
@@ -98,6 +114,7 @@ class Repository:
                     "k": run.k,
                     "max_workers": run.max_workers,
                     "config_json": _dumps(run.config),
+                    "config_hash": run.config_hash,
                     "run_status": run.run_status,
                     "run_status_detail": run.run_status_detail,
                 }
@@ -127,6 +144,7 @@ class Repository:
             k=row["k"],
             max_workers=row["max_workers"],
             config=json.loads(row["config_json"]),
+            config_hash=row["config_hash"],
             run_status=row["run_status"],
             run_status_detail=row["run_status_detail"],
         )

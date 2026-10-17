@@ -1,0 +1,112 @@
+
+from __future__ import annotations
+import json
+import time
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional
+ 
+from ragregress.benchmark.schemas import Passage
+from ragregress.core.config import DATA_DIR, RunConfig
+from ragregress.core.errors import ConfigValidationError, RunFailedError
+from ragregress.rag.registry import build_rag_system
+
+
+PASSAGES_PATH = DATA_DIR / "passages.json"
+HEALTHY = "healthy"
+
+@dataclass
+class RunOutcome:
+    run_id: str
+    config_hash: str
+    final_state: Dict[str, Any]
+    elapsed_s: float
+    indexed: Optional[int]  # chunks embedded; 0 = index already current; None = pipeline has no ensure_indexed
+
+
+def default_run_id(run_config: RunConfig, now: Optional[datetime] = None) -> str:
+    now = now or datetime.now(timezone.utc)
+    return f"{run_config.eval_split}-{run_config.config_hash()[:8]}-{now.strftime('%Y%m%d-%H%M%S')}"
+
+def _read_json(path: Path, what: str) -> Any:
+    if not path.exists():
+        raise ConfigValidationError(
+            f"{what} not found (build the data first: python -m ragregress.benchmark.loader)",
+            source=str(path)
+        )
+    return json.loads(path.read_text(encoding="utf-8"))
+
+def load_passages(path: Path = PASSAGES_PATH) -> List[Passage]:
+    return [Passage(**row) for row in _read_json(path, "Passages")]
+
+def load_qa_pairs(path: Path):
+    from ragregress.benchmark.schemas import QAPair
+    return [QAPair(**row) for row in _read_json(path, "split file")]
+ 
+
+def build_metrics(run_config: RunConfig) -> list:
+    from ragregress.evaluation.metrics import MRR, Faithfulness, RecallAtK, TokenPRF1
+    from ragregress.evaluation.structured_llm import InstructorStructuredLLM
+ 
+    judge_llm = InstructorStructuredLLM(run_config.judge_model, max_retries=3)
+    return [
+        RecallAtK(k=run_config.top_k),
+        MRR(k=run_config.top_k),
+        TokenPRF1(),
+        Faithfulness(llm=judge_llm),
+    ]
+
+def build_pipeline(run_config: RunConfig, rag_system, metrics):
+    from ragregress.pipeline.pipeline import Pipeline
+ 
+    return Pipeline.from_config(run_config, rag_system=rag_system, metrics=metrics)
+
+
+def execute(
+        run_config: RunConfig,
+        run_id: Optional[str] = None,
+        reindex: bool = False,
+        on_row_done: Optional[Callable[[int, int, float], None]] = None,
+) -> RunOutcome:
+    """Run one experiment end to end and return its outcome.
+
+    Raises ConfigValidationError (missing data files), PipelineContractError
+    (bad pipeline), RunFailedError (run_status != healthy).
+
+    `on_row_done(done, total, elapsed_s)` is called once with done=0 when the
+    run starts and again each time a row finishes (progress reporting).
+    """
+    run_id = run_id or default_run_id(run_config)
+
+    # Fail fast on missing data before loading any model.
+    qa_pairs = load_qa_pairs(run_config.split_path())
+
+    rag_system = build_rag_system(run_config.pipeline.id, run_config.pipeline.params)
+
+    indexed: Optional[int] = None
+
+    if hasattr(rag_system, "ensure_indexed"):
+        indexed = rag_system.ensure_indexed(load_passages(), force=reindex)
+
+    metrics = build_metrics(run_config)
+    pipeline = build_pipeline(run_config, rag_system, metrics)
+
+    pipeline.on_row_done = on_row_done
+
+    start = time.monotonic()
+    final_state = pipeline.run(qa_pairs=qa_pairs, run_id=run_id)
+    elapsed = time.monotonic() - start
+
+    status = final_state.get("run_status")
+    if str(getattr(status, "value", status)) != HEALTHY:
+        raise RunFailedError(run_id, final_state.get("run_status_detail"))
+
+    return RunOutcome(
+        run_id=run_id,
+        config_hash=run_config.config_hash(),
+        final_state=final_state,
+        elapsed_s=elapsed,
+        indexed=indexed,
+    )
+

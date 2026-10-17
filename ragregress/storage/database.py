@@ -56,6 +56,9 @@ CREATE TABLE IF NOT EXISTS run_query_results (
 
 _MIGRATIONS = [
     "ALTER TABLE run_query_results ADD COLUMN category TEXT;",
+
+    "ALTER TABLE runs ADD COLUMN config_hash TEXT;",
+    "CREATE INDEX IF NOT EXISTS idx_runs_config_hash ON runs (config_hash);",
 ]
 
 def get_connection(db_path: str | Path = DB_PATH_DEFAULT) -> sqlite3.Connection:
