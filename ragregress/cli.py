@@ -27,6 +27,13 @@ from tqdm.contrib.logging import logging_redirect_tqdm
 from ragregress.core.config import RunConfig, load_run_config
 from ragregress.core.errors import RagRegressError
 from ragregress.core.runner import PASSAGES_PATH, RunOutcome, default_run_id, execute
+from ragregress.core.errors import ComparisonInputError
+from ragregress.evaluation.comparator import MISSING, ComparisonResult, RunSnapshot, compare_runs
+from ragregress.evaluation.diagnostics import diagnose, render_text
+from ragregress.evaluation.regression import RegressionReport, assess_regression
+from ragregress.storage.database import DB_PATH_DEFAULT
+from ragregress.storage.repositories import Repository
+
  
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="RAG Regression Lab.")
 
@@ -147,6 +154,118 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
 
     if exit_code:
         raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+
+
+# ---------------------------------------------------------------- compare
+
+def _fmt(value: Optional[float], width: int = 9) -> str:
+    return f"{'n/a':>{width}}" if value is None else f"{value:>{width}.4f}"
+
+def _fmt_delta(value: Optional[float]) -> str:
+    return f"{'n/a':>9}" if value is None else f"{value:>+9.4f}"
+
+def _describe_run(label: str, snap: RunSnapshot) -> str:
+    run = snap.run
+    config_hash = run.config_hash[:12] if run.config_hash else "none (Legacy)"
+    split = (run.config or {}).get("eval_split", "?")
+    return f"{label:<9}: {run.run_id}  (hash {config_hash}, split {split}, k={run.k})"
+
+
+def _print_comparison(result: ComparisonResult, report:RegressionReport) -> None:
+    echo = typer.echo
+
+    echo(_describe_run("baseline", result.baseline))
+    echo(_describe_run("candidate", result.candidate))
+
+    echo("\nConfig changes:")
+    if result.config_changes:
+        for change in result.config_changes:
+            echo(f"  {change.key}: {change.before} -> {change.after}")
+
+        if any(c.before is MISSING or c.after is MISSING for c in result.config_changes):
+            echo("  (- = key absent from that run's stored config: legacy run, config incomplete)")
+
+    else:
+        echo("  (none)")
+
+    echo("\nWarnings:")
+    if result.warnings:
+        for warning in result.warnings:
+            echo(f"  - {warning}")
+
+    else:
+        echo("  (none)")
+
+    vb, vc = report.validity_baseline, report.validity_candidate
+    echo(
+        f"\nvalidity : baseline {vb.measured}/{vb.attempted} ({vb.ratio:.0%}) "
+        f"| candidate {vc.measured}/{vc.attempted} ({vc.ratio:.0%})"
+    )
+    echo(f"gated    : {', '.join(report.gated) if report.gated else '(none)'}")
+
+    echo(f"\n{'metric':<14}{'before':>9}{'after':>9} {'delta':>9}  {'n':<5}{'b/w/t':<12}{'threshold':<10}status")
+    for m in report.metrics:
+        threshold = "-" if m.threshold is None else f"{m.threshold:.2f}"
+        status = m.status.value + (f" ({m.note})" if m.note else "")
+        echo(
+            f"{m.name:<14}{_fmt(m.before)}{_fmt(m.after)} {_fmt_delta(m.delta)}  "
+            f"{m.n_common:<5}{f'{m.better}/{m.worse}/{m.tie}':<12}{threshold:<10}{status}"
+        )
+
+    echo(f"\nVERDICT: {report.verdict.value}")
+    for reason in report.reasons:
+        echo(f"  - {reason}")
+
+
+@app.command()
+def compare(
+    baseline: str = typer.Option(..., "--baseline", help="Run id of the baseline run."),
+    candidate: str = typer.Option(..., "--candidate", help="Run id of the candidate run"),
+    db: Path = typer.Option(DB_PATH_DEFAULT, "--db", help="SQLite database that holds both runs."),
+
+    worst: int = typer.Option(0,"--worst", min=0, 
+                              help="Also list the N worst-regressed queries per gated metric, plus category / failure-mode groups (0 = off).",),
+    debug: bool = typer.Option(False, "--debug", help="Print a traceback on errors")
+) -> None:
+    """Compare two stored runs and print a PASS / FAIL / INCONCLUSIVE verdict.
+
+    Exit codes: 0 PASS, 6 FAIL, 7 INCONCLUSIVE, 8 invalid input (unknown run id,
+    dev run, incompatible runs, missing database).
+    """
+
+    exit_code = 0
+
+    try:
+        if not db.is_file():
+            raise ComparisonInputError(f"database not found: {db}")
+
+        result = compare_runs(Repository(db), baseline, candidate)
+        report = assess_regression(result)
+
+        _print_comparison(result, report)
+        if worst:
+            typer.echo("")
+            for line in render_text(diagnose(result, report, top_n=worst)):
+                typer.echo(line)
+                
+        exit_code = report.exit_code
+
+    except RagRegressError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = exc.exit_code
+
+    except Exception as exc:
+        typer.echo(f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
+                   err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = 1
+
+    if exit_code:
+        raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+
 
 if __name__ == "__main__":
     app()

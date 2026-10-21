@@ -16,6 +16,10 @@ Exit codes:
     4  PipelineContractError
     5  RunFailedError
 
+    6  compare verdict FAIL                 (a verdict, not an exception)
+    7  compare verdict INCONCLUSIVE         (a verdict, not an exception)
+    8  ComparisonInputError and subclasses  (unknown run id, is_dev run, incompatible runs)
+
 
 """
 
@@ -85,3 +89,34 @@ class RunFailedError(RagRegressError):
         if detail:
             msg += f": {detail}"
         super().__init__(msg)
+
+
+class ComparisonInputError(RagRegressError):
+    """`ragregress compare` was given inputs it cannot compare
+    
+    Verdicts (PASS / FAIL / INCONCLUSIVE) are NOT errors: the CLI maps them to
+    exit codes 0 / 6 / 7 itself. This family is only for unusable inputs.
+    """
+
+    exit_code = 8
+
+class UnknownRunError(ComparisonInputError):
+    """No run with this id exists in the database."""
+    def __init__(self, run_id: str):
+        self.run_id = run_id
+        super().__init__(f"unknown run id: {run_id!r}")
+
+class DevRunRejectedError(ComparisonInputError):
+    """A dev-split run (is_dev=1) was passed as baseline or candidate."""
+
+    def __init__(self, run_id: str, role: str):
+        self.run_id = run_id
+        self.role = role
+        super().__init__(
+            f"{role} run {run_id!r} is a dev run (is_dev=1); "
+            "dev runs cannot be used for regression comparison"
+        )
+
+class IncompatibleRunsError(ComparisonInputError):
+    """The two runs are not comparable (e.g. different eval_split)."""
+    

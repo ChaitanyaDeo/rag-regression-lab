@@ -85,6 +85,7 @@ class FailureMode(str, Enum):
     LOW_CORRECTNESS = "low_correctness"
     PASS = "pass"
     FAILED = "failed"
+    JUDGE_FAILED = "judge_failed"
 
     def __str__(self) -> str:
         return str(self.value)

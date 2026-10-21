@@ -27,6 +27,8 @@ from .utils import (
 class Faithfulness(Metric):
     name = "faithfulness"
     required_inputs = frozenset({"question", "answer", "context"})
+    regression_threshold = 0.05
+    higher_is_better = True
 
     def __init__(self, llm:StructuredLLM):
         super().__init__()

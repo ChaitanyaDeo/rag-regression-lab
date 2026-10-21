@@ -37,6 +37,14 @@ class Metric(ABC):
     name: str
     required_inputs: FrozenSet[str] = frozenset()
 
+    # Regression gate used during comparison of baseline vs candidate
+    # Class-level on purpose: read from the CLASS (no instance needed; constructors take k / llm).
+    # threshold = largest tolerated worsening, in this metric's own units. None = reported, not gated.
+
+    regression_threshold: Optional[float] = None
+    higher_is_better: True
+    
+
     @abstractmethod
     def score(self, **kwargs)->MetricResult:
         """Compute the metric for 1 row of input"""

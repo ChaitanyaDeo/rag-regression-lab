@@ -19,6 +19,8 @@ class TokenPRF1(Metric):
 
     name = "token_prf1"
     required_inputs = frozenset({"answer", "gold_answers"})
+    regression_threshold = 0.05
+    higher_is_better = True
 
     def __init__(self):
         super().__init__()

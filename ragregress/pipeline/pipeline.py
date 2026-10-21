@@ -377,9 +377,20 @@ class Pipeline:
                 row_data["context"] = qs["chunks"]
 
             metric_results = {}
+            metric_errors = []
             for metric in self.metrics:
-                kwargs = {field: row_data[field] for field in metric.required_inputs}
-                metric_results[metric.name] = metric.score(**kwargs)
+                try:
+                    kwargs = {field: row_data[field] for field in metric.required_inputs}
+                    metric_results[metric.name] = metric.score(**kwargs)
+                except Exception as exc:
+                    import traceback
+                    print(f"[judge] qa_id={qs.get('qa_id')} metric {metric.name} CRASHED: {exc!r}")
+                    traceback.print_exc()
+                    metric_errors.append(f"{metric.name}: {exc!r}")
+
+            if self.metrics and not metric_results:
+                # nothing scored -> same as a whole-judge crash (row FAILED, handled below)
+                raise RuntimeError("all metrics failed: " + "; ".join(metric_errors))
 
             latency = {**qs.get("latency_ms", {}), Node.JUDGE: _now_ms() - t0}
             update = {
@@ -387,6 +398,10 @@ class Pipeline:
                 QUERY_STATUS: QueryStatus.JUDGED,
                 "latency_ms": latency,
             }
+
+            if metric_errors:
+                update["last_error"] = "; ".join(metric_errors)
+
             update[PER_QUERY_RESULT] = [_snapshot(qs, update)]
             return update
 
@@ -454,6 +469,11 @@ class Pipeline:
                 continue
 
             mr = row.get("metric_results", {})
+
+            # a judged row missing a configured metric is incomplete -> judge_failed overrides every other tag
+            if configured_metric_names - set(mr):
+                row[FAILURE_MODE] = FailureMode.JUDGE_FAILED
+                continue
 
             if RecallAtK.name in mr and math.isclose(mr[RecallAtK.name].value, 0.0, abs_tol=1e-9):
                 row[FAILURE_MODE] = FailureMode.RETRIEVAL_MISS

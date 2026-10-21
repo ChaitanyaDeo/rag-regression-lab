@@ -16,6 +16,8 @@ class RecallAtK(Metric):
 
     name = "recall_at_k"
     required_inputs = frozenset({"retrieved_ids", "gold_ids"})
+    regression_threshold = 0.05
+    higher_is_better = True
 
     def __init__(self, k:int):
         super().__init__()
