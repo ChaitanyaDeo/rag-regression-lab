@@ -14,6 +14,7 @@ from __future__ import annotations
  
 import sys
 import traceback
+import webbrowser
 from contextlib import contextmanager
 from collections import Counter
 from pathlib import Path
@@ -33,6 +34,14 @@ from ragregress.evaluation.diagnostics import diagnose, render_text
 from ragregress.evaluation.regression import RegressionReport, assess_regression
 from ragregress.storage.database import DB_PATH_DEFAULT
 from ragregress.storage.repositories import Repository
+from ragregress.report import (
+    DEFAULT_PASSAGES,
+    DEFAULT_SPLITS_DIR,
+    DEFAULT_TOP,
+    default_output_path,
+    generate_report,
+    write_report,
+)
 
  
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="RAG Regression Lab.")
@@ -266,6 +275,72 @@ def compare(
     if exit_code:
         raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
 
+
+# ------------------------------------------------------------------- report
+
+def _open_in_browser(path: Path) -> None:
+    """Best effort: a missing / failing browser never changes the exit code."""
+    try:
+        opened = webbrowser.open(path.as_uri())
+    except Exception:
+        opened = False
+    if not opened:
+        typer.echo(f"note: could not open a browser; open {path} manually", err=True)
+
+@app.command()
+def report(
+    baseline: str = typer.Option(..., "--baseline", help="Run id of the baseline run."),
+    candidate: str = typer.Option(..., "--candidate", help="Run id of the candidate run."),
+    db: Path = typer.Option(DB_PATH_DEFAULT, "--db", help="SQLite database that holds both runs."),
+    out: Optional[Path] = typer.Option(None, "--out", help="Output HTML file (default: reports/<baseline>__vs__<candidate>.html)."),
+    targets: Optional[Path] = typer.Option(None, "--targets", help="Targets YAML for the target-vs-actual table (section omitted if not given)."),
+    passages: Path = typer.Option(DEFAULT_PASSAGES, "--passages", help="Passage corpus, for drill-down text."),
+    splits_dir: Path = typer.Option(DEFAULT_SPLITS_DIR, "--splits-dir", help="Directory holding <split>.json, for gold answers."),
+    top: int = typer.Option(DEFAULT_TOP, "--top", min=1, help="Number of worst rows to drill into."),
+    open_report: bool = typer.Option(False, "--open", help="Open the written report in the default browser."),
+    debug: bool = typer.Option(False, "--debug", help="Print a traceback on errors."),
+):
+    """Write an HTML report comparing two stored runs.
+
+    Exit codes: 0 report written (whatever the verdict; gate with `compare`), 8 invalid input
+    (unknown run id, dev run, incompatible runs, missing database, bad targets file), 1 unexpected.
+    """
+
+    exit_code = 0
+
+    try:
+        if not db.is_file():
+            raise ComparisonInputError(f"database not found {db}")
+
+        ctx = generate_report(Repository(db), baseline, candidate, passages_path=passages, splits_dir=splits_dir, top=top, targets_path=targets)
+
+        path = write_report(ctx, out or default_output_path(baseline, candidate)).resolve()
+
+        typer.echo(f"verdict: {ctx.verdict.label}")
+        typer.echo(f"report written: {path}")
+        n_warnings = len(ctx.warnings) + len(ctx.data_warnings)
+
+        if n_warnings:
+            typer.echo(f"warnings: {n_warnings} (see report)")
+
+        if open_report:
+            _open_in_browser(path)
+
+    except RagRegressError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = exc.exit_code
+
+    except Exception as exc:
+        typer.echo(f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
+                   err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = 1
+
+    if exit_code:
+        raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
 
 if __name__ == "__main__":
     app()

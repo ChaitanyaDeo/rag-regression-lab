@@ -1,1 +1,289 @@
-<!-- Regression report template - Day 9 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ ctx.verdict.label }} · {{ ctx.title }}</title>
+<style>
+  :root {
+    --fg: #1f2328; --muted: #5f6b7a; --bg: #ffffff; --panel: #f6f8fa; --border: #d0d7de;
+    --pass: #1a7f37; --pass-bg: #dafbe1;
+    --fail: #cf222e; --fail-bg: #ffebe9;
+    --warn: #9a6700; --warn-bg: #fff8c5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 14px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 32px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 15px; margin: 16px 0 6px; }
+  p.note, .muted { color: var(--muted); }
+  code, .mono { font-family: ui-monospace, Consolas, "Courier New", monospace; font-size: 13px; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; margin: 6px 0; }
+  th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* verdict banner: INCONCLUSIVE is a full-width block, never a small badge */
+  .banner { border: 2px solid; border-radius: 6px; padding: 16px 20px; margin-bottom: 16px; }
+  .banner ul { margin: 8px 0 0; padding-left: 20px; }
+  .verdict-pass { border-color: var(--pass); background: var(--pass-bg); }
+  .verdict-pass h1 { color: var(--pass); }
+  .verdict-fail { border-color: var(--fail); background: var(--fail-bg); }
+  .verdict-fail h1 { color: var(--fail); }
+  .verdict-inconclusive { border: 4px solid var(--warn); background: var(--warn-bg); }
+  .verdict-inconclusive h1 { color: var(--warn); font-size: 34px; }
+
+  .status-ok { color: var(--pass); font-weight: 600; }
+  .status-regressed { color: var(--fail); font-weight: 600; }
+  .status-warn { color: var(--warn); font-weight: 600; }
+  .status-muted { color: var(--muted); }
+  .delta-better { color: var(--pass); }
+  .delta-worse { color: var(--fail); }
+  .delta-tie, .delta-neutral { color: var(--muted); }
+  .target-within { color: var(--pass); }
+  .target-above { color: var(--pass); }
+  .target-below { color: var(--fail); font-weight: 600; }
+  .target-na { color: var(--muted); }
+
+  .warnings { border-left: 4px solid var(--warn); background: var(--warn-bg); padding: 8px 12px; margin: 8px 0; }
+  .warnings ul { margin: 4px 0; padding-left: 20px; }
+
+  .drill { border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; margin: 16px 0; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 800px) { .sides { grid-template-columns: 1fr; } }
+  .side { background: var(--panel); border-radius: 4px; padding: 8px 12px; min-width: 0; }
+  .answer { white-space: pre-wrap; word-break: break-word; background: var(--bg);
+            border: 1px solid var(--border); padding: 6px 8px; margin: 4px 0; }
+  details { margin: 4px 0; }
+  details .passage { white-space: pre-wrap; word-break: break-word; background: var(--bg);
+                     border: 1px solid var(--border); padding: 6px 8px; margin-top: 4px; }
+  .gold { color: var(--pass); font-weight: 600; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<!-- 1. verdict -->
+<section class="banner {{ ctx.verdict.css }}">
+  <h1>{{ ctx.verdict.label }}</h1>
+  <div><strong>{{ ctx.verdict.headline }}</strong></div>
+  <ul>
+  {% for reason in ctx.verdict.reasons %}
+    <li>{{ reason }}</li>
+  {% endfor %}
+  </ul>
+  <div class="muted">Validity: baseline {{ ctx.baseline.validity }} · candidate {{ ctx.candidate.validity }}</div>
+</section>
+
+<!-- 2. runs, warnings, config -->
+<h2>Runs</h2>
+<div class="scroll">
+<table>
+  <tr><th>Role</th><th>Run id</th><th>Created</th><th>Split</th><th>Config hash</th><th class="num">top_k</th><th>Validity</th></tr>
+  {% for run in [ctx.baseline, ctx.candidate] %}
+  <tr>
+    <td>{{ run.role }}{% if run.legacy %} <span class="status-warn">(legacy)</span>{% endif %}</td>
+    <td class="mono">{{ run.run_id }}</td>
+    <td>{{ run.created_at }}</td>
+    <td>{{ run.split }}</td>
+    <td class="mono" title="{{ run.config_hash }}">{{ run.config_hash_short }}</td>
+    <td class="num">{{ run.top_k }}</td>
+    <td class="num">{{ run.validity }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
+{% if ctx.warnings %}
+<div class="warnings"><strong>Comparator warnings</strong>
+  <ul>{% for w in ctx.warnings %}<li>{{ w }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+{% if ctx.data_warnings %}
+<div class="warnings"><strong>Report warnings</strong>
+  <ul>{% for w in ctx.data_warnings %}<li>{{ w }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<h3>Config changes</h3>
+{% if ctx.config_changes %}
+<div class="scroll">
+<table>
+  <tr><th>Key</th><th>Baseline</th><th>Candidate</th></tr>
+  {% for c in ctx.config_changes %}
+  <tr><td class="mono">{{ c.key }}</td><td class="mono">{{ c.before }}</td><td class="mono">{{ c.after }}</td></tr>
+  {% endfor %}
+</table>
+</div>
+{% else %}
+<p class="note">No config differences.</p>
+{% endif %}
+
+<!-- 3. metrics -->
+<h2>Metrics (common rows)</h2>
+<div class="scroll">
+<table>
+  <tr>
+    <th>Metric</th><th class="num">Baseline</th><th class="num">Candidate</th><th class="num">Delta</th>
+    <th class="num">n</th><th class="num">Better / worse / tie</th><th class="num">Threshold</th><th>Status</th><th>Note</th>
+  </tr>
+  {% for m in ctx.metrics %}
+  <tr>
+    <td class="mono">{{ m.name }}</td>
+    <td class="num">{{ m.before }}</td>
+    <td class="num">{{ m.after }}</td>
+    <td class="num {{ m.delta_css }}">{{ m.delta }}</td>
+    <td class="num">{{ m.n }}</td>
+    <td class="num">{{ m.better }} / {{ m.worse }} / {{ m.tie }}</td>
+    <td class="num">{{ m.threshold }}</td>
+    <td class="{{ m.status_css }}">{{ m.status }}</td>
+    <td class="muted">{{ m.note }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+
+<!-- 4. targets -->
+<h2>Target vs actual</h2>
+{% if ctx.targets %}
+<div class="scroll">
+<table>
+  <tr><th>Metric</th><th class="num">Target</th><th class="num">Baseline</th><th>Status</th><th class="num">Candidate</th><th>Status</th></tr>
+  {% for t in ctx.targets %}
+  <tr>
+    <td>{{ t.label }}</td>
+    <td class="num">{{ t.target }}</td>
+    <td class="num">{{ t.baseline }}</td><td class="{{ t.baseline_css }}">{{ t.baseline_status }}</td>
+    <td class="num">{{ t.candidate }}</td><td class="{{ t.candidate_css }}">{{ t.candidate_status }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endif %}
+<p class="note">{{ ctx.target_note }}</p>
+
+<!-- 5. latency -->
+<h2>Latency (informational, not gated)</h2>
+{% if ctx.latency %}
+<div class="scroll">
+<table>
+  <tr>
+    <th>Stage</th>
+    <th class="num">p50 baseline</th><th class="num">p50 candidate</th><th class="num">p50 delta</th>
+    <th class="num">p95 baseline</th><th class="num">p95 candidate</th><th class="num">p95 delta</th>
+  </tr>
+  {% for r in ctx.latency %}
+  <tr>
+    <td>{{ r.stage }}</td>
+    <td class="num">{{ r.base_p50 }}</td><td class="num">{{ r.cand_p50 }}</td>
+    <td class="num {{ r.delta_p50_css }}">{{ r.delta_p50 }}</td>
+    <td class="num">{{ r.base_p95 }}</td><td class="num">{{ r.cand_p95 }}</td>
+    <td class="num {{ r.delta_p95_css }}">{{ r.delta_p95 }}</td>
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% else %}
+<p class="note">No latency recorded for these runs.</p>
+{% endif %}
+
+<!-- 6. groups -->
+<h2>Where regressions are</h2>
+<p>{{ ctx.worst_summary }}</p>
+{% for g in ctx.groups %}
+<h3>{{ g.title }}</h3>
+<div class="scroll">
+<table>
+  <tr>
+    <th>Group</th><th class="num">n</th><th class="num">Worse on ≥1</th>
+    {% for col in g.columns %}<th class="num mono">{{ col }}</th>{% endfor %}
+  </tr>
+  {% for r in g.rows %}
+  <tr>
+    <td>{{ r.label }}{% if r.small_n %} *{% endif %}</td>
+    <td class="num">{{ r.n }}</td>
+    <td class="num">{{ r.n_worse }}</td>
+    {% for cell in r.cells %}<td class="num">{{ cell }}</td>{% endfor %}
+  </tr>
+  {% endfor %}
+</table>
+</div>
+{% endfor %}
+{% if ctx.groups %}
+<p class="note">Cells: mean delta (rows worse / better). * = fewer than 3 rows: anecdotal. Small samples give little statistical power; the verdict is for regression gating, not for ranking configs.</p>
+{% endif %}
+
+<!-- 7. drill-downs -->
+<h2>Worst rows (top {{ ctx.top }})</h2>
+{% if not ctx.drilldowns %}
+<p class="note">No row got worse on a gated metric.</p>
+{% endif %}
+{% for d in ctx.drilldowns %}
+<section class="drill" id="{{ d.qa_id }}">
+  <h3>#{{ d.rank }} · <span class="mono">{{ d.qa_id }}</span></h3>
+  <div class="muted">
+    category {{ d.category }} · worst on <span class="mono">{{ d.worst_metric }}</span>
+    (worsened by {{ d.worst_worsening }}) · worse on {{ d.n_metrics_worse }} gated metric{{ "" if d.n_metrics_worse == 1 else "s" }}
+  </div>
+  <p><strong>Question:</strong> {{ d.question }}</p>
+  <p><strong>Gold answer:</strong>
+    {% if d.gold_answers %}{{ d.gold_answers | join(" | ") }}{% else %}<span class="muted">not available</span>{% endif %}
+  </p>
+
+  <div class="sides">
+  {% for side in [d.baseline, d.candidate] %}
+    <div class="side">
+      <strong>{{ side.role }}</strong> <span class="muted mono">{{ side.run_id }}</span>
+      <div class="muted">status {{ side.query_status }} · {{ side.row_kind }} · tag {{ side.failure_mode }}</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">{{ side.answer }}</div>
+
+      <table>
+        {% for name, value in side.metrics %}
+        <tr><td class="mono">{{ name }}</td><td class="num">{{ value }}</td></tr>
+        {% endfor %}
+      </table>
+
+      {% if side.faithfulness_reason %}
+      <div><strong>Faithfulness reason:</strong> {{ side.faithfulness_reason }}</div>
+      {% endif %}
+      {% if side.last_error %}
+      <div class="status-warn"><strong>Last error:</strong> <span class="mono">{{ side.last_error }}</span></div>
+      {% endif %}
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      {% if not side.passages %}<div class="muted">none</div>{% endif %}
+      {% for p in side.passages %}
+      <details>
+        <summary>
+          <span class="mono">{{ p.passage_id }}</span>{% if p.title %} · {{ p.title }}{% endif %}
+          {% if p.is_gold %}<span class="gold"> · gold</span>{% endif %}
+          {% if p.hits > 1 %}<span class="muted"> · {{ p.hits }} chunks</span>{% endif %}
+        </summary>
+        {% if p.found %}
+        <div class="passage">{{ p.text }}</div>
+        {% else %}
+        <div class="muted">passage text unavailable</div>
+        {% endif %}
+      </details>
+      {% endfor %}
+      {% if side.gold_not_retrieved %}
+      <div class="status-regressed">Gold passage not retrieved: <span class="mono">{{ side.gold_not_retrieved | join(", ") }}</span></div>
+      {% endif %}
+
+      <div><a href="{{ side.log_link }}">raw log</a> <span class="muted">({{ ctx.log_note }})</span></div>
+    </div>
+  {% endfor %}
+  </div>
+</section>
+{% endfor %}
+
+<footer>Generated {{ ctx.generated_at }} by ragregress report · {{ ctx.title }}</footer>
+</main>
+</body>
+</html>
