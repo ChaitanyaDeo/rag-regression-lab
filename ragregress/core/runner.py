@@ -49,7 +49,7 @@ def build_metrics(run_config: RunConfig) -> list:
     from ragregress.evaluation.metrics import MRR, Faithfulness, RecallAtK, TokenPRF1
     from ragregress.evaluation.structured_llm import InstructorStructuredLLM
  
-    judge_llm = InstructorStructuredLLM(run_config.judge_model, max_retries=3)
+    judge_llm = InstructorStructuredLLM(run_config.judge_model, max_retries=3, seed=run_config.judge_seed)
     return [
         RecallAtK(k=run_config.top_k),
         MRR(k=run_config.top_k),

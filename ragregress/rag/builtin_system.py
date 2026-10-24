@@ -75,7 +75,7 @@ class BuiltinRAGSystem:
         if (not force and self.retriever.stored_fingerprint() == fp and self.retriever.count() == len(chunks)):
             return 0
 
-        self.retriever.upsert(chunks)
+        self.retriever.replace_all(chunks, fp)
         return len(chunks)
 
     def retrieve(self, query: str, k: int = 5) -> List[Chunk]:

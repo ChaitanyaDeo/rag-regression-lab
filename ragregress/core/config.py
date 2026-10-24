@@ -17,7 +17,8 @@ Shape:
     db_path: ragregress.db
 
 Decisions:
-  - Every experiment-defining field is required; only max_workers and db_path have defaults
+  - Every experiment-defining field is required, except judge_seed and
+    pipeline.params.seed (default 42, hashed); max_workers and db_path have defaults (not hashed)
   - extra="forbid" at every level
   - max_workers capped at 8 as a guardrail
   - frozen=True at every level.
@@ -84,6 +85,7 @@ class RunConfig(BaseModel):
     pipeline: PipelineSpec
     top_k: int = Field(ge=1, le=MAX_TOP_K)
     judge_model: str = Field(min_length=1)
+    judge_seed: int = Field(default=42, ge=0)
     eval_split: Literal["dev", "val", "test"]
     is_dev: bool
  

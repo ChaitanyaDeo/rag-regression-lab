@@ -22,6 +22,7 @@ ABSTENTION_MESSAGE = "The context does not contain enough information to answer 
 
 CITATION_REGEX = r"\[source:\s*(p\d+)\]"
 
+# TODO: Fix prompt
 PROMPT_TEMPLATE = """ou are a question-answering assistant.
  
 Answer the question using ONLY the information in the context below.
@@ -69,6 +70,7 @@ class GeneratorConfig:
     """
     model_name: str = "qwen2.5:3b-instruct"
     temperature: float = 0
+    seed: int = 42  #  fixed seed for reproducible generation
 
 
 def parse_citations(text: str)-> Tuple[str, List[str]]:
@@ -98,7 +100,7 @@ def run_generation(question: str, contexts: List[Chunk], config: GeneratorConfig
 
     context = build_context(contexts)
 
-    llm = ChatOllama(model=config.model_name, temperature=config.temperature)
+    llm = ChatOllama(model=config.model_name, temperature=config.temperature, seed=config.seed)
 
     chain = GENERATION_PROMPT | llm 
 

@@ -35,7 +35,7 @@ def run_generation_no_context(question: str, config: GeneratorConfig)->str:
     Mirrors generator.py's run_generation(), minus the context block
     """
 
-    llm = ChatOllama(model=config.model_name, temperature=config.temperature)
+    llm = ChatOllama(model=config.model_name, temperature=config.temperature, seed=config.seed)
     chain = NO_CONTEXT_PROMPT | llm
  
     response = chain.invoke({"question": question})

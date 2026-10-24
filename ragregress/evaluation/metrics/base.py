@@ -42,7 +42,7 @@ class Metric(ABC):
     # threshold = largest tolerated worsening, in this metric's own units. None = reported, not gated.
 
     regression_threshold: Optional[float] = None
-    higher_is_better: True
+    higher_is_better: Optional[bool] = True
     
 
     @abstractmethod

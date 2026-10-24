@@ -5,8 +5,8 @@ param([switch]$Fresh)
 
 Set-Location (Split-Path -Parent $PSScriptRoot)    # repo root
 
-$Baseline  = "val-5352aebf-20261017-031708"
-$Candidate = "val-11a459fe-b9rerun"
+$Baseline  = "val-demo-baseline-20261023-145024"
+$Candidate = "val-demo-chunk1000-20261023-145024"
 
 if ($Fresh) {
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss"

@@ -8,7 +8,7 @@ Never a concrete LLM client -- mirrors ragregress.rag.interface.RAGSystem.
 Prompts/schemas/methodology stay owned by the metric; StructuredLLM only executes.
 """
 
-from typing import Protocol, Type, TypeVar
+from typing import Optional, Protocol, Type, TypeVar
 
 from pydantic import BaseModel
 from langchain_core.language_models.chat_models import BaseChatModel
@@ -69,19 +69,22 @@ class InstructorStructuredLLM:
     MetricResult, or evaluate() changes.
     """
 
-    def __init__(self, model_name: str, provider: str = "ollama", max_retries: int = 2):
+    def __init__(self, model_name: str, provider: str = "ollama", max_retries: int = 2, seed: Optional[int] = None):
         import instructor
 
         self.model_name = model_name
         self.max_retries = max_retries
+        self.seed = seed
         self.client = instructor.from_provider(f"{provider}/{model_name}", mode=instructor.Mode.JSON)
 
     def generate_structured(self, prompt: str, schema: Type[SchemaT]) -> SchemaT:
+        extra = {} if self.seed is None else {"seed": self.seed}
         result = self.client.chat.completions.create(
             response_model=schema,
             messages=[{"role": "user", "content": prompt}],
             temperature=0,
             max_retries=self.max_retries,
+            **extra,
         )
 
         return result

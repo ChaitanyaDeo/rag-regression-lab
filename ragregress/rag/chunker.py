@@ -32,6 +32,13 @@ class ChunkerConfig:
     # Validation (overlap < chunk_size, etc.) is handled by
     # CharacterTextSplitter's own constructor, which raises if
     # chunk_overlap >= chunk_size.
+    def __post_init__(self):
+        # CharacterTextSplitter only rejects overlap > chunk_size; overlap == chunk_size
+        # is accepted and silently advances one character per chunk.
+        if self.overlap >= self.chunk_size:
+            raise ValueError(
+                f"overlap ({self.overlap}) must be less than chunk_size ({self.chunk_size})"
+            )
 
 
 def chunk_passage(passage: Passage, config: ChunkerConfig)-> List[Chunk]:

@@ -47,6 +47,7 @@ class BuiltinRAGParams(PipelineParams):
     chunk_size: int = Field(ge=1, le=MAX_CHUNK_SIZE)
     overlap: int = Field(ge=0)
     generation_model: str = Field(min_length=1)
+    seed: int = Field(default=42, ge=0)
  
     @model_validator(mode="after")
     def _overlap_less_than_chunk_size(self) -> "BuiltinRAGParams":
@@ -65,7 +66,7 @@ def _build_builtin_rag(params: BuiltinRAGParams) -> RAGSystem:
  
     return BuiltinRAGSystem(
         ChunkerConfig(chunk_size=params.chunk_size, overlap=params.overlap),
-        generator_config=GeneratorConfig(model_name=params.generation_model),
+        generator_config=GeneratorConfig(model_name=params.generation_model, seed=params.seed),
         embedding_model=params.embedding_model,
     )
 
