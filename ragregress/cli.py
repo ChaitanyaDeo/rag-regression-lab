@@ -6,12 +6,17 @@ Thin by design: parse flags, call core.runner.execute(), print, and map
 exceptions to exit codes (RagRegressError.exit_code; anything else = 1).
 By default only a one-line message is printed; --debug adds the traceback.
 
-Usage: 
+Logging: `run` loads .env from the working directory (python-dotenv; a variable already set in the
+shell wins), then installs the JSON console log handler (core.logging.configure_logging). Console
+level = LOG_LEVEL (default WARNING; INFO shows every stage, DEBUG adds debug records). Every run
+also writes its full JSON log to artifacts/logs/<run_id>.jsonl (printed in the summary).
+
+Usage:
     python -m ragregress.cli --config <path> [--run-id <id>] [--reindex] [--debug]
 """
 
 from __future__ import annotations
- 
+
 import sys
 import traceback
 import webbrowser
@@ -19,14 +24,15 @@ from contextlib import contextmanager
 from collections import Counter
 from pathlib import Path
 from typing import Optional
- 
+
 import typer
+from dotenv import find_dotenv, load_dotenv
 from tqdm import tqdm
 from tqdm.contrib import DummyTqdmFile
-from tqdm.contrib.logging import logging_redirect_tqdm
- 
+
 from ragregress.core.config import RunConfig, load_run_config
 from ragregress.core.errors import RagRegressError
+from ragregress.core.logging import configure_logging
 from ragregress.core.runner import PASSAGES_PATH, RunOutcome, default_run_id, execute
 from ragregress.core.errors import ComparisonInputError
 from ragregress.evaluation.comparator import MISSING, ComparisonResult, RunSnapshot, compare_runs
@@ -43,7 +49,7 @@ from ragregress.report import (
     write_report,
 )
 
- 
+
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="RAG Regression Lab.")
 
 
@@ -83,6 +89,8 @@ def _print_summary(outcome: RunOutcome) -> None:
         echo("index       : up to date")
     else:
         echo(f"index       : rebuilt ({outcome.indexed} chunks embedded)")
+    if outcome.log_path is not None:
+        echo(f"log file    : {outcome.log_path}")
 
     echo(f"\nfailure modes ({len(rows)} rows):")
     modes = Counter(str(row.get("failure_mode")) for row in rows)
@@ -98,12 +106,14 @@ def _print_summary(outcome: RunOutcome) -> None:
 @contextmanager
 def _redirect_prints_through_tqdm():
     """Send print()/stderr output through tqdm.write while a bar is active, so
-    the pipeline's own debug prints scroll above the bar instead of tearing it."""
+    stray output scrolls above the bar instead of tearing it.
+
+    The console log handler (configure_logging) writes to the *current* sys.stderr, so while
+    this is active log lines also go through tqdm.write (no logging_redirect_tqdm needed)."""
     orig_out_err = sys.stdout, sys.stderr
     try:
         sys.stdout, sys.stderr = map(DummyTqdmFile, orig_out_err)
-        with logging_redirect_tqdm():  # logging handlers hold the original stderr
-            yield orig_out_err[0]
+        yield orig_out_err[0]
     finally:
         sys.stdout, sys.stderr = orig_out_err
 
@@ -136,6 +146,9 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
 ) -> None:
     """Run one evaluation described by a config file and store the result."""
 
+    load_dotenv(find_dotenv(usecwd=True))   # .env in the working directory (or a parent); shell vars win
+    configure_logging()                     # JSON console handler; level from LOG_LEVEL (default WARNING)
+
     exit_code = 0
     try:
         cfg = load_run_config(config)
@@ -143,7 +156,6 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
         if dry_run:
             _print_plan(cfg, run_id)
         else:
-            # _print_summary(execute(cfg, run_id=run_id, reindex=reindex))
             _print_summary(_run_with_progress(cfg, run_id, reindex))
 
     except RagRegressError as exc:
@@ -232,7 +244,7 @@ def compare(
     candidate: str = typer.Option(..., "--candidate", help="Run id of the candidate run"),
     db: Path = typer.Option(DB_PATH_DEFAULT, "--db", help="SQLite database that holds both runs."),
 
-    worst: int = typer.Option(0,"--worst", min=0, 
+    worst: int = typer.Option(0,"--worst", min=0,
                               help="Also list the N worst-regressed queries per gated metric, plus category / failure-mode groups (0 = off).",),
     debug: bool = typer.Option(False, "--debug", help="Print a traceback on errors")
 ) -> None:
@@ -256,7 +268,7 @@ def compare(
             typer.echo("")
             for line in render_text(diagnose(result, report, top_n=worst)):
                 typer.echo(line)
-                
+
         exit_code = report.exit_code
 
     except RagRegressError as exc:
