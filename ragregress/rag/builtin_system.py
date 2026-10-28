@@ -11,12 +11,13 @@ embedder.py, and retriever.py entirely.
 """
 
 
-from typing import List
+from typing import List, Optional
  
 from ragregress.benchmark.schemas import Passage
 from ragregress.rag.chunker import ChunkerConfig, chunk_passages
 from ragregress.rag.embedder import DEFAULT_EMBEDDING_MODEL, Embedder, LangChainEmbeddingsAdapter
 from ragregress.rag.interface import Chunk, GenerationResult
+from ragregress.rag.reranker import Reranker
 from ragregress.rag.retriever import ChromaRetriever, collection_name, content_fingerprint
 from ragregress.rag.generator import GeneratorConfig, generate_with_citations
 
@@ -26,7 +27,12 @@ class BuiltinRAGSystem:
                  generator_config: GeneratorConfig = None,
                  embedding_model: str = DEFAULT_EMBEDDING_MODEL,
                  persist_directory: str = "artifacts/chroma",
+                 reranker: Optional[Reranker] = None,
+                 rerank_candidates: int = 0,
     ):
+        if reranker is not None and rerank_candidates < 1:
+            raise ValueError(f"rerank_candidates must be >= 1 when a reranker is set, got {rerank_candidates}")
+        
         self.chunker_config = chunker_config
         self.embedding_model = embedding_model
         self.embedder = Embedder(embedding_model)
@@ -38,6 +44,8 @@ class BuiltinRAGSystem:
         )
 
         self.generator_config = generator_config or GeneratorConfig()
+        self.reranker = reranker
+        self.rerank_candidates = rerank_candidates
 
 
 
@@ -83,7 +91,11 @@ class BuiltinRAGSystem:
 
             It emmbeds the query and search for it inside DB
         """
-        return self.retriever.query(query, k=k)
+        if self.reranker is None:
+            return self.retriever.query(query, k=k)
+
+        candidates = self.retriever.query(query, k = max(self.rerank_candidates, k))
+        return self.reranker.rerank(query, candidates,k)
 
     def generate(self, query: str, contexts: List[Chunk]) -> GenerationResult:
         """generates the answer via (generator.py + ChatOllama wiring)

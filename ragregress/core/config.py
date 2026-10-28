@@ -102,6 +102,16 @@ class RunConfig(BaseModel):
             )
         return self
 
+    @model_validator(mode="after")
+    def _reranker_candidates_cover_top_k(self)->"RunConfig":
+        reranker = getattr(self.pipeline.params, "reranker", None)
+        if reranker is not None and reranker.candidates < self.top_k:
+            raise ValueError(
+                f"pipeline.params.reranker.candidates ({reranker.candidates}) must be "
+                f">= top_k ({self.top_k})"
+            )
+        return self
+    
     def split_path(self, data_dir: Path = DATA_DIR) -> Path:
         return data_dir / "splits" / f"{self.eval_split}.json"
  
