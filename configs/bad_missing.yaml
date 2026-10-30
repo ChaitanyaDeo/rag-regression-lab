@@ -1,0 +1,15 @@
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: all-MiniLM-L6-v2
+    overlap: 50
+    generation_model: qwen2.5:3b-instruct
+ 
+top_k: 5
+judge_model: qwen2.5:7b-instruct
+ 
+eval_split: val
+is_dev: false
+ 
+max_workers: 1
+db_path: ragregress.db

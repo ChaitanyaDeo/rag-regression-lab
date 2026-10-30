@@ -1,0 +1,9 @@
+# Target ranges for the SQuAD val split, builtin RAG pipeline, k = 5.
+# Written on before any real run (README.md DEC-03); not fitted to results.
+# Used by: ragregress report --targets configs/targets/squad_val.yaml
+source: README.md DEC-03
+targets:
+  recall_at_k:  {label: "Recall@5",     low: 0.80, high: 0.85}
+  mrr:          {label: "MRR",          low: 0.65, high: 0.75}
+  token_prf1:   {label: "Answer F1",    low: 0.55, high: 0.65}
+  faithfulness: {label: "Faithfulness", low: 0.80, high: 0.90}

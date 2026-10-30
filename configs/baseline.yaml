@@ -1,21 +1,24 @@
 # baseline yaml file for builting RAG pipeline
-pipeline_id: builtin_rag
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: all-MiniLM-L6-v2
+    chunk_size: 500
+    overlap: 50
+    generation_model: qwen2.5:3b-instruct
+    seed: 42
 
-# Retrival/ Chunking and embedding model
-embedding_model: all-MiniLM-L6-v2   # embedder.py's DEFAULT_EMBEDDING_MODEL
-chunk_size: 500
-overlap: 50
-k: 5
-
-# LLM layer -- generation and Judge models
-generation_model: qwen2.5:3b-instruct
-judge_model: qwen2.5:7b-instruct
-
+ 
+top_k: 5
+judge_model: qwen2.5:7b-instruct  
+judge_seed: 42 
+ 
+eval_split: val
+is_dev: false
+ 
+# Operational -- not part of config_hash
 max_workers: 1
-
-# Evaluation target -- 
-eval_split: dev
-is_dev: true
-
-# Storage
 db_path: ragregress.db
+
+
+

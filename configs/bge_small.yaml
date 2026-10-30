@@ -1,0 +1,22 @@
+# embedding swap vs baseline.yaml. ONLY embedding_model differs
+# (guarded by tests/unit/test_bge_small_config.py). No bge query-instruction
+# prefix: pure model swap (D12-Q4 = A).
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: BAAI/bge-small-en-v1.5
+    chunk_size: 500
+    overlap: 50
+    generation_model: qwen2.5:3b-instruct
+    seed: 42
+ 
+top_k: 5
+judge_model: qwen2.5:7b-instruct
+judge_seed: 42
+ 
+eval_split: val
+is_dev: false
+ 
+# Operational -- not part of config_hash
+max_workers: 1
+db_path: ragregress.db
