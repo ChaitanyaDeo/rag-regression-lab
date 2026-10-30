@@ -11,6 +11,10 @@ shell wins), then installs the JSON console log handler (core.logging.configure_
 level = LOG_LEVEL (default WARNING; INFO shows every stage, DEBUG adds debug records). Every run
 also writes its full JSON log to artifacts/logs/<run_id>.jsonl (printed in the summary).
 
+Judge: `judge_provider` (ollama | openai, default ollama) and `judge_model` in the config say what judges.
+Where it runs comes from the environment / .env (JUDGE_BASE_URL, JUDGE_API_KEY, OLLAMA_HOST);
+`--dry-run` prints the resolved provider, model and endpoint (never the key).
+
 Usage:
     python -m ragregress.cli --config <path> [--run-id <id>] [--reindex] [--debug]
 """
@@ -37,6 +41,7 @@ from ragregress.core.runner import PASSAGES_PATH, RunOutcome, default_run_id, ex
 from ragregress.core.errors import ComparisonInputError
 from ragregress.evaluation.comparator import MISSING, ComparisonResult, RunSnapshot, compare_runs
 from ragregress.evaluation.diagnostics import diagnose, render_text
+from ragregress.evaluation.judge import resolve_judge
 from ragregress.evaluation.regression import RegressionReport, assess_regression
 from ragregress.storage.database import DB_PATH_DEFAULT
 from ragregress.storage.repositories import Repository
@@ -64,7 +69,10 @@ def _print_plan(cfg: RunConfig, run_id: str) -> None:
     echo("dry run: config is valid, nothing was executed")
     echo(f"  pipeline     : {cfg.pipeline.id} {cfg.pipeline.params.model_dump()}")
     echo(f"  top_k        : {cfg.top_k}")
-    echo(f"  judge_model  : {cfg.judge_model}")
+    judge = resolve_judge(cfg.judge_provider, cfg.judge_model)      # a missing API key fails the dry run (exit 3), as the real run would
+    echo(f"  judge        : {judge.provider} / {judge.model}")
+    echo(f"  judge url    : {judge.endpoint}")
+    echo(f"  judge key    : {judge.key_note}")
     echo(f"  eval_split   : {cfg.eval_split} (is_dev={cfg.is_dev})")
     echo(f"  max_workers  : {cfg.max_workers}")
     echo(f"  db_path      : {cfg.db_path}")

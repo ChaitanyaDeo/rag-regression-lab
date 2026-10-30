@@ -8,7 +8,7 @@
 """
 
 from __future__ import annotations
- 
+
 import math
 from dataclasses import dataclass
 from enum import Enum
@@ -32,9 +32,13 @@ DISPLAY_ORDER = ("recall_at_k", "mrr", "token_prf1", "faithfulness")
 # Keys excluded from config_hash, not experiment-defining.
 _OPERATIONAL_KEYS = frozenset({"db_path", "max_workers"})
 
+# judge_provider is left out of a stored config while it is the default (RunConfig does that), so a
+# stored config without the key means "ollama" -- every run written before the field existed.
+_DEFAULT_JUDGE_PROVIDER = "ollama"
+
 _TIE_TOL = 1e-9
 
- 
+
 class _Missing:
     """Sentinel for 'key absent from this run's config' (rendered as an em dash)."""
 
@@ -151,7 +155,7 @@ def load_snapshot(repo: Repository, run_id: str) -> RunSnapshot:
 
     return RunSnapshot(run=run, rows=rows, applicable=applicable)
 
-# ----------------------------------------------------------------- Guardrail for compaing runs 
+# ----------------------------------------------------------------- Guardrail for compaing runs
 
 def _legacy_run_ids(*snapshots: RunSnapshot) -> Tuple[str, ...]:
     # Runs built via RunConfig always carry `pipeline`; legacy runs only have {is_dev, k}.
@@ -191,11 +195,21 @@ def check_comparable(base: RunSnapshot, cand: RunSnapshot) -> Tuple[List[str], D
         ungated["recall_at_k"] = reason
 
 
+    # The judge is the pair (judge_provider, judge_model): the same model name on a different service
+    # is a different judge. Only judged when both runs name a judge_model (legacy runs do not).
     b_judge, c_judge = bcfg.get("judge_model"), ccfg.get("judge_model")
-    if b_judge is not None and c_judge is not None and b_judge != c_judge:
-        reason = f"judge_model differs (baseline={b_judge!r}, candidate={c_judge!r})"
-        warnings.append(f"{reason}; faithfulness is not gated")
-        ungated["faithfulness"] = reason
+    if b_judge is not None and c_judge is not None:
+        b_provider = bcfg.get("judge_provider") or _DEFAULT_JUDGE_PROVIDER
+        c_provider = ccfg.get("judge_provider") or _DEFAULT_JUDGE_PROVIDER
+        reasons: List[str] = []
+        if b_judge != c_judge:
+            reasons.append(f"judge_model differs (baseline={b_judge!r}, candidate={c_judge!r})")
+        if b_provider != c_provider:
+            reasons.append(f"judge_provider differs (baseline={b_provider!r}, candidate={c_provider!r})")
+        if reasons:
+            reason = "; ".join(reasons)
+            warnings.append(f"{reason}; faithfulness is not gated")
+            ungated["faithfulness"] = reason
 
     only_b = set(base.rows) - set(cand.rows)
     only_c = set(cand.rows) - set(base.rows)
@@ -231,7 +245,7 @@ def _normalise_config(cfg: Optional[Mapping[str, Any]]) -> Dict[str, Any]:
         out["top_k"] = out.pop("k")
     return _flatten(out)
 
- 
+
 def diff_config(base_cfg: Optional[Mapping[str, Any]], cand_cfg: Optional[Mapping[str, Any]]) -> List[ConfigChange]:
     """Return a list of ConfigChanges for key where config differs"""
     a, b = _normalise_config(base_cfg), _normalise_config(cand_cfg)
@@ -250,7 +264,7 @@ def _ordered_metrics(names: Sequence[str]) -> List[str]:
 
 def diff_metrics(base: RunSnapshot, cand: RunSnapshot, metrics: Sequence[str]) -> List[MetricDelta]:
     """Per metric, over rows where BOTH runs have a value.
- 
+
     System failures contribute 0.0; evaluator failures contribute nothing.
     """
 

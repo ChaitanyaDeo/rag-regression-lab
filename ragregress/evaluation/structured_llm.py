@@ -6,6 +6,11 @@ depend on this Protocol.
 Never a concrete LLM client -- mirrors ragregress.rag.interface.RAGSystem. 
 
 Prompts/schemas/methodology stay owned by the metric; StructuredLLM only executes.
+
+
+INTERNAL SEAM, not a supported extension point (D13 J6): the lab builds its own judge from
+`judge_model` in the run config (see ragregress.evaluation.judge). The Protocol exists so metrics
+and tests can swap in a fake judge, not so users can bring their own.
 """
 
 from typing import Optional, Protocol, Type, TypeVar
@@ -61,21 +66,33 @@ class LangChainStructuredLLM:
 # Built in example with Instructor:
 
 class InstructorStructuredLLM:
-    """Built-in default StructuredLLM, wrapping any Instructor client chat model
-    This is an ADDITIONAL implementation of the StructuredLLM protocol,
-    not a replacement -- LangChainStructuredLLM is still used wherever
-    this reask behavior isn't needed. Swapping between them only changes
-    what's passed to e.g. Faithfulness(llm=...); nothing about Metric,
-    MetricResult, or evaluate() changes.
     """
+        An additional StructuredLLM implementation using Instructor over an OpenAI-compatible endpoint.
+        It supports reask behavior; LangChainStructuredLLM remains the default elsewhere. 
+        Switching only changes the llm passed to metrics, not Metric, MetricResult, or evaluate().
 
-    def __init__(self, model_name: str, provider: str = "ollama", max_retries: int = 2, seed: Optional[int] = None):
+        provider is "ollama" or "openai". base_url and api_key come from resolve_judge() (environment only, never run config)
+        and are passed to Instructor only when set. 
+        
+        Without them, InstructorStructuredLLM("model") behaves as before. 
+        Ollama ignores api_key and always sends "ollama"."""
+
+    def __init__(self, model_name: str, provider: str = "ollama", max_retries: int = 2, seed: Optional[int] = None,
+                 base_url: Optional[str] = None, api_key: Optional[str] = None):
         import instructor
 
         self.model_name = model_name
+        self.provider = provider
         self.max_retries = max_retries
         self.seed = seed
-        self.client = instructor.from_provider(f"{provider}/{model_name}", mode=instructor.Mode.JSON)
+ 
+        client_kwargs = {}
+        if base_url is not None:
+            client_kwargs["base_url"] = base_url
+        if api_key is not None:
+            client_kwargs["api_key"] = api_key
+
+        self.client = instructor.from_provider(f"{provider}/{model_name}", mode=instructor.Mode.JSON, **client_kwargs)
 
     def generate_structured(self, prompt: str, schema: Type[SchemaT]) -> SchemaT:
         extra = {} if self.seed is None else {"seed": self.seed}
@@ -86,6 +103,6 @@ class InstructorStructuredLLM:
             max_retries=self.max_retries,
             **extra,
         )
-
+ 
         return result
         

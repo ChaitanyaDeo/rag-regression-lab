@@ -10,6 +10,7 @@ from ragregress.benchmark.schemas import Passage
 from ragregress.core.config import DATA_DIR, RunConfig
 from ragregress.core.errors import ConfigValidationError, RunFailedError
 from ragregress.core.logging import run_log_dir, run_log_file
+from ragregress.evaluation.judge import build_judge, resolve_judge
 from ragregress.rag.registry import build_rag_system
 
 
@@ -48,9 +49,10 @@ def load_qa_pairs(path: Path):
 
 def build_metrics(run_config: RunConfig) -> list:
     from ragregress.evaluation.metrics import MRR, Faithfulness, RecallAtK, TokenPRF1
-    from ragregress.evaluation.structured_llm import InstructorStructuredLLM
 
-    judge_llm = InstructorStructuredLLM(run_config.judge_model, max_retries=3, seed=run_config.judge_seed)
+    # Provider and model come from the run config; endpoint and key from the environment.
+    judge_llm = build_judge(run_config.judge_provider, run_config.judge_model,
+                            seed=run_config.judge_seed, max_retries=3)
     return [
         RecallAtK(k=run_config.top_k),
         MRR(k=run_config.top_k),
@@ -72,7 +74,7 @@ def execute(
 ) -> RunOutcome:
     """Run one experiment end to end and return its outcome.
 
-    Raises ConfigValidationError (missing data files), PipelineContractError
+    Raises ConfigValidationError (missing data files, judge settings), PipelineContractError
     (bad pipeline), RunFailedError (run_status != healthy).
 
     `on_row_done(done, total, elapsed_s)` is called once with done=0 when the
@@ -85,6 +87,7 @@ def execute(
 
     # Fail fast on missing data before loading any model.
     qa_pairs = load_qa_pairs(run_config.split_path())
+    resolve_judge(run_config.judge_provider, run_config.judge_model)       # e.g. a missing API key: fail now, not after indexing
 
     rag_system = build_rag_system(run_config.pipeline.id, run_config.pipeline.params)
 

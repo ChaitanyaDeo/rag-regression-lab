@@ -26,6 +26,11 @@ Decisions:
   - `top_k` is the config-facing name only: it maps once to
     Pipeline(k=...); everything below the config boundary keeps `k`.
   - config_hash() excludes db_path and max_worker: so reruns of the same experiment share a hash.
+
+  - judge_provider + judge_model say WHAT judges. judge_provider is left out of model_dump() while it is
+    "ollama" (the default), so configs written before the field existed keep their hashes and an explicit
+    `judge_provider: ollama` hashes the same as leaving it out. Where the judge runs (endpoint, key) is
+    NOT config: it comes from the environment (ragregress.evaluation.judge) and is never hashed.
 """
 
 from __future__ import annotations
@@ -41,13 +46,16 @@ from pydantic import (
     ConfigDict,
     Field,
     SerializeAsAny,
+    SerializerFunctionWrapHandler,
     ValidationError,
     ValidationInfo,
     field_validator,
+    model_serializer,
     model_validator,
 )
 
 from ragregress.core.errors import ConfigValidationError
+from ragregress.evaluation.judge import DEFAULT_PROVIDER, JudgeProvider, check_judge_model, check_judge_provider
 from ragregress.rag.registry import PIPELINE_REGISTRY, PipelineParams
 
 MAX_TOP_K = 50
@@ -84,6 +92,7 @@ class RunConfig(BaseModel):
  
     pipeline: PipelineSpec
     top_k: int = Field(ge=1, le=MAX_TOP_K)
+    judge_provider: JudgeProvider = DEFAULT_PROVIDER
     judge_model: str = Field(min_length=1)
     judge_seed: int = Field(default=42, ge=0)
     eval_split: Literal["dev", "val", "test"]
@@ -91,6 +100,27 @@ class RunConfig(BaseModel):
  
     max_workers: int = Field(default=1, ge=1, le=MAX_WORKERS_CAP)
     db_path: Path = Path("ragregress.db")
+
+    @field_validator("judge_provider", mode="before")
+    @classmethod
+    def _judge_provider_is_supported(cls, value: Any)-> Any:
+        return check_judge_provider(value) if isinstance(value, str) else value
+
+    @field_validator("judge_model")
+    @classmethod
+    def _judge_model_is_a_plain_model_name(cls, value: str) -> str:
+        check_judge_model(value)    # ValueError -> an error at `judge_model`; no env is read here
+        return value                # stored as written
+
+
+    @model_serializer(mode="wrap")
+    def _omit_default_judge_provider(self, handler: SerializerFunctionWrapHandler) -> Dict[str, Any]:
+        # Every model_dump (config_hash payload, stored run config, dry-run print) goes through here,
+        # so "default provider" has exactly one serialized form: absent.
+        data = handler(self)
+        if data.get("judge_provider") == DEFAULT_PROVIDER:
+            del data["judge_provider"]
+        return data
 
     @model_validator(mode="after")
     def _is_dev_matches_eval_split(self) -> "RunConfig":
