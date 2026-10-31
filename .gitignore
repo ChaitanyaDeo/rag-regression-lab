@@ -3,8 +3,14 @@ __pycache__/
 *.pyc
 data/*.parquet
 data/cache/
+artifacts/
 artifacts/reports/*.html
 artifacts/reports/*.json
 !artifacts/reports/.gitkeep
 *.db
 .env
+.env.*
+!.env.example
+reports/*.html
+.pytest_cache/
+*.egg-info/
