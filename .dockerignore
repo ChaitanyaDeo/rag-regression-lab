@@ -1,0 +1,13 @@
+# Allow-list: nothing goes to the Docker build context except what the Dockerfile COPYs.
+# So .env, the database, artifacts/, reports/, data/, .git and the virtualenv can never end up in
+# an image, and the context stays tiny.
+*
+!requirements.txt
+!pyproject.toml
+!ragregress/
+!ragregress/**
+ 
+# Re-exclude build debris inside the allowed folder (this must stay AFTER the rules above).
+**/__pycache__
+**/*.pyc
+**/*.egg-info

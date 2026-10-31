@@ -1,1 +1,45 @@
-# Day 13 - mounts SQLite file as a volume; Ollama runs on host, not containerized
+#  mounts SQLite file as a volume; Ollama runs on host, not containerized
+# RAG Regression Lab: run the CLI in a container. Run from the repo root.
+#
+#   docker compose build
+#   docker compose run --rm ragregress --help
+#   docker compose run --rm ragregress run --config configs/baseline.yaml --dry-run
+#   docker compose run --rm ragregress compare --baseline <id> --candidate <id>
+#   docker compose run --rm ragregress report --baseline <id> --candidate <id> --targets configs/targets/squad_val.yaml
+#   docker compose run --rm --entrypoint python ragregress scripts/check_ollama.py
+#
+# Where things live:
+#   repo root  -> /work                 data/, configs/, ragregress.db, artifacts/logs, reports/ (on your disk)
+#   chroma_index (named volume)         /work/artifacts/chroma: the vector index, rebuilt on first use
+#   hf_cache (named volume)             /hf-cache: downloaded embedding / reranker models
+#   Ollama                              on the host, reached through host.docker.internal
+#
+# Notes
+#   - `report --open` cannot open a browser from a container: open reports\*.html on your machine.
+#   - .env in the repo root is read by the CLI as usual (JUDGE_API_KEY, LOG_LEVEL, ...). OLLAMA_HOST is
+#     set below and wins over .env. If .env sets JUDGE_BASE_URL to http://localhost:..., use
+#     http://host.docker.internal:... there, or the container will look for the judge inside itself.
+#   - Linux hosts: the container runs as uid 1000; the repo root must be writable by that uid.
+#   - `python -m ragregress.cli` inside /work would import the mounted source, not the installed
+#     package; use the `ragregress` entrypoint.
+name: ragregress
+
+services:
+  ragregress:
+    build:
+      context: .
+    image: ragregress:local
+    working_dir: /work
+    init: true
+    environment:
+      OLLAMA_HOST: http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - .:/work
+      - chroma_index:/work/artifacts/chroma
+      - hf_cache:/hf-cache
+
+volumes:
+  chroma_index:
+  hf_cache:
