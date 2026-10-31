@@ -1,0 +1,43 @@
+# requirements.txt — runtime dependencies of ragregress, pinned.
+#
+# Installed by the Docker image (B2) and by a fresh local venv:
+#     pip install -r requirements.txt           (runtime only)
+#     pip install -r requirements-dev.txt       (runtime + tests + data build)
+#
+# Pins = the versions D's full suite passed on (590 passed, 3 skipped, 5 xfailed, Oct 29 2026),
+# Python 3.11. Only direct dependencies are pinned; their own dependencies are resolved by pip.
+# Ranges for library use live in pyproject.toml.
+#
+# torch: "torch==2.11.0" also matches local builds like 2.11.0+cu128 / 2.11.0+cpu.
+# Which build pip installs depends on the index:
+#   CPU only (Docker image, small):  --extra-index-url https://download.pytorch.org/whl/cpu
+#   NVIDIA GPU (CUDA 12.8):          --extra-index-url https://download.pytorch.org/whl/cu128
+#   plain PyPI:                      Windows -> CPU build; Linux -> CUDA build (several GB)
+
+# ---- pipeline / orchestration
+langgraph==1.2.11
+langchain-core==1.6.2
+langchain-ollama==1.1.0
+
+# ---- retrieval: vector store + embeddings + reranker
+langchain-chroma==1.1.0
+chromadb==1.5.9
+sentence-transformers==6.0.1
+torch==2.11.0
+
+# ---- faithfulness judge (structured output via Ollama's OpenAI-compatible endpoint)
+instructor==1.17.0
+openai==3.3.0
+
+# ---- config, CLI, report, logging
+pydantic==2.12.5
+PyYAML==6.0.3
+typer==0.27.2
+tqdm==4.70.0
+Jinja2==3.1.6
+python-json-logger==3.3.0
+python-dotenv==1.1.1
+
+# ---- API (Day 13 B3)
+fastapi==0.141.1
+uvicorn==0.52.4

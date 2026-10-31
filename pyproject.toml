@@ -2,21 +2,44 @@
 name = "ragregress"
 version = "0.1.0"
 requires-python = ">=3.11"
+# Ranges for installing ragregress as a package. Exact, tested pins: requirements.txt.
 dependencies = [
+
+    "langgraph>=1.2",
+    "langchain-core>=1.6",
+    "langchain-ollama>=1.1",
+
+    "langchain-chroma>=1.1",
+    "chromadb>=1.5",
+    "sentence-transformers>=6.0",
+    "torch>=2.11",
+    # faithfulness judge
+    "instructor>=1.17",
+    "openai>=3.3",
+
     "pydantic>=2",
     "pyyaml>=6",
     "typer>=0.27",
     "tqdm",
     "jinja2",
-    "python-json-logger>=4",
-    "python-dotenv>=1"
+    "python-json-logger>=3.2", 
+    "python-dotenv>=1",
 ]
+
+[project.optional-dependencies]
+api = ["fastapi>=0.141", "uvicorn>=0.52"]
+dev = ["pytest>=9"]
+data = ["datasets>=5"]
+ragas = ["ragas==0.4.3", "langchain-community==0.3.31"]   # pinned: newer langchain-community breaks ragas 0.4.3 (DEC-D6-27)
 
 [project.scripts]
 ragregress = "ragregress.cli:app"
 
 [tool.setuptools.packages.find]
 include = ["ragregress*"]
+
+[tool.setuptools.package-data]
+ragregress = ["templates/*.html"]
 
 [build-system]
 requires = ["setuptools>=61.0"]
