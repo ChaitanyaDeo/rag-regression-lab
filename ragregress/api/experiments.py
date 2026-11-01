@@ -1,30 +1,22 @@
 """
-ragregress/api/experiments.py   --- YOUR FILE (B3 steps 2-5)
+ragregress/api/experiments.py
 
-The endpoints for runs, compare and reports. Build it as a function that returns an APIRouter:
+Endpoints for runs, comparisons and reports: thin wrappers over the engine functions the CLI uses.
+build_router(settings, jobs) -> APIRouter
 
-    build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter
+  POST /runs                {"config": "<name>"} starts configs/<name>.yaml in the background.
+                            202 | 404 no such config | 409 a run is in progress or the id exists | 422 bad config
+  GET  /runs                all runs, newest first (dev runs included).
+  GET  /runs/{run_id}      stored run, merged with its live job state. 200 | 404
+  POST /compare             {"baseline", "candidates": [..]}. 200 even for FAIL or INCONCLUSIVE (the verdict is
+                            in the body) | 404 unknown baseline | 422 bad body.
+                            A problem with one candidate is that entry's `error`; the others are still compared.
+  GET  /reports/{baseline}__vs__{candidate}   HTML, built on each request, not stored; ".html" is accepted.
+                        200 | 404 unknown run | 400 runs that cannot be compared | 422 malformed id
+                        | 500 broken targets file
 
-main.create_app calls it and includes the router (a closure over `settings` and `jobs`; FastAPI's `Depends` is the
-other way to do this, a good exercise for later).
-
-The tests REPLACE these three names on this module with monkeypatch, so import them at the top and call them
-through the module's own names (do not alias them, do not import them inside the functions):
-    from ragregress.core.runner import default_run_id
-    from ragregress.evaluation.comparator import compare_runs
-    from ragregress.report import generate_report        # also: render_html, TargetsFileError
-
-Step 2  GET /runs (list, newest first) and GET /runs/{run_id}          -k "startup or runs_are or run_list or run_detail or test_unknown_run"
-Step 3  POST /compare                                                  (see the test file: "compare" group)
-Step 4  GET /reports/{pair}                                            ("report" group)
-Step 5  POST /runs                                                     ("post_runs", "config", ... group)
-
-Status codes (the spec):
-  POST /runs      202 started | 404 no such config | 409 a run is in progress / the run id exists | 422 bad config
-  GET  /runs/{id} 200 | 404
-  POST /compare   200 (even for FAIL / INCONCLUSIVE: the verdict is in the body) | 404 unknown baseline | 422 bad request
-                  A problem with ONE candidate is that entry's `error`; the other candidates are still compared.
-  GET  /reports   200 HTML | 404 unknown run | 400 runs that cannot be compared | 422 malformed id | 500 broken targets file
+Error text is passed through redact() before it is returned.
+The tests replace default_run_id, compare_runs and generate_report on this module, so call them by those names.
 """
 
 from __future__ import annotations

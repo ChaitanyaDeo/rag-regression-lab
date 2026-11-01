@@ -1,15 +1,20 @@
 """
-ragregress/api/schemas.py   --- YOUR FILE (grows step by step)
+ragregress/api/schemas.py
 
-Request / response models (pydantic). 
-Step 1: Health. 
-Step 2: RunSummary, RunDetail (+ JobView).
-Step 3: CompareRequest and the compare response models, ID_PATTERN, MAX_CANDIDATES. Step 5: RunRequest, RunAccepted.
+Request and response models for the API. They are separate from the engine's classes on purpose:
+the JSON contract does not change when internals do.
 
-Name the tests import from here: clean_number (step 3).
+    ID_PATTERN / NAME_PATTERN   allowed characters for run ids and config names (no "/" or "..").
+    MAX_CANDIDATES              limit for one /compare request (10).
+    clean_number(x)             None for NaN and +/-inf (not valid JSON); other values unchanged.
 
-    clean_number(value: Optional[float]) -> Optional[float]
-        None -> None ; NaN, +inf, -inf -> None (they are not valid JSON) ; any other float, incl. 0.0, unchanged.
+    Health                      GET /health
+    RunRequest, RunAccepted     POST /runs
+    RunSummary, RunDetail       GET /runs, GET /runs/{id}; JobView is the live job state.
+                                RunDetail.is_dev and .k are None while the run's row is not written yet.
+    CompareRequest              POST /compare: 1..10 unique candidate ids; unknown keys rejected.
+    CompareResponse             one CompareEntry per candidate: ok, error, or a ComparisonOut
+                                (verdict, metrics, validity, config changes, RunRef, ...).
 """
 
 from __future__ import annotations

@@ -1,32 +1,17 @@
 """
-ragregress/api/health.py   --- YOUR FILE (B3 step 1)
+ragregress/api/health.py
 
-GET /health  ->  {"status": "ok", "ollama_reachable": bool, "judge_reachable": bool}
+GET /health -> {"status": "ok", "ollama_reachable": bool, "judge_reachable": bool}
+Always 200 while the API is up; the two flags only report what the API can reach.
 
-Names the tests import (all three): ollama_base, probe, check_health. The endpoint calls check_health().
+ollama_base(env)     OLLAMA_HOST -> "http://host:port" (default http://localhost:11434, no trailing "/").
+probe(url, timeout)  True if the server answers an HTTP GET (any status). False on refusal, timeout,
+                     bad URL, or a scheme other than http/https.
+check_health(env)    Probes Ollama at /api/tags. Probes JUDGE_BASE_URL + /models if set,
+                     otherwise judge_reachable copies ollama_reachable. env=None means os.environ.
+                     No credentials are sent and nothing from the environment is returned.
 
-    ollama_base(env: Mapping[str, str]) -> str
-        OLLAMA_HOST ('host:port', 'http://host:port', blank or missing) -> 'http://host:port', no trailing '/'.
-        default http://localhost:11434 ; a value without '://' gets 'http://' in front ; whitespace is stripped.
-
-    probe(url: str, timeout: float = 2.0) -> bool
-        True if a server answers an HTTP GET at url. ANY HTTP answer counts (even 401 / 404).
-        False for: refused connection, timeout, bad URL, and any scheme other than http / https
-        (never request file:// or ftp:// : the URL comes from the environment).
-        Hint: urllib.request.urlopen, urllib.error.HTTPError, OSError, ValueError, urllib.parse.urlsplit.
-
-    check_health(env: Optional[Mapping[str, str]] = None) -> Health        # env None -> os.environ
-        ollama_reachable = probe(ollama_base(env) + "/api/tags")
-        judge_reachable  = probe(JUDGE_BASE_URL.rstrip("/") + "/models")  if JUDGE_BASE_URL is set (non-blank)
-                           else the same value as ollama_reachable (do NOT probe twice)
-        status is always "ok": the endpoint answers 200 whenever the API itself is up.
-        No key is ever sent, and nothing from the environment appears in the result.
-
-    Health: a pydantic model (put it in schemas.py): status: str, ollama_reachable: bool, judge_reachable: bool.
-    The tests call check_health(...).model_dump_json() and read the three attributes.
-
-Things to read: "Bigger Applications" (APIRouter), "Response Model". A plain `def` endpoint is right here
-(urllib blocks; FastAPI runs `def` endpoints in a thread pool).
+The endpoint is a plain `def` because urllib blocks; FastAPI runs it in a thread pool.
 """
 
 from __future__ import annotations
