@@ -1,12 +1,11 @@
-
 from __future__ import annotations
- 
+
 import json
 import sqlite3
 from contextlib import closing
 from pathlib import Path
 from typing import Any, Iterable
- 
+
 from ragregress.storage.database import DB_PATH_DEFAULT, get_connection, transaction
 from ragregress.storage.models import QueryResult, Run, RunMetric
 
@@ -94,6 +93,19 @@ def _row_to_query_result(row: sqlite3.Row) -> QueryResult:
         category=row["category"]
     )
 
+def _row_to_run(row: sqlite3.Row) -> Run:
+    return Run(
+        run_id = row['run_id'],
+        created_at=row["created_at"],
+        is_dev=bool(row["is_dev"]),
+        k=row["k"],
+        max_workers=row["max_workers"],
+        config=json.loads(row["config_json"]),
+        config_hash=row["config_hash"],
+        run_status=row["run_status"],
+        run_status_detail=row["run_status_detail"],
+    )
+
 
 class Repository:
 
@@ -131,23 +143,22 @@ class Repository:
             if cur.rowcount == 0:
                 raise KeyError(f"No run with run_id={run_id!r}")
 
-    def get_run(self, run_id: str) -> RUN | None:
+    def get_run(self, run_id: str) -> Run | None:
         with closing(get_connection(self._db_path)) as conn:
             row = conn.execute("SELECT * FROM runs WHERE run_id = ?", (run_id,)).fetchone()
         if row is None:
             return None
 
-        return Run(
-            run_id = row['run_id'],
-            created_at=row["created_at"],
-            is_dev=bool(row["is_dev"]),
-            k=row["k"],
-            max_workers=row["max_workers"],
-            config=json.loads(row["config_json"]),
-            config_hash=row["config_hash"],
-            run_status=row["run_status"],
-            run_status_detail=row["run_status_detail"],
-        )
+        return _row_to_run(row)
+
+    def list_runs(self) -> list[Run]:
+        """Every stored run, newest first (created_at, then run_id). Read-only: no metrics, no query results.
+
+        Dev runs are included; the caller decides what to show (Run.is_dev).
+        """
+        with closing(get_connection(self._db_path)) as conn:
+            rows = conn.execute("SELECT * FROM runs ORDER BY created_at DESC, run_id DESC").fetchall()
+        return [_row_to_run(row) for row in rows]
 
     def delete_run(self, run_id: str) -> None:
         """Delete the run. ON DELETE CASCADE removes its run_metrics and
@@ -176,11 +187,11 @@ class Repository:
     # Query Result---------------------------------------------------------
 
     def save_query_result(self, result: QueryResult) -> None:
-        # Insert one query result row 
+        # Insert one query result row
         with transaction(self._db_path) as conn:
             conn.execute(_INSERT_QUERY_RESULT_SQL, _query_result_params(result))
 
-    
+
     def save_query_results(self, results: Iterable[QueryResult]) -> None:
         # Save several query results in one transaction -- matches RunState.per_query_results
         with transaction(self._db_path) as conn:
@@ -192,4 +203,3 @@ class Repository:
                 "SELECT * FROM run_query_results WHERE run_id = ?", (run_id,)
             ).fetchall()
         return [_row_to_query_result(row) for row in rows]
-    
