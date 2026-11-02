@@ -548,7 +548,7 @@ $env:RAGREGRESS_SLOW=1; python -m pytest tests/unit/test_reranker.py -q; Remove-
 | `tests/integration/` | pipeline on fixtures, CLI commands, API (`test_api.py`) |
 | `tests/security/` | config validation, malformed judge output, log redaction, secrets exposure |
 
-Last full run on the author's machine: 881 passed, 3 skipped, 5 xfailed. <!-- TODO(D): confirm the count after adding test_api_settings_defaults.py -->
+Last full run on the author's machine (Windows 11, Python 3.11): 871 passed, 3 skipped (opt-in real-model tests), 5 xfailed (known issues pinned with `xfail(strict=True)`), under 2 minutes, in a fresh isolated virtual environment.
 
 ## Security
 
