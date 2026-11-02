@@ -13,7 +13,7 @@ from typing import Optional
 from ragregress.report import DEFAULT_PASSAGES, DEFAULT_SPLITS_DIR, DEFAULT_TOP
 from ragregress.storage.database import DB_PATH_DEFAULT
 
-DEFAULT_CONFIGS_DIR = Path("config")
+DEFAULT_CONFIGS_DIR = Path("configs")
 
 DEFAULT_TARGET = DEFAULT_CONFIGS_DIR / "targets" / "squad_val.yaml"
 

@@ -10,3 +10,5 @@
 pytest==9.1.1          # tests/unit, tests/integration, tests/security
 datasets==5.0.1        # ragregress/benchmark/loader.py (rebuild data/ only)
 httpx==0.28.1
+
+langchain-text-splitters==1.1.3

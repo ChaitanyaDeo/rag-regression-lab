@@ -41,3 +41,5 @@ python-dotenv==1.1.1
 # ---- API (Day 13 B3)
 fastapi==0.141.1
 uvicorn==0.52.4
+
+langchain-text-splitters==1.1.3
