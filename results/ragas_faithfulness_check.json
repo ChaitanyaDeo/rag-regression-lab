@@ -1,0 +1,112 @@
+[
+  {
+    "qa_id": "573786b51c4567190057448d",
+    "question": "How might gravity effects be observed differently according to Newton?",
+    "answer": "Newton came to realize that the effects of gravity might be observed in different ways at larger distances. In particular, Newton determined that the acceleration of the Moon around the Earth could be ascribed to the same force of gravity if the acceleration due to gravity decreased as an inverse square law.",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "56e1ddfce3433e14004231d8",
+    "question": "What is the prize offered for finding a solution to P=NP?",
+    "answer": "The prize offered for finding a solution to P=NP is US$1,000,000 .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "56bf48cc3aeaaa14008c95af",
+    "question": "What color were the Bronco's uniforms in Super Bowl 50?",
+    "answer": "The Broncos wore white uniforms in Super Bowl 50 .",
+    "our_score": 0.0,
+    "our_reason": null,
+    "ragas_score": 0.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "5725e44238643c19005ace36",
+    "question": "Which lunar probe was near the Apollo 12 crew's landing site?",
+    "answer": "The lunar probe near the Apollo 12 crew's landing site was Surveyor 3 .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "571ccfbadd7acb1400e4c164",
+    "question": "Electrolysis of what can be used to produce oxygen and hydrogen?",
+    "answer": "Electrolysis of water can be used to produce oxygen and hydrogen .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "56f827caa6d7ea1400e1743a",
+    "question": "When was the Edict of Worms presented?",
+    "answer": "The Edict of Worms was presented on 25 May 1521 .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "56e127bccd28a01900c6765f",
+    "question": "How many other important people sent letters?",
+    "answer": "The context does not contain enough information to answer this question.",
+    "our_score": 0.0,
+    "our_reason": null,
+    "ragas_score": 0.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "572976183f37b31900478431",
+    "question": "What is an alternate way to make starch?",
+    "answer": "An alternate way to make starch is by linking glucose monomers together in the chloroplast, which accumulates into starch grains found in the chloroplast .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 0.5,
+    "ragas_reason": null,
+    "diff": 0.5,
+    "large_discrepancy": true
+  },
+  {
+    "qa_id": "56e0f32d231d4119001ac4cb",
+    "question": "What type of image was Tesla thought to have accidentally taken a week prior to the announcement of its discovery?",
+    "answer": "Tesla may have inadvertently captured an X-ray image\u2014predating, by a few weeks, Wilhelm R\u00f6ntgen's December 1895 announcement of the discovery of x-rays\u2014when he tried to photograph Mark Twain illuminated by a Geissler tube, an earlier type of gas discharge tube.",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  },
+  {
+    "qa_id": "5730005db2c2fd1400568707",
+    "question": "Where did Maududi's books place Islam?",
+    "answer": "Maududi's books placed Islam in a modern context .",
+    "our_score": 1.0,
+    "our_reason": null,
+    "ragas_score": 1.0,
+    "ragas_reason": null,
+    "diff": 0.0,
+    "large_discrepancy": false
+  }
+]

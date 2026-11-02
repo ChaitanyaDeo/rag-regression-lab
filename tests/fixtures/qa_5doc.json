@@ -1,0 +1,101 @@
+[
+  {
+    "qa_id": "57112686b654c5140001fbd7",
+    "question": "What types of engines are steam engines?",
+    "answer": [
+      "external combustion",
+      "external combustion",
+      "external combustion engines",
+      "external combustion"
+    ],
+    "answer_start": [
+      18,
+      18,
+      18,
+      18
+    ],
+    "gold_passage_ids": [
+      "p0000574"
+    ],
+    "title": "Steam_engine",
+    "category": "simple"
+  },
+  {
+    "qa_id": "572f58d9a23a5019007fc57f",
+    "question": "What does Obersee mean?",
+    "answer": [
+      "upper lake",
+      "upper lake",
+      "(\"upper lake\"",
+      "upper lake"
+    ],
+    "answer_start": [
+      64,
+      64,
+      62,
+      64
+    ],
+    "gold_passage_ids": [
+      "p0001770"
+    ],
+    "title": "Rhine",
+    "category": "simple"
+  },
+  {
+    "qa_id": "5726de7a5951b619008f80ab",
+    "question": "How many years does the V&A glass collection cover?",
+    "answer": [
+      "4000",
+      "4000 years",
+      "4000"
+    ],
+    "answer_start": [
+      28,
+      28,
+      28
+    ],
+    "gold_passage_ids": [
+      "p0001023"
+    ],
+    "title": "Victoria_and_Albert_Museum",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "56be53b8acb8001400a50314",
+    "question": "Who was the NFL Commissioner in early 2012?",
+    "answer": [
+      "Roger Goodell",
+      "Roger Goodell",
+      "Goodell"
+    ],
+    "answer_start": [
+      32,
+      32,
+      38
+    ],
+    "gold_passage_ids": [
+      "p0000004"
+    ],
+    "title": "Super_Bowl_50",
+    "category": "simple_with_condition"
+  },
+  {
+    "qa_id": "572968cf1d046914007793cd",
+    "question": "When was the plastome discovered?",
+    "answer": [
+      "1962",
+      "1962",
+      "1962"
+    ],
+    "answer_start": [
+      139,
+      139,
+      139
+    ],
+    "gold_passage_ids": [
+      "p0001690"
+    ],
+    "title": "Chloroplast",
+    "category": "simple_with_condition"
+  }
+]
