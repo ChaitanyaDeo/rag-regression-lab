@@ -138,6 +138,8 @@ Before the graph runs, the runner loads the split, builds the RAG system and cal
 | Storage | SQLite schema and repository | `ragregress/storage/` |
 | Interfaces | CLI, API, HTML report | `ragregress/cli.py`, `ragregress/main.py`, `ragregress/api/`, `ragregress/report.py` |
 
+Full detail (graphs, storage schema, deployment, limits): [docs/architecture.md](docs/architecture.md).
+
 Design choices:
 
 | Decision | Why |
@@ -175,7 +177,7 @@ rag-regression-lab/
 ├── data/                      # passages.json, splits/{dev,val,test}.json, README.md (committed)
 ├── scripts/                   # check_ollama.py, check_secrets.py, make_lock.py, ...
 ├── tests/                     # unit/, integration/, security/, fixtures/
-├── docs/                      # custom_pipeline.md, security.md
+├── docs/                      # architecture.md, evaluation.md, security.md, custom_pipeline.md, example report
 ├── Dockerfile  docker-compose.yml  .dockerignore
 ├── pyproject.toml  requirements.txt  requirements-dev.txt  requirements.lock
 ├── .env.example
@@ -449,6 +451,8 @@ Verdict (`ragregress/evaluation/regression.py`):
 3. **FAIL** if any gated metric's paired mean worsened by more than its threshold.
 4. Otherwise **PASS**.
 
+Full detail (faithfulness algorithm, row classes, guards, diagnostics, caveats): [docs/evaluation.md](docs/evaluation.md).
+
 A system failure (no answer produced) scores 0 on every metric and counts as measured; an evaluator failure (the answer exists but could not be scored) is unmeasured and lowers validity. Differing `top_k` ungates Recall@k; a differing judge ungates faithfulness (both with a warning).
 
 ## Results
@@ -548,7 +552,7 @@ $env:RAGREGRESS_SLOW=1; python -m pytest tests/unit/test_reranker.py -q; Remove-
 | `tests/integration/` | pipeline on fixtures, CLI commands, API (`test_api.py`) |
 | `tests/security/` | config validation, malformed judge output, log redaction, secrets exposure |
 
-Last full run on the author's machine (Windows 11, Python 3.11): 871 passed, 3 skipped (opt-in real-model tests), 5 xfailed (known issues pinned with `xfail(strict=True)`), under 2 minutes, in a fresh isolated virtual environment.
+Last full run on the author's machine (Windows 11, Python 3.11): 871 passed, 3 skipped (opt-in real-model tests), 5 xfailed (known issues pinned with `xfail(strict=True)`), under 2 minutes, in a fresh isolated virtual environment. In a fresh clone, 3 more tests skip: `tests/integration/test_baseline_stability.py` compares against the canonical baseline run stored in the local `ragregress.db`, which is not committed.
 
 ## Security
 
@@ -600,11 +604,20 @@ Known open risks: prompt injection through passage text (untested), judge verdic
 
 ## Roadmap
 
+Planned, not implemented:
+
+| Item | Where it fits |
+|---|---|
+| **More evaluation metrics** | a new `Metric` subclass with its own `regression_threshold`, added to `METRIC_REGISTRY` (`ragregress/evaluation/metrics/`); comparison, gating and the report pick it up |
+| **Interactive dashboard (Streamlit)** | browse runs, compare configs and drill into questions over the stored SQLite runs or the API |
+| **Chunking strategy in the config** | a `strategy` field for the built-in pipeline's chunker (today: fixed-size windows only), part of `pipeline.params` and therefore of `config_hash` |
+| **Versioned generator prompt** | a `prompt_version` in the built-in pipeline's config, so prompt changes are tracked experiments; then prompt hardening and a prompt-injection test |
+
+Also planned:
 - Serve per-question logs from the API and link them from the report.
-- Prompt hardening with a `prompt_version` in the config, plus a prompt-injection test.
 - Range-check the judge verdict (`Literal[0, 1]`); a judge-agreement mode.
 - Plugin entry point for custom pipelines; a benchmark mode for comparing different pipelines.
-- Token counts in the logs; hybrid search; a larger evaluation set; a CI bot that comments the verdict on pull requests; a small web UI.
+- Token counts in the logs; hybrid search; a larger evaluation set; a CI bot that comments the verdict on pull requests.
 
 ## License and author
 

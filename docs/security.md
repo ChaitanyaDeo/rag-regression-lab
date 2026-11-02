@@ -1,70 +1,121 @@
-# Security and robustness notes
+# Security and robustness
 
-Scope: what the RAG Regression Lab tests for adversarial or malformed input, which mitigations are
-active, and which risks are accepted or deferred. Written on Day 11; update on Day 13 (logging
-wiring) and after Day 14 (prompt hardening).
+What RAG Regression Lab protects against, how, which tests prove it, and which risks are known and accepted. Architecture: [architecture.md](architecture.md). Usage: [README](../README.md).
 
-The project is local-first: Ollama models, no third-party API key, no network service. The
-threat model is therefore (1) bad config, (2) bad judge output, (3) untrusted text inside
-passages, (4) secrets or personal data leaking through git or logs.
+## Contents
 
-## 1. What is tested
+1. [Threat model](#1-threat-model)
+2. [What is tested](#2-what-is-tested)
+3. [Mitigations in place](#3-mitigations-in-place)
+4. [Secrets and API keys](#4-secrets-and-api-keys)
+5. [Logs and redaction](#5-logs-and-redaction)
+6. [The API and Docker](#6-the-api-and-docker)
+7. [Known risks and accepted behaviour](#7-known-risks-and-accepted-behaviour)
+8. [Secrets check script](#8-secrets-check-script)
+9. [Follow-ups](#9-follow-ups)
 
-All files are in `tests/security/`. Baseline on the author's machine (Oct 26): **473 passed,
-2 skipped, 5 xfailed** for `tests/unit tests/integration tests/security`.
+## 1. Threat model
+
+The project is local-first: Ollama models on the user's machine, no third-party service and no API key by default, an API bound to localhost. The realistic risks are therefore:
+
+| # | Threat | Example |
+|---|---|---|
+| T1 | Bad or hostile configuration | a typo that silently changes an experiment; a YAML tag that tries to run code; absurd values |
+| T2 | Bad judge output | malformed JSON, missing fields, out-of-range verdicts that could inflate or hide a score |
+| T3 | Untrusted text in passages | prompt injection through retrieved context |
+| T4 | Secrets or personal data leaking | an API key committed to git, written to a log, stored in the database or returned by the API |
+| T5 | Unintended network exposure | the API reachable from the local network |
+
+## 2. What is tested
+
+Counts from the full suite (871 passed, 3 skipped, 5 xfailed; Nov 2, 2026).
 
 | Area | File | Tests | What it proves |
 |---|---|---|---|
-| Config validation | `test_config_validation.py` | 34 | Missing/oversized/negative values, unknown keys, unknown pipeline id and `is_dev` mismatch are rejected at the boundary (unit and CLI `run --dry-run`, exit code 3). A YAML `!!python` tag is not executed (`safe_load`). |
-| Malformed judge, client | `test_malformed_judge.py` | 16 passed, 5 xfailed | Real `instructor` against a fake Ollama server: a garbage reply makes exactly `max_retries + 1` requests, then raises; recovery on a later attempt works; schema-invalid replies raise; seed and temperature reach the wire. |
-| Malformed judge, pipeline | `test_malformed_judge_pipeline.py` | 11 | 5-question run with scripted judge failures: a raising judge gives `judge_failed`; NaN rows are stored with a reason; aggregates ignore NaN; `run_validity` marks the run INCONCLUSIVE below 80 % measured. |
-| Log redaction | `test_log_redaction.py` | 34 | `redact()` and `RedactingFilter` remove e-mails, `sk-`/`ghp_`/`hf_` keys, Bearer tokens and `key=value` secrets; run ids, hashes and passage ids stay readable. |
-| Secrets exposure, logic | `test_secrets_check.py` | 43 | `scripts/check_secrets.py` on throw-away git repos: finds `.gitignore` gaps, bad `.env.example`, secret shapes in tracked files and in deleted-but-committed history; reports are masked. |
-| Secrets exposure, guard | `test_secrets_exposure.py` | 3 | On the real repo: `.env*` ignored, `.env.example` placeholders only, no tracked secret shape. |
+| Config validation | `tests/security/test_config_validation.py` | 34 | missing, oversized, negative values, unknown keys, unknown pipeline id and an `is_dev` / split mismatch are rejected at load (exit 3); a YAML `!!python` tag is not executed (`safe_load`) |
+| Malformed judge, client | `tests/security/test_malformed_judge.py` | 21 (16 pass, 5 xfail) | real `instructor` against a fake Ollama server: garbage makes exactly `max_retries + 1` requests then raises; later recovery works; schema-invalid replies raise; seed and temperature reach the wire. The 5 xfails pin S2 below. |
+| Malformed judge, pipeline | `tests/security/test_malformed_judge_pipeline.py` | 11 | scripted judge failures give `judge_failed` rows; NaN rows stored with a reason; aggregates ignore NaN; validity below 80 % makes the comparison INCONCLUSIVE |
+| Log redaction | `tests/security/test_log_redaction.py` | 34 | `redact()` and `RedactingFilter` remove e-mails, `sk-` / `ghp_` / `hf_` keys, Bearer tokens and `key=value` secrets; run ids, hashes and passage ids stay readable |
+| Logging through real handlers | `tests/unit/test_logging.py`, `tests/integration/test_pipeline_logging.py` | 24, 21 | the console handler and the per-run log file emit redacted JSON with the schema fields |
+| Judge configuration | `tests/unit/test_judge.py` | 125 | provider, endpoint and key resolution from the environment and `.env` |
+| Secrets exposure, logic | `tests/security/test_secrets_check.py` | 43 | `scripts/check_secrets.py` on throw-away git repos: `.gitignore` gaps, bad `.env.example`, secret shapes in tracked files and in deleted-but-committed history; masked output |
+| Secrets exposure, guard | `tests/security/test_secrets_exposure.py` | 3 | on the real repo: `.env*` ignored, `.env.example` placeholders only, no tracked secret shape |
+| API | `tests/integration/test_api.py` | 77 | every endpoint's status codes and input validation (run ids, config names, candidate lists) |
+| Docker files | `tests/unit/test_docker_files.py` | 37 | Dockerfile and Compose structure |
 
-Manual check, not in the suite (grows with the repo): `python scripts/check_secrets.py`
-(whole history, all branches). **Result Oct 26: PASS** on all five checks.
+Fake secrets in tests are assembled at runtime (`"sk" + "-..."`), so the test files themselves contain no secret shapes. Tests never write to the real `ragregress.db` or `artifacts/chroma`.
 
-## 2. Mitigations in place
+## 3. Mitigations in place
 
-| Risk | Mitigation | Evidence |
+| Threat | Mitigation | Evidence |
 |---|---|---|
-| Invalid or hostile config | Pydantic v2, `extra="forbid"`, frozen models, caps (`top_k` 1..50, `chunk_size` 1..4000, `overlap` < `chunk_size`, `max_workers` 1..8, seeds >= 0), YAML `safe_load` | `test_config_validation.py` |
-| Judge returns garbage | Bounded retries, then raise; failure recorded per question (`judge_failed`) | `test_malformed_judge*.py` |
-| Judge output yields no usable score | Faithfulness returns NaN; the comparator treats it as unmeasured; `run_validity` makes the run INCONCLUSIVE below 80 % measured, so a bad judge cannot silently pass a comparison | `test_malformed_judge_pipeline.py` |
-| Secret committed to git | `.gitignore` covers `.env`, `.env.*` (except `.env.example`); `check_secrets.py` plus 3 guard tests | `test_secrets_*.py`, manual scan PASS |
+| T1 | Pydantic v2 models, `extra="forbid"` and frozen at every level; caps (`top_k` 1–50, `chunk_size` 1–4000, `overlap` < `chunk_size`, `max_workers` 1–8, `reranker.candidates` ≤ 50 and ≥ `top_k`, seeds ≥ 0); YAML `safe_load` | `test_config_validation.py` |
+| T1 | `POST /runs` takes a config **name** matched against `^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$` and resolved inside `configs/`, never a path; the config's `db_path` must equal the API's database | `api/schemas.py`, `api/experiments.py`, `test_api.py` |
+| T2 | bounded retries, then the metric is recorded as failed for that question (`judge_failed`) | `test_malformed_judge*.py` |
+| T2 | unusable judge output gives NaN or an absent metric; both count as unmeasured; below 80 % validity the verdict is INCONCLUSIVE, so a broken judge cannot pass a change | `test_malformed_judge_pipeline.py` |
+| T4 | judge key from the environment only; never hashed, stored or logged; excluded from `repr` | `evaluation/judge.py` (`ResolvedJudge.api_key` has `repr=False`) |
+| T4 | `.gitignore` covers `.env`, `.env.*` (except `.env.example`), the database and `artifacts/`; `check_secrets.py` plus guard tests | `test_secrets_*.py` |
+| T4 | every log record passes through redaction; API error text is redacted before it is returned | `core/logging.py`, `test_log_redaction.py`; `api/experiments.py`, `api/jobs.py` |
+| T5 | API port published on `127.0.0.1` only | `docker-compose.yml` (`127.0.0.1:8000:8000`) |
+| (report) | Jinja2 autoescape: answers and passages are untrusted text and cannot inject HTML or script; the report loads no external assets | `report.py`, `test_report.py` |
 
-## 3. Known risks and accepted behaviour
+## 4. Secrets and API keys
 
-| ID | Risk or behaviour | Status | Action |
-|---|---|---|---|
-| S1 | **Prompt injection.** Retrieved chunks are pasted into the generator prompt as plain text, with no delimiter and no "context is data" instruction. A passage can try to steer the answer. | **Not tested yet; known risk.** The test (B4) and the prompt fix are deferred together because any prompt change alters generator output and breaks reproduction of the canonical runs. | After Day 14: add `prompt_version`, harden the prompt (also fix the typo `"ou are a question-answering..."`), add `test_prompt_injection.py` as `xfail(strict)` first, with an opt-in test against the real model. |
-| S2 | **Judge verdict not range-checked.** `NLIStatementOutput.verdict` is an unconstrained `int`; 2, -1 or 7 pass the schema and count as "supported", so a bad judge can inflate faithfulness. | Pinned as `xfail(strict)` (5 xfailed). No source change. | Change the field to `Literal[0, 1]` after Day 14; the xfails then flip to XPASS and the markers must be removed. |
-| S3 | **NaN faithfulness row is tagged `pass`.** No claims, or a verdict-count mismatch, gives NaN without an exception; the row is stored `judged` and tagged `pass`. | Accepted and pinned. The comparator reads NaN as unmeasured, and `run_validity` protects the comparison. | Optional: tag such rows differently. |
-| S4 | **Same-count mismatched verdicts.** A verdict list with the right length but statements in the wrong order or with different text is accepted. | Untested. | Match verdict statements to claims, or document as a judge-quality limit. |
-| S5 | **Lax integer coercion.** `true`, `"5"` and `5.0` are accepted as ints in config; `5.5` and `"1e3"` are rejected. | Accepted (D11-Q7) and pinned. | None. |
-| S6 | **YAML alias bomb** (nested anchors that expand exponentially). `safe_load` blocks code execution but not expansion. | **Untested.** Configs are written by the user. | Add a size cap on config files if configs ever come from untrusted sources. |
-| S7 | **NaN reason is persisted** in `metric_results_json`. | Intended; relevant to open item D9-Q23 (faithfulness reason persistence). | Decide with D9-Q23. |
-
-## 4. Log redaction: limits and status
-
-`ragregress/core/logging.py` provides `redact()` and `RedactingFilter`.
-
-**Status: unit-tested, not an active control.** Nothing in the harness imports it yet, so logs
-are currently not redacted. Wiring is planned for Day 13, together with an integration test
-that logs through the real handler.
-
-| Limit | Detail |
+| Item | Rule |
 |---|---|
-| `print()` bypasses logging | `pipeline.py` and the generator still `print()` debug lines (questions, ids, `repr(exception)`). The filter cannot see them. Replace with `logging` on Day 13. |
-| Attach to handlers | A filter on a logger does not see records from child loggers. Use `handler.addFilter(RedactingFilter())`. |
-| Shared record | The filter rewrites the `LogRecord` in place, so every handler sees the redacted text. |
-| `stack_info` not redacted | Only the message and exception text are. |
-| Shapes only | E-mails, `sk-`/`ghp_`/`hf_` keys, Bearer tokens, `api_key`/`token`/`password`/`passwd`/`secret` pairs. Phone numbers, IP addresses and user paths are not redacted. Over-redaction is possible (`token=abc` is redacted by design). |
+| Default setup | no key at all (local Ollama). The OpenAI-compatible client gets a placeholder value where a key is required. |
+| Hosted judge | `judge_provider: openai` reads `JUDGE_API_KEY` (or `OPENAI_API_KEY`) from the environment or `.env` |
+| Where a key can appear | only in the process environment and the HTTP request to the judge |
+| Where it never appears | config files, `config_hash`, the database, logs, API responses, `--dry-run` output (which prints where the key came from, not its value) |
+| A leaked key | rotate it; removing it from git history is not enough |
 
-## 5. Secrets check: scope and limits
+## 5. Logs and redaction
 
-`scripts/check_secrets.py` (standard library plus `git`; exit 0 clean, 1 findings, 2 cannot run):
+`ragregress/core/logging.py` is wired into every entry point (CLI, API, per-run log file).
+
+| Property | Detail |
+|---|---|
+| Redacted | e-mail addresses; `sk-…`, `ghp_` / `gho_` / `ghu_` / `ghs_` / `ghr_…`, `hf_…` key shapes; `Bearer <token>`; values of `api_key`, `token`, `password`, `passwd`, `secret` in `key=value`, `key: value` and JSON form |
+| How | `RedactingFilter` on each handler redacts the message and exception text; the JSON formatter redacts every string value before serialising (so the JSON stays valid) |
+| Not redacted, on purpose | hex strings in general (config hashes, run ids, passage ids must stay readable) |
+| Not redacted | phone numbers, IP addresses, user paths; `stack_info` text; output that bypasses `logging` |
+| Over-redaction | possible by design (`token=abc` is redacted) |
+
+What the logs **do** contain:
+- **Corpus and question text.** Run logs can include question text (e.g. the generator's "no citations" warning) and, in exception tracebacks, the judge's full replies. Harmless for SQuAD; relevant if the harness is pointed at a private corpus.
+- **Third-party records.** The per-run log file attaches to the root logger, so records from libraries (e.g. `instructor` retry errors) are written too, redacted but without the pipeline fields.
+
+## 6. The API and Docker
+
+| Item | Behaviour |
+|---|---|
+| Authentication | **none**. Acceptable only because the port is bound to `127.0.0.1`; do not publish it on other interfaces. |
+| Inside the container | uvicorn listens on `0.0.0.0` (required to be reachable through the published port) |
+| Input validation | run ids `^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$`, config names as above, 1–10 unique compare candidates, unknown JSON keys rejected (422) |
+| Error responses | passed through `redact()`; `/runs` lists no error text |
+| Background runs | one at a time per process; job errors redacted before storage |
+| Image | `python:3.11-slim`, non-root user (uid 1000), `.dockerignore` allow-list (no `.env`, database, index or data in the image), pinned requirements |
+| Secrets in containers | `.env` is read from the bind-mounted repo at runtime, never baked into the image |
+
+## 7. Known risks and accepted behaviour
+
+| ID | Risk or behaviour | Status | Plan |
+|---|---|---|---|
+| S1 | **Prompt injection.** Retrieved chunks are pasted into the generator prompt as plain text; a passage can try to steer the answer. | **Not tested; known risk.** A prompt change alters generator output and would break reproduction of the stored canonical runs. | Add a `prompt_version` to the config, harden the prompt (also fix the typo "ou are …" in its first line), add a prompt-injection test (`xfail(strict)` first, plus an opt-in real-model variant). |
+| S2 | **Judge verdict not range-checked.** `verdict` is an unconstrained `int`; 2 or −1 pass the schema and count as supported, which could inflate faithfulness. | Pinned by 5 `xfail(strict=True)` tests. | Change the field to `Literal[0, 1]`; the xfails then turn into passes and their markers are removed. |
+| S3 | **NaN faithfulness row tagged `pass`.** No claims, or a verdict-count mismatch, gives NaN without an exception. | Accepted: NaN is unmeasured in comparisons and validity protects the verdict. | Optional: a distinct tag. |
+| S4 | **Same-count mismatched verdicts.** A verdict list of the right length but for different statements is accepted. | Untested. | Match verdicts to statements, or document as a judge-quality limit. |
+| S5 | **Lax integer coercion** in configs (`true`, `"5"`, `5.0` accepted as ints; `5.5`, `"1e3"` rejected). | Accepted and pinned. | None. |
+| S6 | **YAML alias bomb** (nested anchors that expand exponentially). `safe_load` blocks code execution, not expansion. | Untested; configs are written by the user. | Size cap on config files if configs ever come from untrusted sources. |
+| S7 | **NaN reasons are persisted** in `metric_results_json`. | Intended (debuggability). | None. |
+| S8 | **Raw error text in SQLite.** `last_error` and `run_status_detail` are stored unredacted (exception text from libraries). | Accepted: the database is local and gitignored; the API redacts both on output. | Redact on write if the database is ever shared. |
+| S9 | **No API authentication.** | Accepted for a localhost-only tool (T5 mitigation). | Add authentication before any non-local deployment. |
+| S10 | **Logs contain corpus text and judge output** ([§5](#5-logs-and-redaction)). | Accepted for a public corpus. | Treat logs as sensitive when using private data. |
+| S11 | **Run guard is per process.** A CLI run and an API run can write to the same database at once. | Accepted: SQLite serialises writes and runs have distinct ids; not stress-tested. | A file lock if needed. |
+
+## 8. Secrets check script
+
+`python scripts/check_secrets.py` (standard library plus `git`; exit 0 clean, 1 findings, 2 cannot run):
 
 | Check | What it does |
 |---|---|
@@ -76,16 +127,17 @@ that logs through the real handler.
 
 Limits:
 - Only tracked files and committed history are scanned; new, uncommitted files are not.
-- Shapes only (`sk-`, `ghp_`-family, `hf_`, `AKIA`, Slack `xox`, private-key header). A secret with no recognisable shape outside a `.env` file is not found.
-- A secret that was pushed must be **rotated**; removing it from git is not enough.
+- Shapes only (`sk-`, `ghp_` family, `hf_`, `AKIA`, Slack `xox`, private-key headers). A secret without a recognisable shape outside a `.env` file is not found.
 - Findings are masked (first 4 characters and length), so the report is safe to paste.
-- Known quirk: `.gitignore` has `artifacts/` followed by `!artifacts/reports/.gitkeep`; git cannot re-include a file under an excluded folder, so the second line does nothing.
-- The project has no real third-party secret by design (local Ollama; `api_key="ollama"` is a dummy value required by the OpenAI-compatible endpoint).
+- Run it before publishing the repository; it grows with the history, so it is a manual check, not part of the suite.
 
-## 6. Follow-ups
+## 9. Follow-ups
 
-| When | Item |
+| Item | Risk |
 |---|---|
-| Day 13 | Wire `RedactingFilter` into the logging setup; replace `print()` with `logging`; add an integration test through the real handler |
-| After Day 14 | Prompt hardening and `prompt_version` (S1), then B4 injection test; `verdict: Literal[0, 1]` (S2); clear the `xfail` markers |
-| Optional | Config file size cap (S6); verdict-to-claim matching (S4); distinct tag for NaN rows (S3) |
+| `prompt_version`, prompt hardening, prompt-injection test | S1 |
+| `verdict: Literal[0, 1]`, remove the 5 xfail markers | S2 |
+| Config file size cap | S6 |
+| Verdict-to-statement matching; distinct tag for NaN rows | S4, S3 |
+| Redact `last_error` / `run_status_detail` on write | S8 |
+| Authentication, if the API is ever exposed beyond localhost | S9 |

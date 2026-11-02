@@ -473,7 +473,7 @@ report: <repo>/reports/val-<...>__vs__val-<...>.html
 
 The verdict line can also read `FAIL (exit code 6)` or `INCONCLUSIVE (exit code 7)`, with the reasons listed. The two configs have different `config_hash` values, so the config diff in the report shows `pipeline.params.min_word_len: 3 -> 4`.
 
-Verification status: every API call was checked against the source; the pipeline class was tested on its own (corpus ids, deterministic order, extractive answer, rejected typo in params); the script's control flow was run against stand-ins for the engine. It has not yet been run end to end against a real judge and database. <!-- TODO(D): run `--split dev` once and replace this note with the real output -->
+Verification status: every API call was checked against the source; the pipeline class was tested on its own (corpus ids, deterministic order, extractive answer, rejected typo in params); the script's control flow was run against stand-ins for the engine. It has not yet been run end to end against a real judge and database.
 ## 14. Metrics integration
 
 All four metrics run on every question, whatever the pipeline (`ragregress/core/runner.py`, `build_metrics`):
@@ -565,5 +565,7 @@ Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/runs -ContentType appl
 ## 22. Related documentation
 
 - [README](../README.md): installation, configuration, CLI, API, methodology, results
+- [docs/architecture.md](architecture.md): the pipeline graph, the RAG seam, storage
+- [docs/evaluation.md](evaluation.md): metrics, row classes, verdict rules
 - [docs/security.md](security.md): threat model and known risks
 - Source: `ragregress/rag/interface.py` (contract), `ragregress/rag/registry.py` (registration), `ragregress/rag/builtin_system.py` (reference implementation), `ragregress/core/runner.py` (run flow)
