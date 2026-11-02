@@ -1,0 +1,795 @@
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PASS · val-demo-baseline-20261023-145024 vs val-demo-rerank-20261028-133845</title>
+<style>
+  :root {
+    --fg: #1f2328; --muted: #5f6b7a; --bg: #ffffff; --panel: #f6f8fa; --border: #d0d7de;
+    --pass: #1a7f37; --pass-bg: #dafbe1;
+    --fail: #cf222e; --fail-bg: #ffebe9;
+    --warn: #9a6700; --warn-bg: #fff8c5;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--fg);
+         font: 14px/1.5 -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 48px; }
+  h1 { font-size: 28px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 32px 0 8px; padding-bottom: 4px; border-bottom: 1px solid var(--border); }
+  h3 { font-size: 15px; margin: 16px 0 6px; }
+  p.note, .muted { color: var(--muted); }
+  code, .mono { font-family: ui-monospace, Consolas, "Courier New", monospace; font-size: 13px; }
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; margin: 6px 0; }
+  th, td { border: 1px solid var(--border); padding: 4px 8px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); font-weight: 600; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+  /* verdict banner: INCONCLUSIVE is a full-width block, never a small badge */
+  .banner { border: 2px solid; border-radius: 6px; padding: 16px 20px; margin-bottom: 16px; }
+  .banner ul { margin: 8px 0 0; padding-left: 20px; }
+  .verdict-pass { border-color: var(--pass); background: var(--pass-bg); }
+  .verdict-pass h1 { color: var(--pass); }
+  .verdict-fail { border-color: var(--fail); background: var(--fail-bg); }
+  .verdict-fail h1 { color: var(--fail); }
+  .verdict-inconclusive { border: 4px solid var(--warn); background: var(--warn-bg); }
+  .verdict-inconclusive h1 { color: var(--warn); font-size: 34px; }
+
+  .status-ok { color: var(--pass); font-weight: 600; }
+  .status-regressed { color: var(--fail); font-weight: 600; }
+  .status-warn { color: var(--warn); font-weight: 600; }
+  .status-muted { color: var(--muted); }
+  .delta-better { color: var(--pass); }
+  .delta-worse { color: var(--fail); }
+  .delta-tie, .delta-neutral { color: var(--muted); }
+  .target-within { color: var(--pass); }
+  .target-above { color: var(--pass); }
+  .target-below { color: var(--fail); font-weight: 600; }
+  .target-na { color: var(--muted); }
+
+  .warnings { border-left: 4px solid var(--warn); background: var(--warn-bg); padding: 8px 12px; margin: 8px 0; }
+  .warnings ul { margin: 4px 0; padding-left: 20px; }
+
+  .drill { border: 1px solid var(--border); border-radius: 6px; padding: 12px 16px; margin: 16px 0; }
+  .sides { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  @media (max-width: 800px) { .sides { grid-template-columns: 1fr; } }
+  .side { background: var(--panel); border-radius: 4px; padding: 8px 12px; min-width: 0; }
+  .answer { white-space: pre-wrap; word-break: break-word; background: var(--bg);
+            border: 1px solid var(--border); padding: 6px 8px; margin: 4px 0; }
+  details { margin: 4px 0; }
+  details .passage { white-space: pre-wrap; word-break: break-word; background: var(--bg);
+                     border: 1px solid var(--border); padding: 6px 8px; margin-top: 4px; }
+  .gold { color: var(--pass); font-weight: 600; }
+  footer { margin-top: 40px; color: var(--muted); font-size: 12px; }
+</style>
+</head>
+<body>
+<main>
+
+<!-- 1. verdict -->
+<section class="banner verdict-pass">
+  <h1>PASS</h1>
+  <div><strong>PASS: no gated metric regressed beyond its threshold</strong></div>
+  <ul>
+    <li>no gated metric worsened beyond its threshold (recall_at_k, mrr, token_prf1, faithfulness)</li>
+  </ul>
+  <div class="muted">Validity: baseline 50/50 (100%) · candidate 48/50 (96%)</div>
+</section>
+
+<!-- 2. runs, warnings, config -->
+<h2>Runs</h2>
+<div class="scroll">
+<table>
+  <tbody><tr><th>Role</th><th>Run id</th><th>Created</th><th>Split</th><th>Config hash</th><th class="num">top_k</th><th>Validity</th></tr>
+  <tr>
+    <td>baseline</td>
+    <td class="mono">val-demo-baseline-20261023-145024</td>
+    <td>2026-10-23T09:22:51.565408+00:00</td>
+    <td>val</td>
+    <td class="mono" title="41c509687d97622cca1c1bdd18f4f67b801e754237ce631edbc44eab0e13f16f">41c509687d97</td>
+    <td class="num">5</td>
+    <td class="num">50/50 (100%)</td>
+  </tr>
+  <tr>
+    <td>candidate</td>
+    <td class="mono">val-demo-rerank-20261028-133845</td>
+    <td>2026-10-28T08:11:17.556887+00:00</td>
+    <td>val</td>
+    <td class="mono" title="2106599c3de01f105771610e13a4824e49ad0265462a061e0c282083270c2d44">2106599c3de0</td>
+    <td class="num">5</td>
+    <td class="num">48/50 (96%)</td>
+  </tr>
+</tbody></table>
+</div>
+
+
+<h3>Config changes</h3>
+<div class="scroll">
+<table>
+  <tbody><tr><th>Key</th><th>Baseline</th><th>Candidate</th></tr>
+  <tr><td class="mono">pipeline.params.reranker.candidates</td><td class="mono">—</td><td class="mono">20</td></tr>
+  <tr><td class="mono">pipeline.params.reranker.model</td><td class="mono">—</td><td class="mono">cross-encoder/ms-marco-MiniLM-L-6-v2</td></tr>
+</tbody></table>
+</div>
+
+<!-- 3. metrics -->
+<h2>Metrics (common rows)</h2>
+<div class="scroll">
+<table>
+  <tbody><tr>
+    <th>Metric</th><th class="num">Baseline</th><th class="num">Candidate</th><th class="num">Delta</th>
+    <th class="num">n</th><th class="num">Better / worse / tie</th><th class="num">Threshold</th><th>Status</th><th>Note</th>
+  </tr>
+  <tr>
+    <td class="mono">recall_at_k</td>
+    <td class="num">0.8800</td>
+    <td class="num">0.9400</td>
+    <td class="num delta-better">+0.0600</td>
+    <td class="num">50</td>
+    <td class="num">4 / 1 / 45</td>
+    <td class="num">0.0500</td>
+    <td class="status-ok">ok</td>
+    <td class="muted"></td>
+  </tr>
+  <tr>
+    <td class="mono">mrr</td>
+    <td class="num">0.7157</td>
+    <td class="num">0.8867</td>
+    <td class="num delta-better">+0.1710</td>
+    <td class="num">50</td>
+    <td class="num">15 / 5 / 30</td>
+    <td class="num">0.0500</td>
+    <td class="status-ok">ok</td>
+    <td class="muted"></td>
+  </tr>
+  <tr>
+    <td class="mono">token_prf1</td>
+    <td class="num">0.2132</td>
+    <td class="num">0.2454</td>
+    <td class="num delta-better">+0.0322</td>
+    <td class="num">50</td>
+    <td class="num">15 / 8 / 27</td>
+    <td class="num">0.0500</td>
+    <td class="status-ok">ok</td>
+    <td class="muted"></td>
+  </tr>
+  <tr>
+    <td class="mono">faithfulness</td>
+    <td class="num">0.7429</td>
+    <td class="num">0.7170</td>
+    <td class="num delta-worse">-0.0259</td>
+    <td class="num">48</td>
+    <td class="num">8 / 8 / 32</td>
+    <td class="num">0.0500</td>
+    <td class="status-ok">ok</td>
+    <td class="muted"></td>
+  </tr>
+</tbody></table>
+</div>
+
+<!-- 4. targets -->
+<h2>Target vs actual</h2>
+<div class="scroll">
+<table>
+  <tbody><tr><th>Metric</th><th class="num">Target</th><th class="num">Baseline</th><th>Status</th><th class="num">Candidate</th><th>Status</th></tr>
+  <tr>
+    <td>Recall@5</td>
+    <td class="num">0.80–0.85</td>
+    <td class="num">0.8800</td><td class="target-above">above</td>
+    <td class="num">0.9400</td><td class="target-above">above</td>
+  </tr>
+  <tr>
+    <td>MRR</td>
+    <td class="num">0.65–0.75</td>
+    <td class="num">0.7157</td><td class="target-within">within</td>
+    <td class="num">0.8867</td><td class="target-above">above</td>
+  </tr>
+  <tr>
+    <td>Answer F1</td>
+    <td class="num">0.55–0.65</td>
+    <td class="num">0.2132</td><td class="target-below">below</td>
+    <td class="num">0.2454</td><td class="target-below">below</td>
+  </tr>
+  <tr>
+    <td>Faithfulness</td>
+    <td class="num">0.80–0.90</td>
+    <td class="num">0.7429</td><td class="target-below">below</td>
+    <td class="num">0.7170</td><td class="target-below">below</td>
+  </tr>
+</tbody></table>
+</div>
+<p class="note">Targets: README.md DEC-03. Actuals: means over the common rows, same as the metric table.</p>
+
+<!-- 5. latency -->
+<h2>Latency (informational, not gated)</h2>
+<div class="scroll">
+<table>
+  <tbody><tr>
+    <th>Stage</th>
+    <th class="num">p50 baseline</th><th class="num">p50 candidate</th><th class="num">p50 delta</th>
+    <th class="num">p95 baseline</th><th class="num">p95 candidate</th><th class="num">p95 delta</th>
+  </tr>
+  <tr>
+    <td>total</td>
+    <td class="num">25,480 ms</td><td class="num">23,587 ms</td>
+    <td class="num delta-better">-1,894 ms</td>
+    <td class="num">43,780 ms</td><td class="num">48,770 ms</td>
+    <td class="num delta-worse">+4,990 ms</td>
+  </tr>
+  <tr>
+    <td>retrieve</td>
+    <td class="num">33 ms</td><td class="num">77 ms</td>
+    <td class="num delta-worse">+44 ms</td>
+    <td class="num">47 ms</td><td class="num">100 ms</td>
+    <td class="num delta-worse">+53 ms</td>
+  </tr>
+  <tr>
+    <td>generate</td>
+    <td class="num">7,564 ms</td><td class="num">6,975 ms</td>
+    <td class="num delta-better">-588 ms</td>
+    <td class="num">8,167 ms</td><td class="num">7,685 ms</td>
+    <td class="num delta-better">-483 ms</td>
+  </tr>
+  <tr>
+    <td>judge</td>
+    <td class="num">17,974 ms</td><td class="num">16,687 ms</td>
+    <td class="num delta-better">-1,286 ms</td>
+    <td class="num">36,064 ms</td><td class="num">32,430 ms</td>
+    <td class="num delta-better">-3,635 ms</td>
+  </tr>
+</tbody></table>
+</div>
+
+<!-- 6. groups -->
+<h2>Where regressions are</h2>
+<p>18 of 50 common rows are worse on at least one gated metric</p>
+<h3>By category</h3>
+<div class="scroll">
+<table>
+  <tbody><tr>
+    <th>Group</th><th class="num">n</th><th class="num">Worse on ≥1</th>
+<th class="num mono">recall_at_k</th><th class="num mono">mrr</th><th class="num mono">token_prf1</th><th class="num mono">faithfulness</th>  </tr>
+  <tr>
+    <td>comparison</td>
+    <td class="num">27</td>
+    <td class="num">10</td>
+<td class="num">+0.074 (1 worse / 3 better)</td><td class="num">+0.185 (1 worse / 7 better)</td><td class="num">+0.043 (6 worse / 8 better)</td><td class="num">-0.041 (5 worse / 5 better)</td>  </tr>
+  <tr>
+    <td>simple_with_condition</td>
+    <td class="num">20</td>
+    <td class="num">7</td>
+<td class="num">+0.050 (0 worse / 1 better)</td><td class="num">+0.161 (3 worse / 7 better)</td><td class="num">+0.016 (2 worse / 5 better)</td><td class="num">-0.058 (3 worse / 2 better)</td>  </tr>
+  <tr>
+    <td>simple</td>
+    <td class="num">3</td>
+    <td class="num">1</td>
+<td class="num">+0.000 (0 worse / 0 better)</td><td class="num">+0.111 (1 worse / 1 better)</td><td class="num">+0.042 (0 worse / 2 better)</td><td class="num">+0.500 (0 worse / 1 better)</td>  </tr>
+</tbody></table>
+</div>
+<h3>By failure mode (candidate tag; partly circular: tags derive from the same metrics)</h3>
+<div class="scroll">
+<table>
+  <tbody><tr>
+    <th>Group</th><th class="num">n</th><th class="num">Worse on ≥1</th>
+<th class="num mono">recall_at_k</th><th class="num mono">mrr</th><th class="num mono">token_prf1</th><th class="num mono">faithfulness</th>  </tr>
+  <tr>
+    <td>low_faithfulness</td>
+    <td class="num">13</td>
+    <td class="num">7</td>
+<td class="num">+0.077 (0 worse / 1 better)</td><td class="num">+0.190 (0 worse / 3 better)</td><td class="num">-0.000 (1 worse / 2 better)</td><td class="num">-0.468 (7 worse / 0 better)</td>  </tr>
+  <tr>
+    <td>low_correctness</td>
+    <td class="num">19</td>
+    <td class="num">6</td>
+<td class="num">+0.053 (0 worse / 1 better)</td><td class="num">+0.118 (3 worse / 5 better)</td><td class="num">+0.024 (4 worse / 7 better)</td><td class="num">+0.158 (0 worse / 5 better)</td>  </tr>
+  <tr>
+    <td>pass</td>
+    <td class="num">14</td>
+    <td class="num">4</td>
+<td class="num">+0.143 (0 worse / 2 better)</td><td class="num">+0.250 (1 worse / 6 better)</td><td class="num">+0.071 (2 worse / 5 better)</td><td class="num">+0.143 (1 worse / 3 better)</td>  </tr>
+  <tr>
+    <td>retrieval_miss</td>
+    <td class="num">3</td>
+    <td class="num">1</td>
+<td class="num">-0.333 (1 worse / 0 better)</td><td class="num">-0.111 (1 worse / 0 better)</td><td class="num">-0.039 (1 worse / 0 better)</td><td class="num">+0.000 (0 worse / 0 better)</td>  </tr>
+  <tr>
+    <td>judge_failed *</td>
+    <td class="num">1</td>
+    <td class="num">0</td>
+<td class="num">+0.000 (0 worse / 0 better)</td><td class="num">+0.667 (0 worse / 1 better)</td><td class="num">+0.283 (0 worse / 1 better)</td><td class="num">—</td>  </tr>
+</tbody></table>
+</div>
+<p class="note">Cells: mean delta (rows worse / better). * = fewer than 3 rows: anecdotal. Small samples give little statistical power; the verdict is for regression gating, not for ranking configs.</p>
+
+<!-- 7. drill-downs -->
+<h2>Worst rows (top 5)</h2>
+<section class="drill" id="5725cb33271a42140099d1df">
+  <h3>#1 · <span class="mono">5725cb33271a42140099d1df</span></h3>
+  <div class="muted">
+    category comparison · worst on <span class="mono">recall_at_k</span>
+    (worsened by 1.0000) · worse on 3 gated metrics
+  </div>
+  <p><strong>Question:</strong> What does ctenophore use to capture prey?</p>
+  <p><strong>Gold answer:</strong>
+colloblasts | colloblasts | colloblasts  </p>
+
+  <div class="sides">
+    <div class="side">
+      <strong>baseline</strong> <span class="muted mono">val-demo-baseline-20261023-145024</span>
+      <div class="muted">status judged · measured · tag low_correctness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">Ctenophores use colloblasts, which are sticky and adhere to prey, although a few ctenophore species lack them .</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">0.3333</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.1176</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000807</span> · Ctenophora        </summary>
+        <div class="passage">Almost all ctenophores are predators, taking prey ranging from microscopic larvae and rotifers to the adults of small crustaceans; the exceptions are juveniles of two species, which live as parasites on the salps on which adults of their species feed. In favorable circumstances, ctenophores can eat ten times their own weight in a day. Only 100–150 species have been validated, and possibly another 25 have not been fully described and named. The textbook examples are cydippids with egg-shaped bodies and a pair of retractable tentacles fringed with tentilla ("little tentacles") that are covered with colloblasts, sticky cells that capture prey. The phylum has a wide range of body forms, including the flattened, deep-sea platyctenids, in which the adults of most species lack combs, and the coastal beroids, which lack tentacles and prey on other ctenophores by using huge mouths armed with groups of large, stiffened cilia that act as teeth. These variations enable different species to build huge populations in the same area, because they specialize in different types of prey, which they capture by as wide a range of methods as spiders use.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000830</span> · Ctenophora        </summary>
+        <div class="passage">Almost all ctenophores are predators – there are no vegetarians and only one genus that is partly parasitic. If food is plentiful, they can eat 10 times their own weight per day. While Beroe preys mainly on other ctenophores, other surface-water species prey on zooplankton (planktonic animals) ranging in size from the microscopic, including mollusc and fish larvae, to small adult crustaceans such as copepods, amphipods, and even krill. Members of the genus Haeckelia prey on jellyfish and incorporate their prey's nematocysts (stinging cells) into their own tentacles instead of colloblasts. Ctenophores have been compared to spiders in their wide range of techniques from capturing prey – some hang motionless in the water using their tentacles as "webs", some are ambush predators like Salticid jumping spiders, and some dangle a sticky droplet at the end of a fine thread, as bolas spiders do. This variety explains the wide range of body forms in a phylum with rather few species. The two-tentacled "cydippid" Lampea feeds exclusively on salps, close relatives of sea-squirts that form large chain-like floating colonies, and juveniles of Lampea attach themselves like parasites to salps that are too large for them to swallow. Members of the cydippid genus Pleurobrachia and the lobate Bolinopsis often reach high population densities at the same place and time because they specialize in different types of prey: Pleurobrachia's long tentacles mainly capture relatively strong swimmers such as adult copepods, while Bolinopsis generally feeds on smaller, weaker swimmers such as rotifers and mollusc and crustacean larvae.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000811</span> · Ctenophora<span class="gold"> · gold</span>        </summary>
+        <div class="passage">Ctenophores form an animal phylum that is more complex than sponges, about as complex as cnidarians (jellyfish, sea anemones, etc.), and less complex than bilaterians (which include almost all other animals). Unlike sponges, both ctenophores and cnidarians have: cells bound by inter-cell connections and carpet-like basement membranes; muscles; nervous systems; and some have sensory organs. Ctenophores are distinguished from all other animals by having colloblasts, which are sticky and adhere to prey, although a few ctenophore species lack them.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000831</span> · Ctenophora        </summary>
+        <div class="passage">Ctenophores used to be regarded as "dead ends" in marine food chains because it was thought their low ratio of organic matter to salt and water made them a poor diet for other animals. It is also often difficult to identify the remains of ctenophores in the guts of possible predators, although the combs sometimes remain intact long enough to provide a clue. Detailed investigation of chum salmon, Oncorhynchus keta, showed that these fish digest ctenophores 20 times as fast as an equal weight of shrimps, and that ctenophores can provide a good diet if there are enough of them around. Beroids prey mainly on other ctenophores. Some jellyfish and turtles eat large quantities of ctenophores, and jellyfish may temporarily wipe out ctenophore populations. Since ctenophores and jellyfish often have large seasonal variations in population, most fish that prey on them are generalists, and may have a greater effect on populations than the specialist jelly-eaters. This is underlined by an observation of herbivorous fishes deliberately feeding on gelatinous zooplankton during blooms in the Red Sea. The larvae of some sea anemones are parasites on ctenophores, as are the larvae of some flatworms that parasitize fish when they reach adulthood.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000809</span> · Ctenophora        </summary>
+        <div class="passage">Ctenophores may be abundant during the summer months in some coastal locations, but in other places they are uncommon and difficult to find. In bays where they occur in very high numbers, predation by ctenophores may control the populations of small zooplanktonic organisms such as copepods, which might otherwise wipe out the phytoplankton (planktonic plants), which are a vital part of marine food chains. One ctenophore, Mnemiopsis, has accidentally been introduced into the Black Sea, where it is blamed for causing fish stocks to collapse by eating both fish larvae and organisms that would otherwise have fed the fish. The situation was aggravated by other factors, such as over-fishing and long-term environmental changes that promoted the growth of the Mnemiopsis population. The later accidental introduction of Beroe helped to mitigate the problem, as Beroe preys on other ctenophores.</div>
+      </details>
+
+      <div><a href="logs/val-demo-baseline-20261023-145024.jsonl#5725cb33271a42140099d1df">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+    <div class="side">
+      <strong>candidate</strong> <span class="muted mono">val-demo-rerank-20261028-133845</span>
+      <div class="muted">status judged · measured · tag retrieval_miss</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">Ctenophores use a variety of techniques to capture prey, including hanging motionless in the water using their tentacles as "webs", being ambush predators like Salticid jumping spiders, and dangle a sticky droplet at the end of a fine thread, as bolas spiders do.</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000830</span> · Ctenophora        </summary>
+        <div class="passage">Almost all ctenophores are predators – there are no vegetarians and only one genus that is partly parasitic. If food is plentiful, they can eat 10 times their own weight per day. While Beroe preys mainly on other ctenophores, other surface-water species prey on zooplankton (planktonic animals) ranging in size from the microscopic, including mollusc and fish larvae, to small adult crustaceans such as copepods, amphipods, and even krill. Members of the genus Haeckelia prey on jellyfish and incorporate their prey's nematocysts (stinging cells) into their own tentacles instead of colloblasts. Ctenophores have been compared to spiders in their wide range of techniques from capturing prey – some hang motionless in the water using their tentacles as "webs", some are ambush predators like Salticid jumping spiders, and some dangle a sticky droplet at the end of a fine thread, as bolas spiders do. This variety explains the wide range of body forms in a phylum with rather few species. The two-tentacled "cydippid" Lampea feeds exclusively on salps, close relatives of sea-squirts that form large chain-like floating colonies, and juveniles of Lampea attach themselves like parasites to salps that are too large for them to swallow. Members of the cydippid genus Pleurobrachia and the lobate Bolinopsis often reach high population densities at the same place and time because they specialize in different types of prey: Pleurobrachia's long tentacles mainly capture relatively strong swimmers such as adult copepods, while Bolinopsis generally feeds on smaller, weaker swimmers such as rotifers and mollusc and crustacean larvae.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000818</span> · Ctenophora        </summary>
+        <div class="passage">The largest single sensory feature is the aboral organ (at the opposite end from the mouth). Its main component is a statocyst, a balance sensor consisting of a statolith, a solid particle supported on four bundles of cilia, called "balancers", that sense its orientation. The statocyst is protected by a transparent dome made of long, immobile cilia. A ctenophore does not automatically try to keep the statolith resting equally on all the balancers. Instead its response is determined by the animal's "mood", in other words the overall state of the nervous system. For example, if a ctenophore with trailing tentacles captures prey, it will often put some comb rows into reverse, spinning the mouth towards the prey.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000807</span> · Ctenophora        </summary>
+        <div class="passage">Almost all ctenophores are predators, taking prey ranging from microscopic larvae and rotifers to the adults of small crustaceans; the exceptions are juveniles of two species, which live as parasites on the salps on which adults of their species feed. In favorable circumstances, ctenophores can eat ten times their own weight in a day. Only 100–150 species have been validated, and possibly another 25 have not been fully described and named. The textbook examples are cydippids with egg-shaped bodies and a pair of retractable tentacles fringed with tentilla ("little tentacles") that are covered with colloblasts, sticky cells that capture prey. The phylum has a wide range of body forms, including the flattened, deep-sea platyctenids, in which the adults of most species lack combs, and the coastal beroids, which lack tentacles and prey on other ctenophores by using huge mouths armed with groups of large, stiffened cilia that act as teeth. These variations enable different species to build huge populations in the same area, because they specialize in different types of prey, which they capture by as wide a range of methods as spiders use.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000831</span> · Ctenophora        </summary>
+        <div class="passage">Ctenophores used to be regarded as "dead ends" in marine food chains because it was thought their low ratio of organic matter to salt and water made them a poor diet for other animals. It is also often difficult to identify the remains of ctenophores in the guts of possible predators, although the combs sometimes remain intact long enough to provide a clue. Detailed investigation of chum salmon, Oncorhynchus keta, showed that these fish digest ctenophores 20 times as fast as an equal weight of shrimps, and that ctenophores can provide a good diet if there are enough of them around. Beroids prey mainly on other ctenophores. Some jellyfish and turtles eat large quantities of ctenophores, and jellyfish may temporarily wipe out ctenophore populations. Since ctenophores and jellyfish often have large seasonal variations in population, most fish that prey on them are generalists, and may have a greater effect on populations than the specialist jelly-eaters. This is underlined by an observation of herbivorous fishes deliberately feeding on gelatinous zooplankton during blooms in the Red Sea. The larvae of some sea anemones are parasites on ctenophores, as are the larvae of some flatworms that parasitize fish when they reach adulthood.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000809</span> · Ctenophora        </summary>
+        <div class="passage">Ctenophores may be abundant during the summer months in some coastal locations, but in other places they are uncommon and difficult to find. In bays where they occur in very high numbers, predation by ctenophores may control the populations of small zooplanktonic organisms such as copepods, which might otherwise wipe out the phytoplankton (planktonic plants), which are a vital part of marine food chains. One ctenophore, Mnemiopsis, has accidentally been introduced into the Black Sea, where it is blamed for causing fish stocks to collapse by eating both fish larvae and organisms that would otherwise have fed the fish. The situation was aggravated by other factors, such as over-fishing and long-term environmental changes that promoted the growth of the Mnemiopsis population. The later accidental introduction of Beroe helped to mitigate the problem, as Beroe preys on other ctenophores.</div>
+      </details>
+      <div class="status-regressed">Gold passage not retrieved: <span class="mono">p0000811</span></div>
+
+      <div><a href="logs/val-demo-rerank-20261028-133845.jsonl#5725cb33271a42140099d1df">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+  </div>
+</section>
+<section class="drill" id="56de40da4396321400ee270a">
+  <h3>#2 · <span class="mono">56de40da4396321400ee270a</span></h3>
+  <div class="muted">
+    category comparison · worst on <span class="mono">faithfulness</span>
+    (worsened by 1.0000) · worse on 1 gated metric
+  </div>
+  <p><strong>Question:</strong> Who led Richard's troops when Cyprus was conquered?</p>
+  <p><strong>Gold answer:</strong>
+Guy de Lusignan | Guy de Lusignan | Guy de Lusignan  </p>
+
+  <div class="sides">
+    <div class="side">
+      <strong>baseline</strong> <span class="muted mono">val-demo-baseline-20261023-145024</span>
+      <div class="muted">status judged · measured · tag pass</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">Guy de Lusignan led Richard's troops when Cyprus was conquered .</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.4615</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000134</span> · Normans<span class="gold"> · gold</span><span class="muted"> · 2 chunks</span>        </summary>
+        <div class="passage">Various princes of the Holy Land arrived in Limassol at the same time, in particular Guy de Lusignan. All declared their support for Richard provided that he support Guy against his rival Conrad of Montferrat. The local barons abandoned Isaac, who considered making peace with Richard, joining him on the crusade, and offering his daughter in marriage to the person named by Richard. But Isaac changed his mind and tried to escape. Richard then proceeded to conquer the whole island, his troops being led by Guy de Lusignan. Isaac surrendered and was confined with silver chains, because Richard had promised that he would not place him in irons. By 1 June, Richard had conquered the whole island. His exploit was well publicized and contributed to his reputation; he also derived significant financial gains from the conquest of the island. Richard left for Acre on 5 June, with his allies. Before his departure, he named two of his Norman generals, Richard de Camville and Robert de Thornham, as governors of Cyprus.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000132</span> · Normans        </summary>
+        <div class="passage">The conquest of Cyprus by the Anglo-Norman forces of the Third Crusade opened a new chapter in the history of the island, which would be under Western European domination for the following 380 years. Although not part of a planned operation, the conquest had much more permanent results than initially expected.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000136</span> · Normans        </summary>
+        <div class="passage">The rapid Anglo-Norman conquest proved more important than it seemed. The island occupied a key strategic position on the maritime lanes to the Holy Land, whose occupation by the Christians could not continue without support from the sea. Shortly after the conquest, Cyprus was sold to the Knights Templar and it was subsequently acquired, in 1192, by Guy de Lusignan and became a stable feudal kingdom. It was only in 1489 that the Venetians acquired full control of the island, which remained a Christian stronghold until the fall of Famagusta in 1571.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000133</span> · Normans        </summary>
+        <div class="passage">In April 1191 Richard the Lion-hearted left Messina with a large fleet in order to reach Acre. But a storm dispersed the fleet. After some searching, it was discovered that the boat carrying his sister and his fiancée Berengaria was anchored on the south coast of Cyprus, together with the wrecks of several other ships, including the treasure ship. Survivors of the wrecks had been taken prisoner by the island's despot Isaac Komnenos. On 1 May 1191, Richard's fleet arrived in the port of Limassol on Cyprus. He ordered Isaac to release the prisoners and the treasure. Isaac refused, so Richard landed his troops and took Limassol.</div>
+      </details>
+
+      <div><a href="logs/val-demo-baseline-20261023-145024.jsonl#56de40da4396321400ee270a">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+    <div class="side">
+      <strong>candidate</strong> <span class="muted mono">val-demo-rerank-20261028-133845</span>
+      <div class="muted">status judged · measured · tag low_faithfulness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">Richard's troops were led by Guy de Lusignan .</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.5455</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">0.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000134</span> · Normans<span class="gold"> · gold</span><span class="muted"> · 3 chunks</span>        </summary>
+        <div class="passage">Various princes of the Holy Land arrived in Limassol at the same time, in particular Guy de Lusignan. All declared their support for Richard provided that he support Guy against his rival Conrad of Montferrat. The local barons abandoned Isaac, who considered making peace with Richard, joining him on the crusade, and offering his daughter in marriage to the person named by Richard. But Isaac changed his mind and tried to escape. Richard then proceeded to conquer the whole island, his troops being led by Guy de Lusignan. Isaac surrendered and was confined with silver chains, because Richard had promised that he would not place him in irons. By 1 June, Richard had conquered the whole island. His exploit was well publicized and contributed to his reputation; he also derived significant financial gains from the conquest of the island. Richard left for Acre on 5 June, with his allies. Before his departure, he named two of his Norman generals, Richard de Camville and Robert de Thornham, as governors of Cyprus.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000133</span> · Normans        </summary>
+        <div class="passage">In April 1191 Richard the Lion-hearted left Messina with a large fleet in order to reach Acre. But a storm dispersed the fleet. After some searching, it was discovered that the boat carrying his sister and his fiancée Berengaria was anchored on the south coast of Cyprus, together with the wrecks of several other ships, including the treasure ship. Survivors of the wrecks had been taken prisoner by the island's despot Isaac Komnenos. On 1 May 1191, Richard's fleet arrived in the port of Limassol on Cyprus. He ordered Isaac to release the prisoners and the treasure. Isaac refused, so Richard landed his troops and took Limassol.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000132</span> · Normans        </summary>
+        <div class="passage">The conquest of Cyprus by the Anglo-Norman forces of the Third Crusade opened a new chapter in the history of the island, which would be under Western European domination for the following 380 years. Although not part of a planned operation, the conquest had much more permanent results than initially expected.</div>
+      </details>
+
+      <div><a href="logs/val-demo-rerank-20261028-133845.jsonl#56de40da4396321400ee270a">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+  </div>
+</section>
+<section class="drill" id="56e1239acd28a01900c67642">
+  <h3>#3 · <span class="mono">56e1239acd28a01900c67642</span></h3>
+  <div class="muted">
+    category simple_with_condition · worst on <span class="mono">faithfulness</span>
+    (worsened by 1.0000) · worse on 1 gated metric
+  </div>
+  <p><strong>Question:</strong> When did he talk about his thoughts on gender?</p>
+  <p><strong>Gold answer:</strong>
+1926 | 1926 | 1926  </p>
+
+  <div class="sides">
+    <div class="side">
+      <strong>baseline</strong> <span class="muted mono">val-demo-baseline-20261023-145024</span>
+      <div class="muted">status judged · measured · tag low_correctness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The context does not contain enough information to answer this question.</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000232</span> · Nikola_Tesla<span class="gold"> · gold</span>        </summary>
+        <div class="passage">In 1926, Tesla commented on the ills of the social subservience of women and the struggle of women toward gender equality, and indicated that humanity's future would be run by "Queen Bees." He believed that women would become the dominant sex in the future.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000235</span> · Nikola_Tesla        </summary>
+        <div class="passage">However, his religious views remain uncertain due to other statements that he made. For example, in his article, "A Machine to End War", published in 1937, Tesla stated:</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001947</span> · United_Methodist_Church        </summary>
+        <div class="passage">Nevertheless, The United Methodist Church "implore[s] families and churches not to reject or condemn lesbian and gay members and friends" and commits itself to be in ministry with all persons, affirming that God's grace, love, and forgiveness is available to all. Additionally, many organizations, conferences, and congregations have recently called for broader acceptance of the LGBT community within the UMC. For example, the Connectional Table, a governing committee, has voted in favor of a proposal that calls for a localized option, which would permit ministers to officiate same-sex weddings, and it would allow conferences to ordain gay clergy. Moreover, many conferences have taken a position by voting in favor of same-gender marriages with resolutions.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000433</span> · Martin_Luther        </summary>
+        <div class="passage">Some scholars, such as Mark U. Edwards in his book Luther's Last Battles: Politics and Polemics 1531–46 (1983), suggest that since Luther's increasingly antisemitic views developed during the years his health deteriorated, it is possible they were at least partly the product of a declining state of mind. Edwards also comments that Luther often deliberately used "vulgarity and violence" for effect, both in his writings condemning the Jews and in diatribes against "Turks" (Muslims) and Catholics.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001948</span> · United_Methodist_Church        </summary>
+        <div class="passage">In 1987, a United Methodist church court in New Hampshire defrocked Methodist minister Rose Mary Denman for openly living with a same-sex partner. In 2005, clergy credentials were removed from Irene Elizabeth Stroud after she was convicted in a church trial of violating church law by engaging in a lesbian relationship; this conviction was later upheld by the Judicial Council, the highest court in the denomination. The Judicial Council also affirmed that a Virginia pastor had the right to deny local church membership to a man in an openly gay relationship. This affirmation, however, was based upon a senior pastor's right to judge the readiness of a congregant to join as a full member of the church. However, at the same time, the UMC Judicial Council, in 2008, ruled that conferences can determine their own policy related to transgender pastors, and therefore some regional conferences have voted to recognize ordained transgender pastors. The Baltimore-Washington Conference of the UMC has approved the appointment of an openly partnered lesbian to the provisional diaconate.</div>
+      </details>
+
+      <div><a href="logs/val-demo-baseline-20261023-145024.jsonl#56e1239acd28a01900c67642">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+    <div class="side">
+      <strong>candidate</strong> <span class="muted mono">val-demo-rerank-20261028-133845</span>
+      <div class="muted">status judged · measured · tag low_faithfulness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The context does not contain enough information to answer this question.</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">0.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0000232</span> · Nikola_Tesla<span class="gold"> · gold</span>        </summary>
+        <div class="passage">In 1926, Tesla commented on the ills of the social subservience of women and the struggle of women toward gender equality, and indicated that humanity's future would be run by "Queen Bees." He believed that women would become the dominant sex in the future.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000235</span> · Nikola_Tesla        </summary>
+        <div class="passage">However, his religious views remain uncertain due to other statements that he made. For example, in his article, "A Machine to End War", published in 1937, Tesla stated:</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0000231</span> · Nikola_Tesla        </summary>
+        <div class="passage">Tesla, like many of his era, became a proponent of an imposed selective breeding version of eugenics. His opinion stemmed from the belief that humans' "pity" had interfered with the natural "ruthless workings of nature," rather than from conceptions of a "master race" or inherent superiority of one person over another. His advocacy of it was, however, to push it further. In a 1937 interview, he stated:</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001185</span> · Genghis_Khan        </summary>
+        <div class="passage">Modern Mongolian historians say that towards the end of his life, Genghis Khan attempted to create a civil state under the Great Yassa that would have established the legal equality of all individuals, including women. However, there is no evidence of this, or of the lifting of discriminatory policies towards sedentary peoples such as the Chinese. Women played a relatively important role in Mongol Empire and in family, for example Töregene Khatun was briefly in charge of the Mongol Empire when next male Khagan was being chosen. Modern scholars refer to the alleged policy of encouraging trade and communication as the Pax Mongolica (Mongol Peace).</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001470</span> · Doctor_Who        </summary>
+        <div class="passage">The programme's first serial, An Unearthly Child, shows that the Doctor has a granddaughter, Susan Foreman. In the 1967 serial, Tomb of the Cybermen, when Victoria Waterfield doubts the Doctor can remember his family because of, "being so ancient", the Doctor says that he can when he really wants to—"The rest of the time they sleep in my mind". The 2005 series reveals that the Ninth Doctor thought he was the last surviving Time Lord, and that his home planet had been destroyed; in "The Empty Child" (2005), Dr. Constantine states that, "Before the war even began, I was a father and a grandfather. Now I am neither." The Doctor remarks in response, "Yeah, I know the feeling." In "Smith and Jones" (2007), when asked if he had a brother, he replied, "No, not any more." In both "Fear Her" (2006) and "The Doctor's Daughter" (2008), he states that he had, in the past, been a father.</div>
+      </details>
+
+      <div><a href="logs/val-demo-rerank-20261028-133845.jsonl#56e1239acd28a01900c67642">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+  </div>
+</section>
+<section class="drill" id="572968cf1d046914007793cd">
+  <h3>#4 · <span class="mono">572968cf1d046914007793cd</span></h3>
+  <div class="muted">
+    category simple_with_condition · worst on <span class="mono">faithfulness</span>
+    (worsened by 1.0000) · worse on 1 gated metric
+  </div>
+  <p><strong>Question:</strong> When was the plastome discovered?</p>
+  <p><strong>Gold answer:</strong>
+1962 | 1962 | 1962  </p>
+
+  <div class="sides">
+    <div class="side">
+      <strong>baseline</strong> <span class="muted mono">val-demo-baseline-20261023-145024</span>
+      <div class="muted">status judged · measured · tag low_correctness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The plastome was first discovered in 1962 .</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">0.2000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.2857</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0001701</span> · Chloroplast        </summary>
+        <div class="passage">The chloroplast membranes sometimes protrude out into the cytoplasm, forming a stromule, or stroma-containing tubule. Stromules are very rare in chloroplasts, and are much more common in other plastids like chromoplasts and amyloplasts in petals and roots, respectively. They may exist to increase the chloroplast's surface area for cross-membrane transport, because they are often branched and tangled with the endoplasmic reticulum. When they were first observed in 1962, some plant biologists dismissed the structures as artifactual, claiming that stromules were just oddly shaped chloroplasts with constricted regions or dividing chloroplasts. However, there is a growing body of evidence that stromules are functional, integral features of plant cell plastids, not merely artifacts.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001704</span> · Chloroplast        </summary>
+        <div class="passage">Plastoglobuli (singular plastoglobulus, sometimes spelled plastoglobule(s)), are spherical bubbles of lipids and proteins about 45–60 nanometers across. They are surrounded by a lipid monolayer. Plastoglobuli are found in all chloroplasts, but become more common when the chloroplast is under oxidative stress, or when it ages and transitions into a gerontoplast. Plastoglobuli also exhibit a greater size variation under these conditions. They are also common in etioplasts, but decrease in number as the etioplasts mature into chloroplasts.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001694</span> · Chloroplast        </summary>
+        <div class="passage">One of competing model for cpDNA replication asserts that most cpDNA is linear and participates in homologous recombination and replication structures similar to bacteriophage T4. It has been established that some plants have linear cpDNA, such as maize, and that more species still contain complex structures that scientists do not yet understand. When the original experiments on cpDNA were performed, scientists did notice linear structures; however, they attributed these linear forms to broken circles. If the branched and complex structures seen in cpDNA experiments are real and not artifacts of concatenated circular DNA or broken circles, then a D-loop mechanism of replication is insufficient to explain how those structures would replicate. At the same time, homologous recombination does not expand the multiple A --&gt; G gradients seen in plastomes. Because of the failure to explain the deamination gradient as well as the numerous plant species that have been shown to have circular cpDNA, the predominant theory continues to hold that most cpDNA is circular and most likely replicates via a D loop mechanism.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001705</span> · Chloroplast        </summary>
+        <div class="passage">Plastoglobuli were once thought to be free-floating in the stroma, but it is now thought that they are permanently attached either to a thylakoid or to another plastoglobulus attached to a thylakoid, a configuration that allows a plastoglobulus to exchange its contents with the thylakoid network. In normal green chloroplasts, the vast majority of plastoglobuli occur singularly, attached directly to their parent thylakoid. In old or stressed chloroplasts, plastoglobuli tend to occur in linked groups or chains, still always anchored to a thylakoid.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001690</span> · Chloroplast<span class="gold"> · gold</span>        </summary>
+        <div class="passage">Chloroplasts have their own DNA, often abbreviated as ctDNA, or cpDNA. It is also known as the plastome. Its existence was first proved in 1962, and first sequenced in 1986—when two Japanese research teams sequenced the chloroplast DNA of liverwort and tobacco. Since then, hundreds of chloroplast DNAs from various species have been sequenced, but they're mostly those of land plants and green algae—glaucophytes, red algae, and other algal groups are extremely underrepresented, potentially introducing some bias in views of "typical" chloroplast DNA structure and content.</div>
+      </details>
+
+      <div><a href="logs/val-demo-baseline-20261023-145024.jsonl#572968cf1d046914007793cd">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+    <div class="side">
+      <strong>candidate</strong> <span class="muted mono">val-demo-rerank-20261028-133845</span>
+      <div class="muted">status judged · measured · tag low_faithfulness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The plastome was first discovered in 1962 .</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.2857</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">0.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0001690</span> · Chloroplast<span class="gold"> · gold</span>        </summary>
+        <div class="passage">Chloroplasts have their own DNA, often abbreviated as ctDNA, or cpDNA. It is also known as the plastome. Its existence was first proved in 1962, and first sequenced in 1986—when two Japanese research teams sequenced the chloroplast DNA of liverwort and tobacco. Since then, hundreds of chloroplast DNAs from various species have been sequenced, but they're mostly those of land plants and green algae—glaucophytes, red algae, and other algal groups are extremely underrepresented, potentially introducing some bias in views of "typical" chloroplast DNA structure and content.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001701</span> · Chloroplast<span class="muted"> · 2 chunks</span>        </summary>
+        <div class="passage">The chloroplast membranes sometimes protrude out into the cytoplasm, forming a stromule, or stroma-containing tubule. Stromules are very rare in chloroplasts, and are much more common in other plastids like chromoplasts and amyloplasts in petals and roots, respectively. They may exist to increase the chloroplast's surface area for cross-membrane transport, because they are often branched and tangled with the endoplasmic reticulum. When they were first observed in 1962, some plant biologists dismissed the structures as artifactual, claiming that stromules were just oddly shaped chloroplasts with constricted regions or dividing chloroplasts. However, there is a growing body of evidence that stromules are functional, integral features of plant cell plastids, not merely artifacts.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001704</span> · Chloroplast        </summary>
+        <div class="passage">Plastoglobuli (singular plastoglobulus, sometimes spelled plastoglobule(s)), are spherical bubbles of lipids and proteins about 45–60 nanometers across. They are surrounded by a lipid monolayer. Plastoglobuli are found in all chloroplasts, but become more common when the chloroplast is under oxidative stress, or when it ages and transitions into a gerontoplast. Plastoglobuli also exhibit a greater size variation under these conditions. They are also common in etioplasts, but decrease in number as the etioplasts mature into chloroplasts.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001705</span> · Chloroplast        </summary>
+        <div class="passage">Plastoglobuli were once thought to be free-floating in the stroma, but it is now thought that they are permanently attached either to a thylakoid or to another plastoglobulus attached to a thylakoid, a configuration that allows a plastoglobulus to exchange its contents with the thylakoid network. In normal green chloroplasts, the vast majority of plastoglobuli occur singularly, attached directly to their parent thylakoid. In old or stressed chloroplasts, plastoglobuli tend to occur in linked groups or chains, still always anchored to a thylakoid.</div>
+      </details>
+
+      <div><a href="logs/val-demo-rerank-20261028-133845.jsonl#572968cf1d046914007793cd">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+  </div>
+</section>
+<section class="drill" id="5733f8dc4776f419006615f9">
+  <h3>#5 · <span class="mono">5733f8dc4776f419006615f9</span></h3>
+  <div class="muted">
+    category comparison · worst on <span class="mono">faithfulness</span>
+    (worsened by 1.0000) · worse on 1 gated metric
+  </div>
+  <p><strong>Question:</strong> Who won the battle of Lake George?</p>
+  <p><strong>Gold answer:</strong>
+inconclusively, with both sides withdrawing from the field | The battle ended inconclusively | ended inconclusively | both sides withdrawing from the field | The battle ended inconclusively  </p>
+
+  <div class="sides">
+    <div class="side">
+      <strong>baseline</strong> <span class="muted mono">val-demo-baseline-20261023-145024</span>
+      <div class="muted">status judged · measured · tag low_correctness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The context does not contain enough information to answer this question.</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">1.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0002005</span> · French_and_Indian_War<span class="gold"> · gold</span>        </summary>
+        <div class="passage">Johnson's expedition was better organized than Shirley's, which was noticed by New France's governor, the Marquis de Vaudreuil. He had primarily been concerned about the extended supply line to the forts on the Ohio, and had sent Baron Dieskau to lead the defenses at Frontenac against Shirley's expected attack. When Johnson was seen as the larger threat, Vaudreuil sent Dieskau to Fort St. Frédéric to meet that threat. Dieskau planned to attack the British encampment at Fort Edward at the upper end of navigation on the Hudson River, but Johnson had strongly fortified it, and Dieskau's Indian support was reluctant to attack. The two forces finally met in the bloody Battle of Lake George between Fort Edward and Fort William Henry. The battle ended inconclusively, with both sides withdrawing from the field. Johnson's advance stopped at Fort William Henry, and the French withdrew to Ticonderoga Point, where they began the construction of Fort Carillon (later renamed Fort Ticonderoga after British capture in 1759).</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0002017</span> · French_and_Indian_War        </summary>
+        <div class="passage">British victories continued in all theaters in the Annus Mirabilis of 1759, when they finally captured Ticonderoga, James Wolfe defeated Montcalm at Quebec (in a battle that claimed the lives of both commanders), and victory at Fort Niagara successfully cut off the French frontier forts further to the west and south. The victory was made complete in 1760 when, despite losing outside Quebec City in the Battle of Sainte-Foy, the British were able to prevent the arrival of French relief ships in the naval Battle of the Restigouche while armies marched on Montreal from three sides.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0002012</span> · French_and_Indian_War        </summary>
+        <div class="passage">French irregular forces (Canadian scouts and Indians) harassed Fort William Henry throughout the first half of 1757. In January they ambushed British rangers near Ticonderoga. In February they launched a daring raid against the position across the frozen Lake George, destroying storehouses and buildings outside the main fortification. In early August, Montcalm and 7,000 troops besieged the fort, which capitulated with an agreement to withdraw under parole. When the withdrawal began, some of Montcalm's Indian allies, angered at the lost opportunity for loot, attacked the British column, killing and capturing several hundred men, women, children, and slaves. The aftermath of the siege may have contributed to the transmission of smallpox into remote Indian populations; as some Indians were reported to have traveled from beyond the Mississippi to participate in the campaign and returned afterward having been exposed to European carriers.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001983</span> · French_and_Indian_War        </summary>
+        <div class="passage">In Europe, the North American theater of the Seven Years' War usually is not given a separate name. The entire international conflict is known as the Seven Years' War. "Seven Years" refers to events in Europe, from the official declaration of war in 1756 to the signing of the peace treaty in 1763. These dates do not correspond with the fighting on mainland North America, where the fighting between the two colonial powers was largely concluded in six years, from the Battle of Jumonville Glen in 1754 to the capture of Montreal in 1760.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0002000</span> · French_and_Indian_War        </summary>
+        <div class="passage">After Washington had returned to Williamsburg, Dinwiddie ordered him to lead a larger force to assist Trent in his work. While en route, Washington learned of Trent's retreat. Since Tanaghrisson had promised support to the British, Washington continued toward Fort Duquesne and met with the Mingo leader. Learning of a French scouting party in the area, Washington, with Tanaghrisson and his party, surprised the Canadians on May 28 in what became known as the Battle of Jumonville Glen. They killed many of the Canadians, including their commanding officer, Joseph Coulon de Jumonville, whose head was reportedly split open by Tanaghrisson with a tomahawk. The historian Fred Anderson suggests that Tanaghrisson was acting to gain the support of the British and regain authority over his own people. They had been inclined to support the French, with whom they had long trading relationships. One of Tanaghrisson's men told Contrecoeur that Jumonville had been killed by British musket fire.</div>
+      </details>
+
+      <div><a href="logs/val-demo-baseline-20261023-145024.jsonl#5733f8dc4776f419006615f9">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+    <div class="side">
+      <strong>candidate</strong> <span class="muted mono">val-demo-rerank-20261028-133845</span>
+      <div class="muted">status judged · measured · tag low_faithfulness</div>
+
+      <div><strong>Answer</strong></div>
+      <div class="answer">The context does not contain enough information to answer this question.</div>
+
+      <table>
+        <tbody><tr><td class="mono">recall_at_k</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">mrr</td><td class="num">1.0000</td></tr>
+        <tr><td class="mono">token_prf1</td><td class="num">0.0000</td></tr>
+        <tr><td class="mono">faithfulness</td><td class="num">0.0000</td></tr>
+      </tbody></table>
+
+
+      <div><strong>Retrieved passages</strong> <span class="muted">(whole passages; chunk text is not stored)</span></div>
+      <details>
+        <summary>
+          <span class="mono">p0002005</span> · French_and_Indian_War<span class="gold"> · gold</span>        </summary>
+        <div class="passage">Johnson's expedition was better organized than Shirley's, which was noticed by New France's governor, the Marquis de Vaudreuil. He had primarily been concerned about the extended supply line to the forts on the Ohio, and had sent Baron Dieskau to lead the defenses at Frontenac against Shirley's expected attack. When Johnson was seen as the larger threat, Vaudreuil sent Dieskau to Fort St. Frédéric to meet that threat. Dieskau planned to attack the British encampment at Fort Edward at the upper end of navigation on the Hudson River, but Johnson had strongly fortified it, and Dieskau's Indian support was reluctant to attack. The two forces finally met in the bloody Battle of Lake George between Fort Edward and Fort William Henry. The battle ended inconclusively, with both sides withdrawing from the field. Johnson's advance stopped at Fort William Henry, and the French withdrew to Ticonderoga Point, where they began the construction of Fort Carillon (later renamed Fort Ticonderoga after British capture in 1759).</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0002012</span> · French_and_Indian_War        </summary>
+        <div class="passage">French irregular forces (Canadian scouts and Indians) harassed Fort William Henry throughout the first half of 1757. In January they ambushed British rangers near Ticonderoga. In February they launched a daring raid against the position across the frozen Lake George, destroying storehouses and buildings outside the main fortification. In early August, Montcalm and 7,000 troops besieged the fort, which capitulated with an agreement to withdraw under parole. When the withdrawal began, some of Montcalm's Indian allies, angered at the lost opportunity for loot, attacked the British column, killing and capturing several hundred men, women, children, and slaves. The aftermath of the siege may have contributed to the transmission of smallpox into remote Indian populations; as some Indians were reported to have traveled from beyond the Mississippi to participate in the campaign and returned afterward having been exposed to European carriers.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0002017</span> · French_and_Indian_War        </summary>
+        <div class="passage">British victories continued in all theaters in the Annus Mirabilis of 1759, when they finally captured Ticonderoga, James Wolfe defeated Montcalm at Quebec (in a battle that claimed the lives of both commanders), and victory at Fort Niagara successfully cut off the French frontier forts further to the west and south. The victory was made complete in 1760 when, despite losing outside Quebec City in the Battle of Sainte-Foy, the British were able to prevent the arrival of French relief ships in the naval Battle of the Restigouche while armies marched on Montreal from three sides.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001982</span> · French_and_Indian_War        </summary>
+        <div class="passage">The conflict is known by multiple names. In British America, wars were often named after the sitting British monarch, such as King William's War or Queen Anne's War. As there had already been a King George's War in the 1740s, British colonists named the second war in King George's reign after their opponents, and it became known as the French and Indian War. This traditional name continues as the standard in the United States, but it obscures the fact that Indians fought on both sides of the conflict, and that this was part of the Seven Years' War, a much larger conflict between France and Great Britain. American historians generally use the traditional name or sometimes the Seven Years' War. Other, less frequently used names for the war include the Fourth Intercolonial War and the Great War for the Empire.</div>
+      </details>
+      <details>
+        <summary>
+          <span class="mono">p0001993</span> · French_and_Indian_War        </summary>
+        <div class="passage">The War of the Austrian Succession (whose North American theater is known as King George's War) formally ended in 1748 with the signing of the Treaty of Aix-la-Chapelle. The treaty was primarily focused on resolving issues in Europe. The issues of conflicting territorial claims between British and French colonies in North America were turned over to a commission to resolve, but it reached no decision. Frontiers from between Nova Scotia and Acadia in the north, to the Ohio Country in the south, were claimed by both sides. The disputes also extended into the Atlantic Ocean, where both powers wanted access to the rich fisheries of the Grand Banks off Newfoundland.</div>
+      </details>
+
+      <div><a href="logs/val-demo-rerank-20261028-133845.jsonl#5733f8dc4776f419006615f9">raw log</a> <span class="muted">(raw log lines available Day 13)</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>Generated 2026-11-02T13:38:51+00:00 by ragregress report · val-demo-baseline-20261023-145024 vs val-demo-rerank-20261028-133845</footer>
+</main>
+
+</body></html>
