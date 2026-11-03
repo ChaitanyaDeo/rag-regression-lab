@@ -209,7 +209,7 @@ ollama pull qwen2.5:3b-instruct
 ollama pull qwen2.5:7b-instruct
 
 # 2. clone and create an isolated environment (.rag_lab_env is the name .gitignore expects)
-git clone <repo-url> rag-regression-lab
+git clone https://github.com/ChaitanyaDeo/rag-regression-lab rag-regression-lab
 cd rag-regression-lab
 py -3.11 -m venv .rag_lab_env                 # Linux/macOS: python3.11 -m venv .rag_lab_env
 .\.rag_lab_env\Scripts\Activate.ps1           # Linux/macOS: source .rag_lab_env/bin/activate
