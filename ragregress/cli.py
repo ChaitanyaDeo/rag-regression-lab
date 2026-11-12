@@ -212,7 +212,10 @@ def _print_comparison(result: ComparisonResult, report:RegressionReport) -> None
             echo(f"  {change.key}: {change.before} -> {change.after}")
 
         if any(c.before is MISSING or c.after is MISSING for c in result.config_changes):
-            echo("  (- = key absent from that run's stored config: legacy run, config incomplete)")
+            if result.legacy_run_ids:
+                echo("  (- = key absent from that run's stored config: legacy run, config incomplete)")
+            else:
+                echo("  (- = key absent from that run's stored config, e.g. an optional block that is off)")
 
     else:
         echo("  (none)")

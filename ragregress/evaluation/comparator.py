@@ -161,6 +161,13 @@ def _legacy_run_ids(*snapshots: RunSnapshot) -> Tuple[str, ...]:
     # Runs built via RunConfig always carry `pipeline`; legacy runs only have {is_dev, k}.
     return tuple(s.run.run_id for s in snapshots if "pipeline" not in (s.run.config or {}))
 
+
+def _pipeline_id(cfg: Mapping[str, Any]) -> Optional[str]:
+    """The stored `pipeline.id`, or None when the config has none (legacy runs, old shapes)."""
+    pipeline = cfg.get("pipeline")
+    return pipeline.get("id") if isinstance(pipeline, Mapping) else None
+
+
 def check_comparable(base: RunSnapshot, cand: RunSnapshot) -> Tuple[List[str], Dict[str, str]]:
     """Return (warnings, ungated). Raises ComparisonInputError subclasses (exit 8)."""
 
@@ -210,6 +217,15 @@ def check_comparable(base: RunSnapshot, cand: RunSnapshot) -> Tuple[List[str], D
             reason = "; ".join(reasons)
             warnings.append(f"{reason}; faithfulness is not gated")
             ungated["faithfulness"] = reason
+
+    # Different pipelines: still compared and still gated, but the verdict then compares two
+    # systems, not one config change. Only checked when both runs store a pipeline.id.
+    b_pipeline, c_pipeline = _pipeline_id(bcfg), _pipeline_id(ccfg)
+    if b_pipeline is not None and c_pipeline is not None and b_pipeline != c_pipeline:
+        warnings.append(
+            f"pipeline.id differs (baseline={b_pipeline!r}, candidate={c_pipeline!r}); "
+            "the verdict compares two pipelines, not a config change"
+        )
 
     only_b = set(base.rows) - set(cand.rows)
     only_c = set(cand.rows) - set(base.rows)

@@ -508,8 +508,7 @@ Chunk text, `raw_output` and `citations` are not stored. Per-run JSON logs go to
 - **FAIL** (exit 6) if a metric's paired mean over the common questions worsens by more than 0.05.
 - **PASS** (exit 0) otherwise.
 
-Differing `top_k` ungates Recall@k, a differing judge ungates faithfulness. A different `pipeline.id` is **not** flagged; it only appears in the config diff. Compare configs of the same pipeline for a regression check.
-
+Differing `top_k` ungates Recall@k, a differing judge ungates faithfulness. A different pipeline.id adds a warning (“the verdict compares two pipelines, not a config change”) but ungates nothing.
 ## 17. API integration
 
 | Endpoint | With a custom pipeline |

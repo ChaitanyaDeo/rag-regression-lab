@@ -324,7 +324,7 @@ candidate: val-demo-rerank-20261028-133845  (hash 2106599c3de0, split val, k=5)
 Config changes:
   pipeline.params.reranker.candidates: — -> 20
   pipeline.params.reranker.model: — -> cross-encoder/ms-marco-MiniLM-L-6-v2
-  (- = key absent from that run's stored config: legacy run, config incomplete)
+  (- = key absent from that run's stored config, e.g. an optional block that is off)
 
 Warnings:
   (none)
@@ -552,7 +552,7 @@ $env:RAGREGRESS_SLOW=1; python -m pytest tests/unit/test_reranker.py -q; Remove-
 | `tests/integration/` | pipeline on fixtures, CLI commands, API (`test_api.py`) |
 | `tests/security/` | config validation, malformed judge output, log redaction, secrets exposure |
 
-Last full run on the author's machine (Windows 11, Python 3.11): 871 passed, 3 skipped (opt-in real-model tests), 5 xfailed (known issues pinned with `xfail(strict=True)`), under 2 minutes, in a fresh isolated virtual environment. In a fresh clone, 3 more tests skip: `tests/integration/test_baseline_stability.py` compares against the canonical baseline run stored in the local `ragregress.db`, which is not committed.
+Last full run on the author's machine (Windows 11, Python 3.11): 886 passed, 3 skipped (opt-in real-model tests), about 3 minutes, in a fresh isolated virtual environment. In a fresh clone, 3 more tests skip: `tests/integration/test_baseline_stability.py` compares against the canonical baseline run stored in the local `ragregress.db`, which is not committed.
 
 ## Security
 

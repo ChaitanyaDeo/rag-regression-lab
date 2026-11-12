@@ -102,7 +102,7 @@ What the logs **do** contain:
 | ID | Risk or behaviour | Status | Plan |
 |---|---|---|---|
 | S1 | **Prompt injection.** Retrieved chunks are pasted into the generator prompt as plain text; a passage can try to steer the answer. | **Not tested; known risk.** A prompt change alters generator output and would break reproduction of the stored canonical runs. | Add a `prompt_version` to the config, harden the prompt (also fix the typo "ou are …" in its first line), add a prompt-injection test (`xfail(strict)` first, plus an opt-in real-model variant). |
-| S2 | **Judge verdict not range-checked.** `verdict` is an unconstrained `int`; 2 or −1 pass the schema and count as supported, which could inflate faithfulness. | Pinned by 5 `xfail(strict=True)` tests. | Change the field to `Literal[0, 1]`; the xfails then turn into passes and their markers are removed. |
+| S2 | **Judge verdict range.** Fixed Nov 3: `verdict` accepts only 0 or 1 (`int` with `ge=0, le=1`). A value like 2 or −1 is rejected by the schema, retried, and ends as `judge_failed`, so it can no longer inflate faithfulness. | Resolved; covered by the former xfail tests and `test_verdict_schema.py`. | None. |
 | S3 | **NaN faithfulness row tagged `pass`.** No claims, or a verdict-count mismatch, gives NaN without an exception. | Accepted: NaN is unmeasured in comparisons and validity protects the verdict. | Optional: a distinct tag. |
 | S4 | **Same-count mismatched verdicts.** A verdict list of the right length but for different statements is accepted. | Untested. | Match verdicts to statements, or document as a judge-quality limit. |
 | S5 | **Lax integer coercion** in configs (`true`, `"5"`, `5.0` accepted as ints; `5.5`, `"1e3"` rejected). | Accepted and pinned. | None. |

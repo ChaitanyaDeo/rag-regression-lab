@@ -48,7 +48,7 @@ def load_qa_pairs(path: Path):
 
 
 def build_metrics(run_config: RunConfig) -> list:
-    from ragregress.evaluation.metrics import MRR, Faithfulness, RecallAtK, TokenPRF1
+    from ragregress.evaluation.metrics import MRR, ExactMatch, Faithfulness, NDCGAtK, PrecisionAtK, RecallAtK, TokenPRF1
 
     # Provider and model come from the run config; endpoint and key from the environment.
     judge_llm = build_judge(run_config.judge_provider, run_config.judge_model,
@@ -58,6 +58,9 @@ def build_metrics(run_config: RunConfig) -> list:
         MRR(k=run_config.top_k),
         TokenPRF1(),
         Faithfulness(llm=judge_llm),
+        PrecisionAtK(k=run_config.top_k),
+        NDCGAtK(k=run_config.top_k),
+        ExactMatch(),
     ]
 
 def build_pipeline(run_config: RunConfig, rag_system, metrics):

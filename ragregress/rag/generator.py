@@ -12,6 +12,8 @@ from typing import List, Tuple
 from dataclasses import dataclass
 import logging
 
+logger = logging.getLogger(__name__)
+
 from langchain_core.prompts import PromptTemplate
 from langchain_ollama import ChatOllama
 
@@ -122,7 +124,7 @@ def generate_with_citations(question: str, contexts: List[Chunk], config: Genera
     is_abstention = answer.strip() == ABSTENTION_MESSAGE
 
     if not citations and not is_abstention:
-        logging.warning(
+        logger.warning(
             "generate_with_citations: no citations found in a non-abstention "
             "answer for question=%r", question
         )
