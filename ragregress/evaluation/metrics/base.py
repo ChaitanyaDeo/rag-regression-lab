@@ -3,6 +3,10 @@ from typing import Optional, Any, Dict, FrozenSet
 
 from abc import ABC, abstractmethod
 
+
+METRIC_GROUPS = ("retrieval", "answer", "generation")
+COMMON_PARAMS = frozenset({"k", "llm"})
+
 class MetricResult:
     """ For keeping result of evaluation
 
@@ -43,6 +47,12 @@ class Metric(ABC):
 
     regression_threshold: Optional[float] = None
     higher_is_better: Optional[bool] = True
+
+    label: str = ""                                 # short display name
+    description: str = ""                           # one sentence
+    group: str = ""                                 # one of METRIC_GROUPS
+    default_enabled: bool = False                   # selected when the user names no metrics
+    required_context: FrozenSet[str] = frozenset()  # subset of COMMON_PARAMS: constructor arguments the harness supplies
     
 
     @abstractmethod

@@ -11,7 +11,8 @@ Rules:
     - The thread is a dameon: stopping the server does not wait for a run to finish
     - Error text is redacted before it is stored: it can contain whatever a library put in an exception.
 
-`executor` is injected so tests never load a model: executor(config, run_id, on_row_done) -> None.    
+`executor` is injected so tests never load a model: executor(config, run_id, on_row_done) -> None.
+When the request chose metrics, it is also called with metrics=<names>; otherwise without that keyword.  
 """
 
 from __future__ import annotations
@@ -20,7 +21,7 @@ import logging
 import threading
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Optional, Callable, Dict
+from typing import Optional, Callable, Dict, Sequence
 
 from ragregress.core.config import RunConfig
 from ragregress.core.errors import RagRegressError
@@ -35,10 +36,11 @@ FAILED = "failed"
 ProgressCallback = Callable[[int, int, float], None]
 Executor = Callable[[RunConfig, str, ProgressCallback], None]
 
-def execute_run(config: RunConfig, run_id: str, on_row_done: ProgressCallback)->None:
+def execute_run(config: RunConfig, run_id: str, on_row_done: ProgressCallback,
+                metrics: Optional[Sequence[str]] = None)->None:
     # Real executor : similar to ragregress run
     from ragregress.core.runner import execute
-    execute(config, run_id = run_id, on_row_done=on_row_done)
+    execute(config, run_id = run_id, on_row_done=on_row_done, metrics=metrics)
 
 
 class JobBusy(Exception):
@@ -89,7 +91,8 @@ class JobManager:
             return None if job is None else Job(**vars(job))
 
 
-    def start(self, config: RunConfig, run_id: str, config_name: str) -> Job:
+    def start(self, config: RunConfig, run_id: str, config_name: str,
+              metrics: Optional[Sequence[str]] = None) -> Job:
         with self._lock:
             if self._current is not None and self._jobs[self._current].state == RUNNING:
                 raise JobBusy(self._current)
@@ -103,7 +106,7 @@ class JobManager:
 
             accepted = Job(**vars(job))               # taken before the thread starts: a very fast run must still
 
-        threading.Thread(target=self._work, args=(config, job), name=f"run-{run_id}", daemon=True).start()
+        threading.Thread(target=self._work, args=(config, job, metrics), name=f"run-{run_id}", daemon=True).start()
 
         return accepted
 
@@ -114,11 +117,12 @@ class JobManager:
         
         return on_row_done
 
-    def _work(self, config: RunConfig, job:Job):
+    def _work(self, config: RunConfig, job:Job, metrics: Optional[Sequence[str]] = None):
         state, error = SUCCEEDED,  None
 
         try:
-            self._executor(config, job.run_id, self._progress(job))
+            extra = {} if metrics is None else {"metrics": list(metrics)}
+            self._executor(config, job.run_id, self._progress(job), **extra)
         except RagRegressError as exc:
             state, error = FAILED, redact(str(exc))
             log.warning("run %s failed: %s", job.run_id, error, extra={"run_id": job.run_id})

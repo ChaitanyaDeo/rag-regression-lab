@@ -21,6 +21,12 @@ class RecallAtK(Metric):
     regression_threshold = 0.05
     higher_is_better = True
 
+    label = "Recall@k"
+    description = "Share of the gold passages found in the top-k retrieved."
+    group = "retrieval"
+    default_enabled = True
+    required_context = frozenset({"k"})
+
     def __init__(self, k:int):
         super().__init__()
         self.k = k

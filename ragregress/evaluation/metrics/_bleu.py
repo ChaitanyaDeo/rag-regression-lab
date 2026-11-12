@@ -28,6 +28,11 @@ class BLEU(Metric):
     regression_threshold = None
     higher_is_better = True
 
+    label = "BLEU"
+    description = "Sentence-level BLEU (0-1) against the gold answers; low and noisy for short gold answers."
+    group = "answer"
+    default_enabled = False
+
     def __init__(self):
         super().__init__()
         self._bleu = _SacreBLEU(effective_order=True, lowercase=True)

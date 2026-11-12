@@ -28,6 +28,12 @@ class NDCGAtK(Metric):
     regression_threshold = None
     higher_is_better = True
 
+    label = "nDCG@k"
+    description = "Rank-aware retrieval quality: gold passages ranked higher score more."
+    group = "retrieval"
+    default_enabled = False
+    required_context = frozenset({"k"})
+
     def __init__(self, k:int):
         super().__init__()
         if k < 1:

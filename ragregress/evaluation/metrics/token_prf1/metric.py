@@ -24,6 +24,11 @@ class TokenPRF1(Metric):
     regression_threshold = 0.05
     higher_is_better = True
 
+    label = "Token F1"
+    description = "Token-overlap F1 between the answer and the best gold answer (SQuAD-style)."
+    group = "answer"
+    default_enabled = True
+
     def __init__(self):
         super().__init__()
 

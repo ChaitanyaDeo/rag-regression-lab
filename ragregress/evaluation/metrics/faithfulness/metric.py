@@ -32,6 +32,12 @@ class Faithfulness(Metric):
     regression_threshold = 0.05
     higher_is_better = True
 
+    label = "Faithfulness"
+    description = "Share of the answer's claims supported by the retrieved context (LLM judge)."
+    group = "generation"
+    default_enabled = True
+    required_context = frozenset({"llm"})
+
     def __init__(self, llm:StructuredLLM):
         super().__init__()
         self.llm = llm

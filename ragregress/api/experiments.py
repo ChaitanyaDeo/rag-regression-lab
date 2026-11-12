@@ -4,8 +4,10 @@ ragregress/api/experiments.py
 Endpoints for runs, comparisons and reports: thin wrappers over the engine functions the CLI uses.
 build_router(settings, jobs) -> APIRouter
 
-  POST /runs                {"config": "<name>"} starts configs/<name>.yaml in the background.
-                            202 | 404 no such config | 409 a run is in progress or the id exists | 422 bad config
+  GET  /metrics             the metric catalog (name, label, group, judge cost, default, gated): what a metric picker shows.
+  POST /runs                {"config": "<name>", "metrics": ["a", "b"]} starts configs/<name>.yaml in the background.
+                            "metrics" is optional (omitted = the default-enabled metrics); a judged metric needs the judge settings.
+                            202 | 404 no such config | 409 a run is in progress or the id exists | 422 bad config or metric names
   GET  /runs                all runs, newest first (dev runs included).
   GET  /runs/{run_id}      stored run, merged with its live job state. 200 | 404
   POST /compare             {"baseline", "candidates": [..]}. 200 even for FAIL or INCONCLUSIVE (the verdict is
@@ -26,6 +28,7 @@ from pathlib import Path
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
 
+from dataclasses import asdict
 from typing import List, Optional
 import logging 
 import re
@@ -39,12 +42,14 @@ from ragregress.core.errors import ComparisonInputError, ConfigError, RagRegress
 from ragregress.core.config import load_run_config
 from ragregress.report import TargetsFileError, generate_report, render_html
 from ragregress.evaluation.judge import resolve_judge
+from ragregress.evaluation.metrics.selection import (default_metric_names, metric_catalog, needs_judge, validate_metric_names)
 
 from ragregress.storage.repositories import Repository
 from ragregress.storage.models import Run
 from ragregress.api.schemas import (RunSummary, RunDetail, ComparisonOut, RunRef, 
                                     ValidityOut,ConfigChangeOut, MetricOut, clean_number, CompareResponse,
-                                    CompareRequest, CompareEntry, ID_PATTERN, JobView, NAME_PATTERN, RunAccepted, RunRequest)
+                                    CompareRequest, CompareEntry, ID_PATTERN, JobView, NAME_PATTERN, RunAccepted, RunRequest,
+                                    MetricInfoOut)
 
 from ragregress.evaluation.regression import assess_regression, Validity, RegressionReport, ComparisonResult
 
@@ -251,6 +256,11 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
 
         return HTMLResponse(render_html(ctx))
 
+    @router.get("/metrics", response_model=List[MetricInfoOut])
+    def list_metrics():
+        return [MetricInfoOut(**asdict(info)) for info in metric_catalog()]
+
+
     @router.post("/runs", status_code=202, response_model=RunAccepted)
     def start_run(body: RunRequest)->RunAccepted:
         """Start a run. The config name is name of yaml file in configs_dir"""
@@ -262,7 +272,9 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
 
         try:
             config = load_run_config(path)
-            resolve_judge(config.judge_provider, config.judge_model)
+            names = default_metric_names() if body.metrics is None else validate_metric_names(body.metrics)
+            if needs_judge(names):          # a run with no judged metric needs no judge settings
+                resolve_judge(config.judge_provider, config.judge_model)    
         except ConfigError as e:
             raise HTTPException(status_code = 422, detail = redact(str(e)))
 
@@ -278,7 +290,8 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
         # Start a run in background thread
 
         try:
-            job = jobs.start(config, run_id, body.config)
+            chosen = {} if body.metrics is None else {"metrics": names}     # omitted -> the executor is called as before
+            job = jobs.start(config, run_id, body.config, **chosen)
 
         except JobBusy as e:
              raise HTTPException(status_code=409, detail=f"Another run is in progress: {e.run_id}") from e

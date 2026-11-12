@@ -60,7 +60,7 @@ Not a fit (today):
 2. `execute()` (`ragregress/core/runner.py`) loads the split, checks the judge settings, then calls `build_rag_system()` (`ragregress/rag/registry.py`), which runs your factory and checks that the result has `retrieve` and `generate` (exit 4 if not).
 3. If your object has `ensure_indexed(passages, force=...)`, the runner calls it with every passage from `data/passages.json` (`force=True` with `--reindex`). Otherwise indexing is your pipeline's business.
 4. The LangGraph pipeline (`ragregress/pipeline/pipeline.py`) first calls `retrieve("health check probe", k=1)`. If that raises, the run is unhealthy (exit 5). Otherwise every question goes through Retrieve → Generate → Judge, with up to 3 attempts for `retrieve` and for `generate`.
-5. The four metrics score each question; results go to SQLite; `compare` and `report` work on the stored runs.
+5. The selected metrics (by default the four marked "default" in `ragregress metrics`) score each question; results go to SQLite; `compare` and `report` work on the stored runs.
 
 ## 5. Architecture and workflow
 
@@ -83,7 +83,7 @@ sequenceDiagram
   loop each question
     G->>P: retrieve(question, top_k)
     G->>P: generate(question, chunks)
-    G->>G: Recall@k, MRR, Token F1, Faithfulness (judge LLM)
+    G->>G: selected metrics (default: Recall@k, MRR, Token F1, Faithfulness)
   end
   G->>DB: run row, per-question rows, aggregates
   U->>DB: ragregress compare / report (or the API)
@@ -476,16 +476,73 @@ The verdict line can also read `FAIL (exit code 6)` or `INCONCLUSIVE (exit code 
 Verification status: every API call was checked against the source; the pipeline class was tested on its own (corpus ids, deterministic order, extractive answer, rejected typo in params); the script's control flow was run against stand-ins for the engine. It has not yet been run end to end against a real judge and database.
 ## 14. Metrics integration
 
-All four metrics run on every question, whatever the pipeline (`ragregress/core/runner.py`, `build_metrics`):
+Which metrics run is a choice made per run, not per pipeline. Every metric reads only the pipeline's outputs, so any pipeline works with any metric.
 
-| Metric | Reads from your pipeline | Notes |
-|---|---|---|
-| `recall_at_k` | `source_passage_id` of the first `top_k` chunks | 1 if the gold passage is among them |
-| `mrr` | the same, in order | 1 / rank of the gold passage |
-| `token_prf1` | `answer` | SQuAD token F1 against the best gold answer |
-| `faithfulness` | `answer` and the chunks' `text` | judge extracts claims and checks each against the context |
+### Choosing metrics
 
-Each question also gets a failure-mode tag: `retrieval_miss`, `low_faithfulness` (< 0.5), `low_correctness` (token F1 < 0.3), `pass`, `judge_failed` or `failed`. Adding a metric is a change to `ragregress/evaluation/metrics/` and `METRIC_REGISTRY`, not to your pipeline.
+| Where | How |
+|---|---|
+| List what exists | `ragregress metrics` (add `--json` for scripts) or `GET /metrics` |
+| CLI | `ragregress run --config <file> --metric recall_at_k,bleu` (comma list), or `--metric all` |
+| API | `POST /runs {"config": "<name>", "metrics": ["recall_at_k", "bleu"]}` |
+| Nothing chosen | the default set: `recall_at_k`, `mrr`, `token_prf1`, `faithfulness` |
+
+- The choice is not part of `config_hash` (the hash identifies the RAG configuration).
+- The judge settings are checked only when a selected metric uses the judge; a run of answer-only metrics needs no judge.
+- `compare` handles runs that computed different metrics: a metric missing from one run shows `n/a` and is not gated.
+- Failure-mode tags are derived from `recall_at_k`, `token_prf1` and `faithfulness`; select these (they are in the default set) to keep the tags meaningful. With none of them selected every row is tagged `pass`.
+
+### Available metrics
+
+| Metric | Group | Reads from your pipeline | Judge calls per question | Default | Gated |
+|---|---|---|---|---|---|
+| `recall_at_k` | retrieval | `source_passage_id` of the first `top_k` chunks | 0 | yes | yes |
+| `mrr` | retrieval | the same, in order | 0 | yes | yes |
+| `precision_at_k` | retrieval | the same; distinct gold passages in the top k, divided by k | 0 | no | no |
+| `ndcg_at_k` | retrieval | the same, in order; binary relevance | 0 | no | no |
+| `token_prf1` | answer | `answer` | 0 | yes | yes |
+| `exact_match` | answer | `answer` | 0 | no | no |
+| `rouge_l` | answer | `answer` | 0 | no | no |
+| `bleu` | answer | `answer` | 0 | no | no |
+| `faithfulness` | generation | `answer` and the chunks' `text` | 2 | yes | yes |
+
+Ungated metrics are reported and compared but cannot fail a run; set a threshold only after re-running the baseline with the metric.
+
+Each question also gets a failure-mode tag: `retrieval_miss`, `low_faithfulness` (< 0.5), `low_correctness` (token F1 < 0.3), `pass`, `judge_failed` or `failed`.
+
+### Adding a metric
+
+1. Create `ragregress/evaluation/metrics/_<name>.py` (a folder with `metric.py` only if the metric needs a helper file). Subclass `Metric`:
+
+```python
+from typing import List
+from ragregress.evaluation.metrics.base import Metric, MetricResult
+
+
+class MyMetric(Metric):
+    """One sentence on what it measures and its range."""
+
+    name = "my_metric"                                  # unique; the CLI / API / storage key
+    label = "My metric"
+    description = "One sentence for the metric picker."
+    group = "answer"                                    # retrieval | answer | generation
+    default_enabled = False                             # True only for the default set
+    required_inputs = frozenset({"answer", "gold_answers"})     # arguments of score()
+    required_context = frozenset()                      # constructor arguments the harness supplies: "k" and/or "llm"
+    judge_calls_per_row = 0                             # > 0 exactly when "llm" is in required_context
+    regression_threshold = None                         # None = reported, never gates the verdict
+    higher_is_better = True
+
+    def score(self, *, answer: str, gold_answers: List[str]) -> MetricResult:
+        return MetricResult(value=..., details={...})
+```
+
+2. Add the class to `_ALL_METRICS` in `ragregress/evaluation/metrics/__init__.py`. Display order, build order and `--metric all` follow that tuple.
+3. Declare any new third-party package in `pyproject.toml`, `requirements.txt` and regenerate `requirements.lock`.
+4. Run `python -m pytest tests/unit/test_metric_selection.py -q`. It checks every registered metric (label, description, group, `required_context`, judge cost, buildable by the resolver), so a missing field fails there. The CLI and API need no change.
+5. Add the metric to the table in `docs/evaluation.md` and above.
+
+Notes: `score()` receives keyword arguments named in `required_inputs` (retrieval metrics: `retrieved_ids`, `gold_ids`; answer metrics: `answer`, `gold_answers`; faithfulness: `question`, `answer`, `context`). A metric that needs an input not listed here needs a change in `ragregress/pipeline/pipeline.py`.
 
 ## 15. Storage integration
 
@@ -515,7 +572,7 @@ Differing `top_k` ungates Recall@k, a differing judge ungates faithfulness. A di
 |---|---|
 | `GET /runs`, `GET /runs/{run_id}` | list and show its runs (`pipeline_id` is in the run summary) |
 | `POST /compare`, `GET /reports/{baseline}__vs__{candidate}` | work on any stored runs, however they were produced (option A or B) |
-| `POST /runs {"config": "<name>"}` | only for configs whose `pipeline.id` is registered in `ragregress/rag/registry.py` (option B); otherwise 422. In Docker, rebuild the image after registering. |
+| `POST /runs {"config": "<name>", "metrics": [...]}` | only for configs whose `pipeline.id` is registered in `ragregress/rag/registry.py` (option B); otherwise 422. In Docker, rebuild the image after registering. `metrics` is optional (see [Metrics integration](#14-metrics-integration)); `GET /metrics` lists the names. |
 
 ```powershell
 Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/runs -ContentType application/json -Body '{"config":"my_rag"}'
@@ -531,6 +588,7 @@ Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/runs -ContentType appl
 |---|---|
 | Pipeline knobs | fields of your params model (`pipeline.params`) |
 | Retrieved chunks per question | `top_k` |
+| Metrics computed | `--metric` (CLI) or `metrics` (API); not part of the config file |
 | Judge model and service | `judge_provider`, `judge_model`, `JUDGE_BASE_URL`, `JUDGE_API_KEY` |
 | Question set | `eval_split` (`dev` for smoke tests, `val` / `test` for comparisons) |
 | Concurrency | `max_workers` (pipeline must be thread-safe above 1) |

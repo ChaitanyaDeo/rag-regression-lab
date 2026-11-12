@@ -24,6 +24,11 @@ class ExactMatch(Metric):
     regression_threshold = None
     higher_is_better = True
 
+    label = "Exact match"
+    description = "1 if the normalized answer equals a gold answer, else 0."
+    group = "answer"
+    default_enabled = False
+
     def __init__(self):
         super().__init__()
 

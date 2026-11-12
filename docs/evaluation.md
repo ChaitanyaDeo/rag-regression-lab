@@ -34,21 +34,30 @@ What RAG Regression Lab measures, how a comparison becomes a verdict, and how to
 
 ## 2. Metrics
 
-All four are computed per question; each declares its regression gate on its class.
+Eleven metrics are available, all computed per question; each declares its regression gate (or none) on its class. Which ones run is chosen per run (`ragregress run --metric a,b` or `all`, the API's `metrics` list; `ragregress metrics` and `GET /metrics` list them). With no choice, the four **default** metrics run: Recall@k, MRR, Token F1 and Faithfulness. The metric choice is not part of `config_hash`. The results in [§9](#9-results) use the default four.
 
-| Metric | Name | Stage | Definition | Gate |
-|---|---|---|---|---|
-| Recall@k | `recall_at_k` | retrieval | `|gold ∩ top-k retrieved passage ids| / |gold|`; with one gold passage this is 1 if the gold is in the top k, else 0 | 0.05 |
-| MRR | `mrr` | retrieval | `1 / rank` of the first gold passage within the top k, else 0 | 0.05 |
-| Token F1 | `token_prf1` | generation | SQuAD token F1 against each gold answer, best one kept | 0.05 |
-| Faithfulness | `faithfulness` | generation | supported claims / extracted claims, judged against the retrieved context | 0.05 |
+| Metric | Name | Stage | Definition | Default | Gate |
+|---|---|---|---|---|---|
+| Recall@k | `recall_at_k` | retrieval | `|gold ∩ top-k retrieved passage ids| / |gold|`; with one gold passage this is 1 if the gold is in the top k, else 0 | yes | 0.05 |
+| MRR | `mrr` | retrieval | `1 / rank` of the first gold passage within the top k, else 0 | yes | 0.05 |
+| Precision@k | `precision_at_k` | retrieval | distinct gold passages in the top k, divided by k (with one gold passage the maximum is 1/k) | no | none |
+| nDCG@k | `ndcg_at_k` | retrieval | binary relevance, duplicates counted once (first occurrence), ideal ranking uses `min(|gold|, k)` | no | none |
+| Context recall | `context_recall` | retrieval | share of the reference answer's sentences that the retrieved context supports (judge, one call; [§3](#context-recall-and-context-precision)) | no | none |
+| Context precision | `context_precision` | retrieval | average precision of the retrieved chunks judged useful for the reference answer (judge, one call per chunk; [§3](#context-recall-and-context-precision)) | no | none |
+| Token F1 | `token_prf1` | generation | SQuAD token F1 against each gold answer, best one kept | yes | 0.05 |
+| Exact match | `exact_match` | generation | 1 if the normalised answer equals any gold answer (SQuAD normalisation), else 0 | no | none |
+| ROUGE-L | `rouge_l` | generation | ROUGE-L F-measure (`rouge-score`, no stemming) against each gold answer, best one kept | no | none |
+| BLEU | `bleu` | generation | sentence BLEU (`sacrebleu`, effective order, lower-cased), scaled to 0–1, against all gold answers | no | none |
+| Faithfulness | `faithfulness` | generation | supported claims / extracted claims, judged against the retrieved context | yes | 0.05 |
 
 Details:
 - **k** is the config's `top_k` (5 in all shipped configs). Only the first k retrieved chunks are scored, whatever the pipeline returns.
 - **Retrieved ids** are the chunks' `source_passage_id`, so several chunks of the gold passage count once.
 - **Token F1 normalisation** (SQuAD style): lower-case, remove punctuation, remove the articles *a / an / the*, collapse whitespace, split on whitespace. If either side normalises to no tokens, F1 is 1 when both are empty, else 0.
 - **Answers are citation-stripped** before scoring: the built-in generator writes `[source: p…]` markers, which are removed from `answer`.
-- **Gate** = the largest tolerated worsening of the paired mean, in the metric's own units (0.05 = five points on a 0–1 scale). All four metrics are higher-is-better.
+- **Gate** = the largest tolerated worsening of the paired mean, in the metric's own units (0.05 = five points on a 0–1 scale). All metrics are higher-is-better. A metric with no gate is reported and compared but never decides the verdict; thresholds are set only after the baseline is re-run with the metric.
+- **Redundancy on SQuAD:** with one gold passage per question, Precision@k is Recall@k divided by k and nDCG@k tracks MRR; Exact match is expected near 0 for a sentence-style generator. They matter on datasets with several gold passages.
+- **ROUGE-L** keeps articles ("The Eiffel Tower" vs "Eiffel Tower" scores 0.8), unlike Token F1's normalisation. **BLEU** is low and noisy for short gold answers.
 
 ## 3. Faithfulness in detail
 
@@ -82,6 +91,22 @@ Outcomes for one question:
 
 Faithfulness measures **groundedness, not correctness**: an answer can be fully supported by the retrieved text and still wrong (see the example in [§9](#failure-cases)).
 
+### Context recall and context precision
+
+Two opt-in, judge-based retrieval metrics, following Ragas (`ragregress/evaluation/metrics/context_recall/`, `context_precision/`). Both judge the retrieved chunks against a **reference**: the question's gold answers as one text (`ragregress/evaluation/reference.py`: distinct after normalisation, empty ones dropped, one sentence per line). A question with no non-empty gold answer gives NaN with a reason and no judge call. Neither reads the generated answer; they ask whether the retrieval served the question.
+
+| | Context recall | Context precision |
+|---|---|---|
+| Question answered | does the retrieved text contain what the reference states? | are the useful chunks ranked first? |
+| Judge calls | 1 per question: the judge splits the reference into sentences and marks each 1 (supported by the context) or 0 | 1 per retrieved chunk (`top_k` per question): is this chunk useful for arriving at the reference? 1 or 0 |
+| Score | supported sentences / sentences | average precision: for each useful chunk at rank r, precision@r; summed and divided by the number of useful chunks; 0 if none |
+| Differs from Recall@k / Precision@k | judges the content, not the passage id: catches a gold passage whose retrieved chunk lacks the answer, and an answer found in another passage | judges usefulness of each chunk and rewards putting the useful ones first |
+| Structured output | verdict `attributed` 0/1 per sentence | verdict 0/1 per chunk |
+| Failure | invalid judge output after retries, or a missing input, raises | one failing chunk call raises; the question is lost for this metric |
+
+- The judge is the configured one (same as Faithfulness, same determinism). Judged metrics lengthen a run in proportion to their calls; `context_precision` is the costlier (on the 15-question dev split with the default judge, about 18 s of judge time per question against 12 s for `context_recall`).
+- On SQuAD the reference is a short span, so each sentence is a bare answer; `context_recall` then behaves like a content-aware "is the answer in the retrieved text" check.
+- The `context_precision` judge prompt was tightened after inspection: chunks about the same topic but lacking the answer must score 0. It was checked on a handful of dev questions only (see [§11](#11-how-to-read-the-results)).
 ## 4. Per-run aggregation
 
 | Aggregate | Rule |
@@ -107,6 +132,8 @@ Each question gets one tag (first match wins, in this order):
 
 Tags are derived from the same metrics they describe, so grouping by failure mode is partly circular: it helps locate regressions, it does not explain them.
 
+The tags use `recall_at_k`, `faithfulness` and `token_prf1`; a rule whose metric was not selected is skipped. If none of the three is selected, every judged row is `pass` (a run of only `context_recall`, for example).
+
 ## 6. Comparison and verdict
 
 ### Row classes
@@ -127,6 +154,7 @@ A system failure is the pipeline's fault and should hurt its scores; an evaluato
 | different `eval_split` | error, exit 8 |
 | different `top_k` | warning; `recall_at_k` ungated |
 | different judge (provider + model) | warning; `faithfulness` ungated |
+| a metric computed in only one of the runs | shown as n/a; not gated |
 | legacy run (no `pipeline` in its stored config) | warning |
 | different question sets | warning; only common rows are compared |
 
@@ -182,7 +210,7 @@ The report shows each run against these ranges (below / within / above), using t
 
 ## 9. Results
 
-val split, 50 questions, top-k 5, generator `qwen2.5:3b-instruct`, judge `qwen2.5:7b-instruct`. Each candidate changes one thing from `baseline` (MiniLM-L6, chunk 500 / overlap 50). Re-checked against the database on Nov 2, 2026.
+val split, 50 questions, top-k 5, generator `qwen2.5:3b-instruct`, judge `qwen2.5:7b-instruct`, default metrics. The opt-in metrics of [§2](#2-metrics) are implemented and tested but no val-split results are reported for them here. Each candidate changes one thing from `baseline` (MiniLM-L6, chunk 500 / overlap 50). Re-checked against the database on Nov 2, 2026.
 
 | Metric | Target | baseline | chunk_1000 | bge_small | rerank_minilm |
 |---|---|---|---|---|---|
@@ -224,6 +252,9 @@ Only latency differed: retrieve p50 77 ms (GPU) vs 466 ms (CPU); total p50 about
 | **Failure-mode groups** | tags come from the same metrics, so groups describe rather than explain. |
 | **Category groups** | val has three categories of very different sizes; small groups are flagged and anecdotal. |
 | **Faithfulness ≠ correctness** | read it together with token F1 (see the ctenophore case). |
+| **Judged context metrics** | `context_recall` and `context_precision` depend on the same 7B judge: on a few inspected dev questions the verdicts were right, but a first prompt marked same-topic chunks as useful, and quality was checked on few rows. Treat their values as indicative until validated on more rows or a stronger judge. |
+| **Duplicate passages in the top k** | the retriever can return several chunks of one passage (three of five on some dev questions), so Recall@k counts it once while Precision@k, nDCG@k and `context_precision` see each chunk. |
+| **Opt-in metrics are ungated** | they cannot fail a run; compare their numbers by eye until thresholds are set from a re-run baseline. |
 
 ## 12. Ragas cross-check
 

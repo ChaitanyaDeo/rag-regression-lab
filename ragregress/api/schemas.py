@@ -9,7 +9,8 @@ the JSON contract does not change when internals do.
     clean_number(x)             None for NaN and +/-inf (not valid JSON); other values unchanged.
 
     Health                      GET /health
-    RunRequest, RunAccepted     POST /runs
+    RunRequest, RunAccepted     POST /runs (RunRequest.metrics: optional list of metric names)
+    MetricInfoOut               GET /metrics
     RunSummary, RunDetail       GET /runs, GET /runs/{id}; JobView is the live job state.
                                 RunDetail.is_dev and .k are None while the run's row is not written yet.
     CompareRequest              POST /compare: 1..10 unique candidate ids; unknown keys rejected.
@@ -27,6 +28,9 @@ import re
 ID_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
 MAX_CANDIDATES = 10
 NAME_PATTERN = r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$"
+
+METRIC_NAME_PATTERN = r"^[a-z][a-z0-9_]{0,63}$"     # shape only; whether the metric exists is checked against the registry
+MAX_METRICS = 32
 
 class Health(BaseModel):
     status: str
@@ -155,6 +159,33 @@ class RunRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     config: str = Field(pattern=NAME_PATTERN)
+
+    metrics: Optional[List[str]] = Field(default=None, min_length=1, max_length=MAX_METRICS)   # None = default-enabled metrics
+
+    @field_validator("metrics")
+    @classmethod
+    def validate_metrics(cls, metrics: Optional[List[str]]) -> Optional[List[str]]:
+        if metrics is None:
+            return metrics
+        for name in metrics:
+            if not re.fullmatch(METRIC_NAME_PATTERN, name):
+                raise ValueError(f"Invalid metric name: {name!r}")
+        if len(metrics) != len(set(metrics)):
+            raise ValueError("Duplicate metric names are not allowed")
+        return metrics
+
+
+class MetricInfoOut(BaseModel):
+    """One entry of GET /metrics: what a dashboard needs to draw a metric picker."""
+    name: str
+    label: str
+    description: str
+    group: str
+    requires_judge: bool
+    default_enabled: bool
+    gated: bool
+    threshold: Optional[float] = None
+    higher_is_better: Optional[bool] = None
 
 
 class RunAccepted(BaseModel):

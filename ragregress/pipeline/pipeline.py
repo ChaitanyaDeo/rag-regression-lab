@@ -29,6 +29,7 @@ from ragregress.rag.interface import RAGSystem
 from ragregress.evaluation.metrics.base import Metric
 from ragregress.evaluation.metrics import RecallAtK, TokenPRF1, Faithfulness
 from ragregress.pipeline.pipeline_state import RunState, QueryState, new_query_state
+from ragregress.evaluation.reference import build_reference
 
 from ragregress.pipeline.pipeline_constants import (
     Node,
@@ -421,6 +422,7 @@ class Pipeline:
                 "gold_ids": qs["gold_ids"],
                 "question": qs["question"],
                 "gold_answers": qs["gold_answers"],
+                "reference": build_reference(qs["gold_answers"]),     # one reference text, for metrics that judge it whole
             }
 
             if self.needs_generation:

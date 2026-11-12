@@ -26,6 +26,11 @@ class RougeL(Metric):
     regression_threshold = None
     higher_is_better = True
 
+    label = "ROUGE-L"
+    description = "Longest-common-subsequence F-measure between the answer and the best gold answer."
+    group = "answer"
+    default_enabled = False
+
     def __init__(self):
         super().__init__()
         self._scorer = rouge_scorer.RougeScorer(['rougeL'], use_stemmer=False)

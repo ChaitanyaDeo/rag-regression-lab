@@ -4,7 +4,7 @@ import time
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Callable, Dict, List, Optional
+from typing import Any, Callable, Dict, List, Optional, Sequence
 
 from ragregress.benchmark.schemas import Passage
 from ragregress.core.config import DATA_DIR, RunConfig
@@ -47,21 +47,20 @@ def load_qa_pairs(path: Path):
     return [QAPair(**row) for row in _read_json(path, "split file")]
 
 
-def build_metrics(run_config: RunConfig) -> list:
-    from ragregress.evaluation.metrics import MRR, ExactMatch, Faithfulness, NDCGAtK, PrecisionAtK, RecallAtK, TokenPRF1
+def build_metrics(run_config: RunConfig, names: Optional[Sequence[str]] = None) -> list:
+    # from ragregress.evaluation.metrics import MRR, ExactMatch, Faithfulness, NDCGAtK, PrecisionAtK, RecallAtK, TokenPRF1
 
-    # Provider and model come from the run config; endpoint and key from the environment.
-    judge_llm = build_judge(run_config.judge_provider, run_config.judge_model,
-                            seed=run_config.judge_seed, max_retries=3)
-    return [
-        RecallAtK(k=run_config.top_k),
-        MRR(k=run_config.top_k),
-        TokenPRF1(),
-        Faithfulness(llm=judge_llm),
-        PrecisionAtK(k=run_config.top_k),
-        NDCGAtK(k=run_config.top_k),
-        ExactMatch(),
-    ]
+    """The metric objects for one run: `names`, or the default-enabled metrics when None."""
+    from ragregress.evaluation.metrics.selection import default_metric_names, resolve_metrics
+
+    def get_judge():
+        # Build only if selected metric needs it. Provider and model come from the run config;
+        # Provider and model come from the run config; endpoint and key from the environment.
+        return build_judge(run_config.judge_provider, run_config.judge_model,
+                           seed=run_config.judge_seed, max_retries=3)
+
+
+    return resolve_metrics(default_metric_names() if names is None else names, top_k=run_config.top_k, get_judge=get_judge)
 
 def build_pipeline(run_config: RunConfig, rag_system, metrics):
     from ragregress.pipeline.pipeline import Pipeline
@@ -74,10 +73,14 @@ def execute(
         run_id: Optional[str] = None,
         reindex: bool = False,
         on_row_done: Optional[Callable[[int, int, float], None]] = None,
+        metrics: Optional[Sequence[str]] = None,
 ) -> RunOutcome:
     """Run one experiment end to end and return its outcome.
 
-    Raises ConfigValidationError (missing data files, judge settings), PipelineContractError
+    `metrics` = names of the metrics to compute (None = the default-enabled ones).
+
+    Raises ConfigValidationError (missing data files, metric names, judge settings), PipelineContractError
+
     (bad pipeline), RunFailedError (run_status != healthy).
 
     `on_row_done(done, total, elapsed_s)` is called once with done=0 when the
@@ -90,7 +93,13 @@ def execute(
 
     # Fail fast on missing data before loading any model.
     qa_pairs = load_qa_pairs(run_config.split_path())
-    resolve_judge(run_config.judge_provider, run_config.judge_model)       # e.g. a missing API key: fail now, not after indexing
+    # resolve_judge(run_config.judge_provider, run_config.judge_model)       # e.g. a missing API key: fail now, not after indexing
+
+    from ragregress.evaluation.metrics.selection import default_metric_names, needs_judge, validate_metric_names
+    names = default_metric_names() if metrics is None else validate_metric_names(metrics)
+
+    if needs_judge(names):                  # a run with no judged metric needs no judge settings
+        resolve_judge(run_config.judge_provider, run_config.judge_model)   # e.g. a missing API key: fail now, not after indexing
 
     rag_system = build_rag_system(run_config.pipeline.id, run_config.pipeline.params)
 
@@ -99,8 +108,8 @@ def execute(
     if hasattr(rag_system, "ensure_indexed"):
         indexed = rag_system.ensure_indexed(load_passages(), force=reindex)
 
-    metrics = build_metrics(run_config)
-    pipeline = build_pipeline(run_config, rag_system, metrics)
+    metric_objects = build_metrics(run_config, names)
+    pipeline = build_pipeline(run_config, rag_system, metric_objects)
 
     pipeline.on_row_done = on_row_done
 

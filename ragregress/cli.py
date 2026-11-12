@@ -16,18 +16,21 @@ Where it runs comes from the environment / .env (JUDGE_BASE_URL, JUDGE_API_KEY, 
 `--dry-run` prints the resolved provider, model and endpoint (never the key).
 
 Usage:
-    python -m ragregress.cli --config <path> [--run-id <id>] [--reindex] [--debug]
+    python -m ragregress.cli --config <path> [--run-id <id>] [--reindex] [--metric a,b | all] [--debug]
+    ragregress metrics [--json]          (list the metrics `--metric` can select)
 """
 
 from __future__ import annotations
 
+import json
 import sys
 import traceback
 import webbrowser
 from contextlib import contextmanager
 from collections import Counter
+from dataclasses import asdict
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Sequence
 
 import typer
 from dotenv import find_dotenv, load_dotenv
@@ -62,17 +65,28 @@ app = typer.Typer(add_completion=False, no_args_is_help=True, help="RAG Regressi
 def _main() -> None:
     """RAG Regression Lab. (This callback keeps `run` a named subcommand.)"""
 
-def _print_plan(cfg: RunConfig, run_id: str) -> None:
+def _print_plan(cfg: RunConfig, run_id: str, names: Optional[Sequence[str]] = None) -> None:
     """Print a summary of run config and run_id """
     echo = typer.echo
 
     echo("dry run: config is valid, nothing was executed")
     echo(f"  pipeline     : {cfg.pipeline.id} {cfg.pipeline.params.model_dump()}")
+
+
     echo(f"  top_k        : {cfg.top_k}")
-    judge = resolve_judge(cfg.judge_provider, cfg.judge_model)      # a missing API key fails the dry run (exit 3), as the real run would
-    echo(f"  judge        : {judge.provider} / {judge.model}")
-    echo(f"  judge url    : {judge.endpoint}")
-    echo(f"  judge key    : {judge.key_note}")
+
+    from ragregress.evaluation.metrics.selection import default_metric_names, needs_judge
+    names = default_metric_names() if names is None else list(names)
+    echo(f"  metrics      : {', '.join(names)}")
+
+    if needs_judge(names):
+        judge = resolve_judge(cfg.judge_provider, cfg.judge_model)      # a missing API key fails the dry run (exit 3), as the real run would
+        echo(f"  judge        : {judge.provider} / {judge.model}")
+        echo(f"  judge url    : {judge.endpoint}")
+        echo(f"  judge key    : {judge.key_note}")
+    else :
+        echo("  judge        : not needed (no selected metric uses it)")
+
     echo(f"  eval_split   : {cfg.eval_split} (is_dev={cfg.is_dev})")
     echo(f"  max_workers  : {cfg.max_workers}")
     echo(f"  db_path      : {cfg.db_path}")
@@ -125,7 +139,8 @@ def _redirect_prints_through_tqdm():
     finally:
         sys.stdout, sys.stderr = orig_out_err
 
-def _run_with_progress(cfg: RunConfig, run_id: Optional[str], reindex: bool) -> RunOutcome:
+def _run_with_progress(cfg: RunConfig, run_id: Optional[str], reindex: bool,
+                       names: Optional[Sequence[str]] = None) -> RunOutcome:
     """Run with a tqdm bar pinned to the bottom."""
 
     bar: Optional[tqdm] = None
@@ -138,7 +153,7 @@ def _run_with_progress(cfg: RunConfig, run_id: Optional[str], reindex: bool) -> 
             bar.update(done - bar.n)
 
         try:
-            return execute(cfg, run_id=run_id, reindex=reindex, on_row_done=on_row_done)
+            return execute(cfg, run_id=run_id, reindex=reindex, on_row_done=on_row_done, metrics=names)
         finally:
             if bar is not None:
                 bar.close()
@@ -148,6 +163,10 @@ def _run_with_progress(cfg: RunConfig, run_id: Optional[str], reindex: bool) -> 
 def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run config YAML."),
         run_id: Optional[str] = typer.Option(None, "--run-id", help="Override the run id (default: <split>-<hash8>-<timestamp>).",),
         reindex: bool = typer.Option(False, "--reindex", help="Force a full rebuild of this config's Chroma collection."),
+        metric: Optional[str] = typer.Option(None, "--metric",
+                                             help="Metrics to compute: comma-separated names, or 'all' (default: the default-enabled "
+                                                  "metrics; see `ragregress metrics`)."),
+
         dry_run: bool = typer.Option(False, "--dry-run", help="Validate the config and print the resolved plan; run nothing."),
         debug: bool = typer.Option(False, "--debug", help="Print a traceback on errors."),
 
@@ -159,12 +178,15 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
 
     exit_code = 0
     try:
+        from ragregress.evaluation.metrics.selection import parse_metric_names
+
         cfg = load_run_config(config)
+        names = parse_metric_names(metric) if metric is not None else None      # None = default-enabled metrics
         run_id = run_id or default_run_id(cfg)
         if dry_run:
-            _print_plan(cfg, run_id)
+            _print_plan(cfg, run_id, names)
         else:
-            _print_summary(_run_with_progress(cfg, run_id, reindex))
+            _print_summary(_run_with_progress(cfg, run_id, reindex, names))
 
     except RagRegressError as exc:
         typer.echo(f"error: {exc}", err=True)
@@ -183,6 +205,31 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
 
     if exit_code:
         raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+
+
+# ---------------------------------------------------------------- metrics
+
+@app.command("metrics")
+def list_metrics(
+        as_json: bool = typer.Option(False, "--json", help="Print the catalog as JSON (for scripts)."),
+) -> None:
+    """List the metrics that `run --metric` can select."""
+    from ragregress.evaluation.metrics.selection import default_metric_names, metric_catalog
+
+    catalog = metric_catalog()
+    if as_json:
+        typer.echo(json.dumps([asdict(info) for info in catalog], indent=2))
+        return
+
+    echo = typer.echo
+    echo(f"{'metric':<18}{'group':<12}{'judge':<8}{'default':<9}{'gated':<7}description")
+    for info in catalog:
+        judge = "yes" if info.requires_judge else "-"
+        echo(f"{info.name:<18}{info.group:<12}{judge:<8}{'yes' if info.default_enabled else '-':<9}"
+             f"{'yes' if info.gated else '-':<7}{info.description}")
+
+    echo(f"\ndefault: {', '.join(default_metric_names())}")
+    echo("select with: ragregress run --config <file> --metric a,b   (or --metric all)")
 
 
 # ---------------------------------------------------------------- compare

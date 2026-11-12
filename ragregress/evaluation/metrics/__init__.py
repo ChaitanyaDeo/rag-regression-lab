@@ -8,11 +8,14 @@ from ragregress.evaluation.metrics._retrieval_ndcg import NDCGAtK
 from ragregress.evaluation.metrics._exact_match import ExactMatch
 from ragregress.evaluation.metrics._rouge_l import RougeL
 from ragregress.evaluation.metrics._bleu import BLEU
+from ragregress.evaluation.metrics.context_recall import ContextRecall
+from ragregress.evaluation.metrics.context_precision import ContextPrecision
 
 # Explicit on purpose (not Metric.__subclasses__(): that depends on what happens to be imported).
 # `ragregress compare` looks metrics up here by their stored name
 # A new metric = import it above and add it to this tuple (plus __all__).
-_ALL_METRICS = (RecallAtK, MRR, TokenPRF1, Faithfulness, PrecisionAtK, NDCGAtK, ExactMatch, RougeL, BLEU)
+_ALL_METRICS = (RecallAtK, MRR, TokenPRF1, Faithfulness, PrecisionAtK, NDCGAtK, ExactMatch, RougeL, BLEU, 
+                ContextRecall, ContextPrecision)
 METRIC_REGISTRY: dict[str, type[Metric]] = {m.name: m for m in _ALL_METRICS}
 
 if len(METRIC_REGISTRY) != len(_ALL_METRICS):
@@ -30,5 +33,7 @@ __all__ = [
     "ExactMatch",
     "RougeL",
     "BLEU",
+    "ContextRecall",
+    "ContextPrecision",
     "METRIC_REGISTRY",
 ]

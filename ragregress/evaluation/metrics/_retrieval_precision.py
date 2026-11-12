@@ -24,6 +24,12 @@ class PrecisionAtK(Metric):
     regression_threshold = None
     higher_is_better = True
 
+    label = "Precision@k"
+    description = "Share of the top-k slots filled by a distinct gold passage."
+    group = "retrieval"
+    default_enabled = False
+    required_context = frozenset({"k"})
+
     def __init__(self, k:int):
         super().__init__()
         if k<1:

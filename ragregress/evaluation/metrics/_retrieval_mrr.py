@@ -13,6 +13,12 @@ class MRR(Metric):
     regression_threshold = 0.05
     higher_is_better = True
 
+    label = "MRR"
+    description = "Reciprocal rank of the first gold passage in the top-k."
+    group = "retrieval"
+    default_enabled = True
+    required_context = frozenset({"k"})
+
     def __init__(self, k: int):
         super().__init__()
         self.k = k
