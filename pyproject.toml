@@ -25,6 +25,7 @@ dependencies = [
     "jinja2",
     "python-json-logger>=3.2", 
     "python-dotenv>=1",
+    "requests>=2.34.2",
 
     "rouge-score>=0.1.2",
     "sacrebleu>=2.6",

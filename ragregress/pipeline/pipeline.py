@@ -49,7 +49,7 @@ from ragregress.storage.repositories import Repository
 
 logger = logging.getLogger(__name__)
 
-GENERATION_FIELDS = {"answer", "context"}
+GENERATION_FIELDS = {"answer"}
 MAX_RETRIES = 3
 
 FAITHFULNESS_LOW_THRESHOLD = 0.5
@@ -423,12 +423,12 @@ class Pipeline:
                 "question": qs["question"],
                 "gold_answers": qs["gold_answers"],
                 "reference": build_reference(qs["gold_answers"]),     # one reference text, for metrics that judge it whole
+                "context": qs.get("chunks") or [],
             }
 
             if self.needs_generation:
-                generation = qs["generation"]
-                row_data["answer"] = generation.answer
-                row_data["context"] = qs["chunks"]
+                row_data["answer"] = qs["generation"].answer
+                
 
             metric_results = {}
             metric_errors = []

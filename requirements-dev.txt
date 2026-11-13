@@ -12,3 +12,7 @@ datasets==5.0.1        # ragregress/benchmark/loader.py (rebuild data/ only)
 httpx==0.28.1
 
 langchain-text-splitters==1.1.3
+
+rouge-score==0.1.2
+sacrebleu==2.6.0
+requests==2.34.2
