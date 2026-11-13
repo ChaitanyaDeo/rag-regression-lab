@@ -27,7 +27,7 @@ Existing configs therefore keep their hashes when a feature is added.
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Any, Callable, Dict, Optional, Type
+from typing import Annotated, Any, Callable, ClassVar, Dict, Literal, Optional, Type, Union
 
 from pydantic import (
     BaseModel,
@@ -65,12 +65,59 @@ class RerankerParams(PipelineParams):
     candidates: int = Field(ge=1, le=MAX_RERANK_CANDIDATES)
 
 
+MAX_WINDOW = 20
+DEFAULT_CHUNKING = "fixed"
+
+
+class FixedChunking(PipelineParams):
+    """Fixed windows of chunk_size characters. Same as leaving `chunking` out."""
+
+    strategy: Literal["fixed"]
+    uses_overlap: ClassVar[bool] = True
+
+class RecursiveChunking(PipelineParams):
+    """Breaks at a blank line, a line end or a space, never mid-word."""
+
+    strategy: Literal["recursive"]
+    uses_overlap: ClassVar[bool] = True
+
+class SentenceChunking(PipelineParams):
+    """Whole sentences packed up to chunk_size; `overlap` = characters of trailing sentences repeated."""
+
+    strategy: Literal["sentence"]
+    uses_overlap: ClassVar[bool] = True
+
+
+class SlidingWindowChunking(PipelineParams):
+    """`window` sentences per chunk, moving on `stride` sentences; chunk_size is the length limit.
+
+    Overlap comes from window - stride shared sentences, so `overlap` must be 0.
+    """
+
+    strategy: Literal["sliding_window"]
+    window: int = Field(ge=1, le=MAX_WINDOW)
+    stride: int = Field(ge=1, le=MAX_WINDOW)
+    uses_overlap: ClassVar[bool] = False
+
+    @model_validator(mode="after")
+    def _stride_not_larger_than_window(self) -> "SlidingWindowChunking":
+        if self.stride > self.window:
+            raise ValueError(f"stride ({self.stride}) must not be larger than window ({self.window})")
+        return self
+
+# Must stay in step with ragregress.rag.chunker.STRATEGIES (tests/unit/test_chunking_config.py checks it).
+ChunkingParams = Annotated[
+    Union[FixedChunking, RecursiveChunking, SentenceChunking, SlidingWindowChunking],
+    Field(discriminator="strategy"),
+]
+
+
 # Optional sub-models omitted from the serialized params when None (H3).
-OMIT_WHEN_NONE = ("reranker",)
+OMIT_WHEN_NONE = ("reranker", "chunking",)
 
 
 class BuiltinRAGParams(PipelineParams):
-    """Knobs owned by BuiltinRAGSystem. All required except seed and reranker"""
+    """Knobs owned by BuiltinRAGSystem. All required except seed, reranker and chunking"""
 
     embedding_model: str = Field(min_length=1)
     chunk_size: int = Field(ge=1, le=MAX_CHUNK_SIZE)
@@ -78,6 +125,15 @@ class BuiltinRAGParams(PipelineParams):
     generation_model: str = Field(min_length=1)
     seed: int = Field(default=42, ge=0)
     reranker: Optional[RerankerParams] = None
+    chunking: Optional[ChunkingParams] = None      # absent = the fixed strategy
+
+    @model_validator(mode="after")
+    def _chunking_is_compatible_with_overlap(self) -> "BuiltinRAGParams":
+        if self.chunking is not None and not self.chunking.uses_overlap and self.overlap != 0:
+            raise ValueError(
+                f"chunking strategy {self.chunking.strategy!r} does not use overlap; set overlap to 0"
+            )
+        return self
 
     @model_validator(mode="after")
     def _overlap_less_than_chunk_size(self) -> "BuiltinRAGParams":
@@ -95,7 +151,24 @@ class BuiltinRAGParams(PipelineParams):
         for name in OMIT_WHEN_NONE:
             if data.get(name, "<set>") is None:
                 del data[name]
+
+            if data.get("chunking") == {"strategy": DEFAULT_CHUNKING}:      # explicit fixed == absent
+                del data["chunking"]
         return data
+
+
+def chunker_kwargs(params: BuiltinRAGParams) -> Dict[str, Any]:
+    """Arguments for ChunkerConfig. strategy / options are passed ONLY for a non-default strategy,
+    so with `chunking` off the call is the one made before chunking strategies existed."""
+    
+    kwargs: Dict[str, Any] = dict(chunk_size=params.chunk_size, overlap=params.overlap)
+    chunking = params.chunking
+    if chunking is not None and chunking.strategy != DEFAULT_CHUNKING:
+        kwargs["strategy"] = chunking.strategy
+        options = chunking.model_dump(exclude={"strategy"})
+        if options:
+            kwargs["options"] = options
+    return kwargs
 
 
 def _build_builtin_rag(params: BuiltinRAGParams) -> RAGSystem:
@@ -117,7 +190,7 @@ def _build_builtin_rag(params: BuiltinRAGParams) -> RAGSystem:
         kwargs["rerank_candidates"] = params.reranker.candidates
 
     return BuiltinRAGSystem(
-        ChunkerConfig(chunk_size=params.chunk_size, overlap=params.overlap),
+        ChunkerConfig(**chunker_kwargs(params)),
         **kwargs,
     )
 

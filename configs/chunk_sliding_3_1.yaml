@@ -1,0 +1,20 @@
+# baseline with sliding-window chunking: 3 sentences per chunk, moving 1 sentence (overlap must be 0)
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: all-MiniLM-L6-v2
+    chunk_size: 500
+    overlap: 0
+    generation_model: qwen2.5:3b-instruct
+    seed: 42
+    chunking:
+      strategy: sliding_window
+      window: 3
+      stride: 1
+top_k: 5
+judge_model: qwen2.5:7b-instruct
+judge_seed: 42
+eval_split: val
+is_dev: false
+max_workers: 1
+db_path: ragregress.db

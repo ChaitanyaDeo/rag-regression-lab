@@ -32,7 +32,15 @@ def _chunker_figerprint(chunker_config: ChunkerConfig) -> str:
 
     """
 
-    payload = repr(sorted(asdict(chunker_config).items())).encode("utf-8")
+    fields = asdict(chunker_config)
+    if fields.get("strategy") == "fixed" and not fields.get("options"):
+        # The default strategy hashes exactly as before strategies existed, so existing collections keep their names.
+        fields.pop("strategy")
+        fields.pop("options", None)
+    if "options" in fields:
+        fields["options"] = sorted(fields["options"].items())     # the order of the options must not change the name
+    payload = repr(sorted(fields.items())).encode("utf-8")
+
     return hashlib.blake2b(payload, digest_size=8).hexdigest()
 
 def content_fingerprint(chunks: List[Chunk]) -> str:
@@ -46,6 +54,7 @@ def content_fingerprint(chunks: List[Chunk]) -> str:
     return h.hexdigest()
 
 _FP_KEY = "content_fp"
+UPSERT_BATCH_SIZE = 4000 
 
 def collection_name(embedding_model: str, chunker_config: ChunkerConfig) -> str:
     """passages_{model}_{chunk_size}_{fingerprint}
@@ -93,7 +102,12 @@ class ChromaRetriever:
             for c in chunks
         ]
 
-        self.store.add_texts(texts=texts, metadatas=metadatas, ids=ids)
+        # self.store.add_texts(texts=texts, metadatas=metadatas, ids=ids)
+        for start in range(0, len(texts), UPSERT_BATCH_SIZE):
+            end = start + UPSERT_BATCH_SIZE
+            self.store.add_texts(
+                texts=texts[start:end], metadatas=metadatas[start:end], ids=ids[start:end]
+            )
 
     def count(self) -> int:
             """Return number of chunks in this collection"""

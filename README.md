@@ -61,7 +61,7 @@ flowchart LR
 - **REST API** (FastAPI): start runs in the background, compare, serve reports.
 - **Docker** image and Compose file for the API and the CLI.
 - **Structured JSON logs** per run, with secret redaction.
-- **Pluggable pipelines** behind a `RAGSystem` interface; a reference pipeline (`builtin_rag`) with an optional cross-encoder reranker.
+- **Pluggable pipelines** behind a `RAGSystem` interface; a reference pipeline (`builtin_rag`) with an optional cross-encoder reranker and four chunking strategies (fixed, recursive, sentence, sliding window).
 - **Configurable judge**: local Ollama by default, or any OpenAI-compatible service.
 
 ## Technology stack
@@ -147,7 +147,7 @@ Design choices:
 | Fixed state machine, no agent | A regression tool must do the same steps every time; an agent choosing its own steps would make runs incomparable. |
 | Thin, explicit retrieval modules | Chunk size or embedding model change exactly one thing. LangChain is used only as glue (Chroma, Ollama, text splitter). |
 | Local models, temperature 0, fixed seeds | No API cost, no data leaves the machine, and the same config reproduces the same per-question scores (see [Reproducibility](#reproducibility)). |
-| `config_hash` over result-affecting fields only | Same hash = same experiment. `db_path` and `max_workers` are excluded; an absent optional block (e.g. `reranker`) leaves existing hashes unchanged. |
+| `config_hash` over result-affecting fields only | Same hash = same experiment. `db_path` and `max_workers` are excluded; an absent optional block (`reranker`, `chunking`) leaves existing hashes unchanged. |
 | INCONCLUSIVE as its own verdict | A broken judge cannot silently pass a change. |
 | Ollama on the host, not in a container | Avoids GPU passthrough on Windows; containers reach it through `host.docker.internal`. |
 
@@ -248,6 +248,8 @@ pipeline:
     reranker:                        # optional; absent = off
       model: cross-encoder/ms-marco-MiniLM-L-6-v2
       candidates: 20                 # >= top_k, <= 50
+    chunking:                        # optional; absent = fixed-size windows
+      strategy: sentence             # fixed | recursive | sentence | sliding_window
 
 top_k: 5                             # 1..50
 judge_model: qwen2.5:7b-instruct
@@ -270,7 +272,27 @@ Unknown keys are rejected at every level. Shipped configs:
 | `chunk_1000.yaml` | chunk size 1000 |
 | `bge_small.yaml` | `BAAI/bge-small-en-v1.5` embeddings |
 | `rerank_minilm.yaml` | cross-encoder rerank, 20 candidates → top 5 |
+| `chunk_recursive.yaml` | `chunking: {strategy: recursive}` |
+| `chunk_sentence.yaml` | `chunking: {strategy: sentence}` |
+| `chunk_sliding_3_1.yaml` | `chunking: {strategy: sliding_window, window: 3, stride: 1}`, `overlap: 0` |
 | `dev.yaml` | dev split (15 questions) for quick checks; dev runs cannot be compared |
+
+### Chunking strategies
+
+`pipeline.params.chunking` selects how each passage is split before embedding. Every strategy returns exact substrings of the passage, each at most `chunk_size` characters.
+
+| `strategy` | Extra keys | Behaviour |
+|---|---|---|
+| `fixed` (default) | none | fixed-size character windows; `overlap` characters repeat between neighbours |
+| `recursive` | none | splits on paragraph, line, space, then character boundaries (`RecursiveCharacterTextSplitter`); `overlap` applies |
+| `sentence` | none | packs whole sentences up to `chunk_size`; `overlap` repeats trailing whole sentences that fit within `overlap` characters |
+| `sliding_window` | `window` (1..20), `stride` (1..`window`) | `window` sentences per chunk, moving by `stride` sentences; `overlap` must be `0` (the overlap is the shared sentences) |
+
+- **Absent = `fixed`.** Omitting the block, or writing `chunking: {strategy: fixed}`, gives the same `config_hash` and the same Chroma collection as before the field existed. Every other strategy changes the hash and builds its own collection on first use.
+- `chunk_size` stays a hard limit for every strategy. A sentence longer than `chunk_size` is cut at the last whitespace that fits (or mid-word if it has none); `sliding_window` shrinks a window from the end, but keeps at least one sentence.
+- A sentence ends at `.`, `!` or `?` followed by whitespace and a capital letter, digit, quote or bracket, or at a blank line. Abbreviations such as `St. Gallen` or `Dr. Smith` therefore split too (see [Limitations](#limitations)).
+- Unknown strategies and unknown keys are rejected with exit 3, as is `overlap > 0` with `sliding_window`.
+- `semantic`, `structure_aware` and `content_aware` chunking are not offered: SQuAD passages are short, single-topic paragraphs without markup, so there is nothing for them to find.
 
 ### Environment variables
 
@@ -497,6 +519,30 @@ The rerank config was run twice: on a Windows host with GPU (Oct 28) and through
   Faithfulness stays at 1.0 because the wrong answer is still grounded in what was retrieved: groundedness and correctness are separate metrics for this reason.
 - **Judge output that does not fit the schema.** In the rerank run of Nov 2, question `572a07a86aef0514001551d5` got malformed JSON from the 7B judge on all 4 attempts (the claim-verification reply lost its `verdict` field and nested a second `statements` list). Faithfulness for that question is unmeasured, the question is tagged `judge_failed`, and the run's validity is 48/50. The log lines are in [Observability](#observability).
 
+
+### Chunking strategies
+
+The four chunking strategies on the same val split (50 questions, top-k 5, MiniLM-L6, chunk size 500), each compared with the fixed-size baseline (`config_hash` unchanged). Runs used the metrics `recall_at_k`, `mrr`, `precision_at_k`, `ndcg_at_k`, `token_prf1`, `faithfulness`, `context_recall`, `context_precision`, `rouge_l`, `bleu`. Deltas are paired; all four verdicts are PASS.
+
+| Metric | fixed | recursive | sentence | sliding_window (3, 1) |
+|---|---|---|---|---|
+| Validity | 50/50 | 49/50 | 49/50 | 49/50 |
+| Recall@5 | 0.8800 | 0.8800 (0.0000) | **0.9400** (+0.0600) | 0.8600 (−0.0200) |
+| MRR | 0.7157 | 0.6957 (−0.0200) | **0.7700** (+0.0543) | 0.7697 (+0.0540) |
+| nDCG@5 | 0.7573 | 0.7419 (−0.0154) | **0.8129** (+0.0556) | 0.7919 (+0.0346) |
+| Precision@5 | 0.1760 | 0.1760 (0.0000) | **0.1880** (+0.0120) | 0.1720 (−0.0040) |
+| Token F1 | 0.2178 | 0.2204 (+0.0027) | **0.2426** (+0.0249) | 0.2351 (+0.0173) |
+| Faithfulness | 0.7284 | 0.7517 (+0.0233) | 0.7046 (−0.0238) | **0.7896** (+0.0612) |
+| Context precision | 0.6803 | 0.6770 (−0.0033) | 0.7358 (+0.0554) | **0.7441** (+0.0638) |
+| Context recall | 0.7007 | 0.6701 (−0.0306) | 0.6497 (−0.0510) | 0.5884 (−0.1122) |
+| BLEU | 0.0729 | 0.0744 (+0.0015) | 0.0824 (+0.0095) | **0.0868** (+0.0139) |
+| ROUGE-L | 0.2242 | 0.2246 (+0.0004) | **0.2454** (+0.0212) | 0.2338 (+0.0096) |
+
+- `recursive` matches fixed windows within noise.
+- `sentence` is the best on retrieval (Recall@5: 3 questions better, 0 worse) and answer overlap; its faithfulness and context recall are lower.
+- `sliding_window` has the best faithfulness and context precision but the lowest context recall. Its config also sets `overlap: 0` (baseline 50), so strategy and overlap change together. A possible cause, not checked: neighbouring windows share two of three sentences, so the top 5 may hold near-duplicates.
+- With 50 questions, differences under about 0.05 are directional only; judged metrics also vary between judge runs. Only Recall@5, MRR, Token F1 and faithfulness are gated; the other metrics are informational.
+
 ## Testing your own pipeline
 
 Any pipeline that implements the `RAGSystem` interface (`ragregress/rag/interface.py`) can be evaluated:
@@ -593,13 +639,14 @@ Known open risks: prompt injection through passage text (untested), judge verdic
 
 ## Limitations
 
-- **Small sample.** 50 questions give little statistical power: read the results as directional. The verdict gates regressions; it does not rank configs.
+- **Small sample.** 50 questions give little statistical power: read the results as directional (this includes the chunking comparison, which was not repeated on the test split). The verdict gates regressions; it does not rank configs.
 - **Small local models.** 3B generator, 7B judge.
 - **Judge consistency.** The same answer can receive different faithfulness scores; refusals are often scored 0.
 - **Easy retrieval benchmark.** One gold passage per question, a small topically distinct corpus, no hybrid retrieval.
 - **One run at a time.** The API's guard covers its own process only (a CLI run is not seen); stopping the server stops a run in progress.
 - **Report "raw log" links are placeholders** and return 404; the log files themselves are in `artifacts/logs/` for runs made after Oct 29, 2026.
 - **Custom pipelines are registered by editing `registry.py`**; comparing two different pipelines is not flagged.
+- **Sentence splitting is rule-based.** The `sentence` and `sliding_window` strategies use a regular expression, not a trained model: abbreviations followed by a capital letter ("St. Gallen") are split in two. It was not measured against NLTK Punkt.
 - **Prompt injection is not tested**; passages are pasted into the prompt as plain text.
 
 ## Roadmap
@@ -610,7 +657,6 @@ Planned, not implemented:
 |---|---|
 | **More evaluation metrics** | a new `Metric` subclass with its own `regression_threshold`, added to `METRIC_REGISTRY` (`ragregress/evaluation/metrics/`); comparison, gating and the report pick it up |
 | **Interactive dashboard (Streamlit)** | browse runs, compare configs and drill into questions over the stored SQLite runs or the API |
-| **Chunking strategy in the config** | a `strategy` field for the built-in pipeline's chunker (today: fixed-size windows only), part of `pipeline.params` and therefore of `config_hash` |
 | **Versioned generator prompt** | a `prompt_version` in the built-in pipeline's config, so prompt changes are tracked experiments; then prompt hardening and a prompt-injection test |
 
 Also planned:
