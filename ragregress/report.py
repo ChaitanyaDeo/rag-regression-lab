@@ -23,6 +23,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Mapping, Optional, Sequence, Tuple
+from urllib.parse import quote
 
 import yaml
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
@@ -30,6 +31,7 @@ from jinja2 import Environment, FileSystemLoader, StrictUndefined
 from ragregress.core.errors import ComparisonInputError
 from ragregress.evaluation.comparator import MISSING, ComparisonResult, RowView, compare_runs
 from ragregress.evaluation.diagnostics import NO_LABEL, Diagnostics, diagnose
+from ragregress.core.logging import run_log_path
 
 from ragregress.evaluation.regression import (
     Gate,
@@ -49,6 +51,8 @@ DEFAULT_PASSAGES = Path("data") / "passages.json"
 DEFAULT_SPLITS_DIR = Path("data") / "splits"
 DEFAULT_REPORTS_DIR = Path("reports")
 DEFAULT_TOP = 5
+DEFAULT_LOG_DIR = Path("artifacts") / "logs"
+LOG_URL = "/runs/{run_id}/logs?query_id={qa_id}"          # what the API-served report links to (GET /runs/{run_id}/logs)
 
 LOG_LINK = "logs/{run_id}.jsonl#{qa_id}"        # Stub target
 LOG_NOTE = "raw log lines available Day 13"
@@ -212,6 +216,7 @@ class SideView:
     passages: List[PassageView]
     gold_not_retrieved: List[str]
     log_link: str
+    log_ref: str                   # path of the run's log file (shown when there is no link)
  
  
 @dataclass(frozen=True)
@@ -245,7 +250,6 @@ class ReportContext:
     groups: List[GroupTable]
     drilldowns: List[DrillDown]
     top: int
-    log_note: str
  
  
 @dataclass(frozen=True)
@@ -508,11 +512,18 @@ def _side(
     qr: Optional[QueryResult],
     gated: Sequence[str],
     passages: Optional[Mapping[str, Tuple[str, str]]],
+    log_link_template: Optional[str] = None,
+    log_dir: Path = DEFAULT_LOG_DIR,
 ) -> SideView:
     metrics = [(name, fmt(row.values.get(name))) for name in gated]
+
+    log_link = (log_link_template.format(run_id=quote(run_id, safe=""), qa_id=quote(row.qa_id, safe="")) if log_link_template else "")
+    log_ref = run_log_path(run_id, log_dir).as_posix()
+
+
     if qr is None:
         return SideView(role, run_id, row.kind.value, DASH, row.failure_mode or NO_LABEL, DASH,
-                        metrics, "", "", [], [], LOG_LINK.format(run_id=run_id, qa_id=row.qa_id))
+                        metrics, "", "", [], [], log_link, log_ref)
     views, gold_missing = _passage_views(qr, passages)
     return SideView(
         role=role,
@@ -526,7 +537,8 @@ def _side(
         last_error=qr.last_error or "",
         passages=views,
         gold_not_retrieved=gold_missing,
-        log_link=LOG_LINK.format(run_id=run_id, qa_id=row.qa_id),
+        log_link=log_link,
+        log_ref=log_ref,
     )
  
  
@@ -547,6 +559,8 @@ def build_report_context(
     top: int = DEFAULT_TOP,
     data_warnings: Sequence[str] = (),
     generated_at: str = "",
+    log_link_template: Optional[str] = None,
+    log_dir: Path = DEFAULT_LOG_DIR,
 ) -> ReportContext:
     base_id, cand_id = result.baseline.run.run_id, result.candidate.run.run_id
     gated = tuple(report.gated)
@@ -557,8 +571,8 @@ def build_report_context(
     for rank, pick in enumerate(select_drilldowns(result, report, diag, top), start=1):
         b_row, c_row = result.baseline.rows[pick.qa_id], result.candidate.rows[pick.qa_id]
         b_qr, c_qr = base_results.get(pick.qa_id), cand_results.get(pick.qa_id)
-        b_side = _side("baseline", base_id, b_row, b_qr, gated, passages)
-        c_side = _side("candidate", cand_id, c_row, c_qr, gated, passages)
+        b_side = _side("baseline", base_id, b_row, b_qr, gated, passages, log_link_template, log_dir)
+        c_side = _side("candidate", cand_id, c_row, c_qr, gated, passages, log_link_template, log_dir)
         if passages is not None:
             unknown_passages.update(p.passage_id for s in (b_side, c_side) for p in s.passages if not p.found)
         question = (c_qr.question if c_qr else None) or (b_qr.question if b_qr else None) or DASH
@@ -624,7 +638,6 @@ def build_report_context(
         groups=_group_tables(diag),
         drilldowns=drilldowns,
         top=top,
-        log_note=LOG_NOTE,
     )
  
  
@@ -717,6 +730,8 @@ def generate_report(
     targets_path: Optional[Path] = None,
     gates: Optional[Mapping[str, Gate]] = None,
     now: Optional[datetime] = None,
+    log_link_template: Optional[str] = None,
+    log_dir: Path = DEFAULT_LOG_DIR,
 ) -> ReportContext:
     """Compare two stored runs and build the report context.
  
@@ -749,6 +764,8 @@ def generate_report(
         top=top,
         data_warnings=warnings,
         generated_at=stamp,
+        log_link_template=log_link_template,
+        log_dir=log_dir,
     )
  
  

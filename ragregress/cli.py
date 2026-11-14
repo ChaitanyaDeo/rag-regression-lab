@@ -39,7 +39,7 @@ from tqdm.contrib import DummyTqdmFile
 
 from ragregress.core.config import RunConfig, load_run_config
 from ragregress.core.errors import RagRegressError
-from ragregress.core.logging import configure_logging
+from ragregress.core.logging import configure_logging, run_log_dir
 from ragregress.core.runner import PASSAGES_PATH, RunOutcome, default_run_id, execute
 from ragregress.core.errors import ComparisonInputError
 from ragregress.evaluation.comparator import MISSING, ComparisonResult, RunSnapshot, compare_runs
@@ -382,7 +382,7 @@ def report(
         if not db.is_file():
             raise ComparisonInputError(f"database not found {db}")
 
-        ctx = generate_report(Repository(db), baseline, candidate, passages_path=passages, splits_dir=splits_dir, top=top, targets_path=targets)
+        ctx = generate_report(Repository(db), baseline, candidate, passages_path=passages, splits_dir=splits_dir, top=top, targets_path=targets, log_dir=run_log_dir(db))
 
         path = write_report(ctx, out or default_output_path(baseline, candidate)).resolve()
 

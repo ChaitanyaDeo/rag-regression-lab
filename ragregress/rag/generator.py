@@ -24,8 +24,7 @@ ABSTENTION_MESSAGE = "The context does not contain enough information to answer 
 
 CITATION_REGEX = r"\[source:\s*(p\d+)\]"
 
-# TODO: Fix prompt
-PROMPT_TEMPLATE = """ou are a question-answering assistant.
+PROMPT_TEMPLATE = """You are a question-answering assistant.
  
 Answer the question using ONLY the information in the context below.
 Do NOT use outside knowledge or make assumptions.

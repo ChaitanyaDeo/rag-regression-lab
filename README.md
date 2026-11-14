@@ -426,6 +426,7 @@ Start it with `uvicorn ragregress.main:app` from the repo root (host and port de
 | `GET /health` | Always 200: `{status, ollama_reachable, judge_reachable}`. Probes `OLLAMA_HOST/api/tags` and, if set, `JUDGE_BASE_URL/models` (2 s each; no model call). |
 | `GET /runs` | All runs, newest first, dev runs included (`is_dev`); no error text |
 | `GET /runs/{run_id}` | Stored run, aggregate metrics and the live job (`state`: `running` / `succeeded` / `failed`, `rows_done`, `rows_total`, `error`); error text redacted; 404 |
+| `GET /runs/{run_id}/logs` | The run's JSON log records from `artifacts/logs/<run_id>.jsonl`, redacted again on output. Optional filters `query_id`, `stage`, `level` (exact match); `limit` 1–5000 (default 500, the first records win). Body: `{run_id, total, count, truncated, records}`; 404 unknown run or no log file (runs made before Oct 29, 2026 have none); 422 malformed id or limit |
 | `POST /runs` | Body `{"config": "<name>"}` starts `configs/<name>.yaml` in a background thread. 202 with `run_id` and `status_url`; 404 unknown config; 409 a run is in progress or the id exists; 422 invalid config, or its `db_path` differs from the API's database |
 | `POST /compare` | Body `{"baseline": "<id>", "candidates": ["<id>", ...]}` (1–10, unique). 200 even for FAIL / INCONCLUSIVE (verdict in the body); one entry per candidate with `ok`, `error`, `comparison`; 404 unknown baseline; 422 bad body |
 | `GET /reports/{baseline}__vs__{candidate}` | HTML report built on each request (`.html` suffix accepted), with the targets table from `configs/targets/squad_val.yaml` when present. 404 unknown run, 400 not comparable, 422 malformed id, 500 broken targets file |
@@ -578,7 +579,7 @@ Records from third-party libraries (e.g. `instructor`'s own retry error) and fro
 Get-Content artifacts\logs\<run_id>.jsonl | ConvertFrom-Json | Where-Object stage -eq judge | Select-Object query_id, status, latency_ms
 ```
 
-Failed questions keep `last_error` and `failure_mode` in SQLite and appear in the report's drill-down.
+Failed questions keep `last_error` and `failure_mode` in SQLite and appear in the report's drill-down. Over the API: `GET /runs/<run_id>/logs?query_id=<qa_id>` returns one question's records.
 
 ## Testing
 
@@ -644,7 +645,7 @@ Known open risks: prompt injection through passage text (untested), judge verdic
 - **Judge consistency.** The same answer can receive different faithfulness scores; refusals are often scored 0.
 - **Easy retrieval benchmark.** One gold passage per question, a small topically distinct corpus, no hybrid retrieval.
 - **One run at a time.** The API's guard covers its own process only (a CLI run is not seen); stopping the server stops a run in progress.
-- **Report "raw log" links are placeholders** and return 404; the log files themselves are in `artifacts/logs/` for runs made after Oct 29, 2026.
+- **Report "raw log" links need the API.** A report served by `GET /reports/...` links each drill-down question to `GET /runs/{run_id}/logs?query_id=...`; a report written by `ragregress report` is a static file and shows the log file path instead. Runs made before Oct 29, 2026 have no log file.
 - **Custom pipelines are registered by editing `registry.py`**; comparing two different pipelines is not flagged.
 - **Sentence splitting is rule-based.** The `sentence` and `sliding_window` strategies use a regular expression, not a trained model: abbreviations followed by a capital letter ("St. Gallen") are split in two. It was not measured against NLTK Punkt.
 - **Prompt injection is not tested**; passages are pasted into the prompt as plain text.

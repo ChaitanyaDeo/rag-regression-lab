@@ -384,4 +384,4 @@ flowchart LR
 | Paths are relative to the working directory | commands must run from the repo root (Chroma index path, data, configs) |
 | `compare` node is a placeholder | in-run comparison is not implemented; use the comparator on stored runs |
 | Pipelines are registered in source | no plugin entry point; comparing different pipelines is not flagged |
-| Report log links | the per-question "raw log" links are placeholders (logs are not served) |
+| Report log links | the per-question "raw log" link works only in an API-served report (`GET /runs/{run_id}/logs`); a CLI-written report shows the log file path |

@@ -276,7 +276,11 @@
       <div class="status-regressed">Gold passage not retrieved: <span class="mono">{{ side.gold_not_retrieved | join(", ") }}</span></div>
       {% endif %}
 
-      <div><a href="{{ side.log_link }}">raw log</a> <span class="muted">({{ ctx.log_note }})</span></div>
+      {% if side.log_link %}
+      <div><a href="{{ side.log_link }}">raw log</a> <span class="muted">(JSON records for this question)</span></div>
+      {% else %}
+      <div class="muted">raw log: <span class="mono">{{ side.log_ref }}</span>, records with <span class="mono">query_id</span> = <span class="mono">{{ d.qa_id }}</span></div>
+      {% endif %}
     </div>
   {% endfor %}
   </div>

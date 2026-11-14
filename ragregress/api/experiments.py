@@ -10,6 +10,9 @@ build_router(settings, jobs) -> APIRouter
                             202 | 404 no such config | 409 a run is in progress or the id exists | 422 bad config or metric names
   GET  /runs                all runs, newest first (dev runs included).
   GET  /runs/{run_id}      stored run, merged with its live job state. 200 | 404
+  GET  /runs/{run_id}/logs the run's JSON log records (artifacts/logs/<run_id>.jsonl), redacted again on output.
+                           Optional filters query_id, stage, level (exact); limit 1..5000 (default 500), first records win.
+                           200 | 404 unknown run or no log file (earlier runs have none) | 422 bad id or query
   POST /compare             {"baseline", "candidates": [..]}. 200 even for FAIL or INCONCLUSIVE (the verdict is
                             in the body) | 404 unknown baseline | 422 bad body.
                             A problem with one candidate is that entry's `error`; the others are still compared.
@@ -24,8 +27,8 @@ The tests replace default_run_id, compare_runs and generate_report on this modul
 from __future__ import annotations
 
 from pathlib import Path
-
-from fastapi import APIRouter, HTTPException
+import json
+from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import HTMLResponse
 
 from dataclasses import asdict
@@ -37,10 +40,10 @@ from ragregress.api.jobs import Job, JobBusy, JobExists, JobManager
 from ragregress.api.settings import ApiSettings
 from ragregress.core.runner import default_run_id
 from ragregress.evaluation.comparator import compare_runs, MISSING
-from ragregress.core.logging import redact
+from ragregress.core.logging import redact, redact_value, run_log_dir, run_log_path
 from ragregress.core.errors import ComparisonInputError, ConfigError, RagRegressError
 from ragregress.core.config import load_run_config
-from ragregress.report import TargetsFileError, generate_report, render_html
+from ragregress.report import LOG_URL, TargetsFileError, generate_report, render_html
 from ragregress.evaluation.judge import resolve_judge
 from ragregress.evaluation.metrics.selection import (default_metric_names, metric_catalog, needs_judge, validate_metric_names)
 
@@ -49,12 +52,14 @@ from ragregress.storage.models import Run
 from ragregress.api.schemas import (RunSummary, RunDetail, ComparisonOut, RunRef, 
                                     ValidityOut,ConfigChangeOut, MetricOut, clean_number, CompareResponse,
                                     CompareRequest, CompareEntry, ID_PATTERN, JobView, NAME_PATTERN, RunAccepted, RunRequest,
-                                    MetricInfoOut)
+                                    MetricInfoOut, RunLogsOut)
 
 from ragregress.evaluation.regression import assess_regression, Validity, RegressionReport, ComparisonResult
 
 log = logging.getLogger(__name__)
 REPORT_SEPARATOR = "__vs__"
+LOG_LIMIT_DEFAULT = 500
+LOG_LIMIT_MAX = 5000
 _ID = re.compile(ID_PATTERN)
 
 def _to_runref(snapshot):
@@ -194,6 +199,47 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
             job =_job_view(job)
         )
 
+    # Logs of Runs
+    @router.get("/runs/{run_id}/logs", response_model=RunLogsOut)
+    def run_logs(run_id: str, query_id: Optional[str] = Query(None, max_length=128), stage: Optional[str] = Query(None, max_length=32),
+        level: Optional[str] = Query(None, max_length=16), limit: int = Query(LOG_LIMIT_DEFAULT, ge=1, le=LOG_LIMIT_MAX)):
+        
+        if _ID.fullmatch(run_id) is None:
+            raise HTTPException(status_code=422, detail="malformed run id")
+
+        if repo.get_run(run_id) is None and jobs.get(run_id) is None:
+            raise HTTPException(status_code=404, detail="Run not found")
+
+        path = run_log_path(run_id, run_log_dir(settings.db_path))
+        if not path.is_file():
+            raise HTTPException(status_code=404, detail="No log file for this run")
+
+        wanted = {"query_id": query_id, "stage": stage, "level": level.upper() if level else None}
+
+        total, records = 0, []
+
+        with path.open(encoding="utf-8", errors="replace") as handle:
+            for line in handle:
+                line = line.strip()
+
+                if not line:
+                    continue
+                try:
+                    record = json.loads(line)
+                except ValueError:       # a line still being written, or not JSON: keep it as text
+                    record = {"raw": line}
+
+                if not isinstance(record, dict):
+                    record = {"raw": line}
+                if any(v is not None and record.get(k) != v for k, v in wanted.items()):
+                    continue
+                total +=1
+
+                if len(records)<limit:
+                    records.append(redact_value(record))
+        
+        return RunLogsOut(run_id= run_id, total=total, count=len(records), truncated= total> len(records), records=records)
+        
 
     # Compare
     @router.post("/compare", response_model=CompareResponse)
@@ -245,7 +291,8 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
                               passages_path=settings.passages_path,
                               splits_dir=settings.splits_dir,
                               top = settings.top,
-                              targets_path = settings.targets_file())
+                              targets_path = settings.targets_file(),
+                              log_link_template = LOG_URL)
 
         except TargetsFileError as e:
             raise HTTPException(status_code=500, detail=redact(str(e)))

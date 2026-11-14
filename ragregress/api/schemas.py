@@ -11,6 +11,9 @@ the JSON contract does not change when internals do.
     Health                      GET /health
     RunRequest, RunAccepted     POST /runs (RunRequest.metrics: optional list of metric names)
     MetricInfoOut               GET /metrics
+
+    RunLogsOut                  GET /runs/{id}/logs: the run's log records (filtered, capped).
+
     RunSummary, RunDetail       GET /runs, GET /runs/{id}; JobView is the live job state.
                                 RunDetail.is_dev and .k are None while the run's row is not written yet.
     CompareRequest              POST /compare: 1..10 unique candidate ids; unknown keys rejected.
@@ -63,6 +66,14 @@ class RunDetail(RunSummary):
     config: Dict[str, Any]
     metrics: Dict[str, Optional[float]]
     job: Optional[JobView] = None
+
+
+class RunLogsOut(BaseModel):
+    run_id:str
+    total: int          # records that matched the filters
+    count: int          # records returned (<=limit)
+    truncated: bool                  # True when total > count
+    records: List[Dict[str, Any]]
 
 
 
