@@ -266,8 +266,19 @@ def test_drilldown_content(repo, data_files):
     assert [p.is_gold for p in c.passages] == [False, True]
     assert c.passages[0].text == "Passage two." and c.passages[0].found
     assert c.gold_not_retrieved == []
-    assert c.log_link == "logs/cand.jsonl#q0"
-    assert d.baseline.log_link == "logs/base.jsonl#q0"
+    assert c.log_link == "" and d.baseline.log_link == ""                 # no link template: not API-served
+    assert c.log_ref == "artifacts/logs/cand.jsonl" and d.baseline.log_ref == "artifacts/logs/base.jsonl"
+
+
+def test_log_link_follows_the_template_and_log_ref_the_log_dir(repo, data_files, tmp_path):
+    add_run(repo, "base", [qr("base", "q 0", **full(1.0))])
+    add_run(repo, "ca:nd", [qr("ca:nd", "q 0", recall_at_k=0.0, mrr=0.0, token_prf1=1.0, faithfulness=1.0)], chunk=1000)
+    passages, splits = data_files
+    ctx = generate_report(repo, "base", "ca:nd", passages_path=passages, splits_dir=splits, gates=GATES, now=NOW,
+                          log_link_template="/runs/{run_id}/logs?query_id={qa_id}", log_dir=tmp_path / "logs")
+    d = ctx.drilldowns[0]
+    assert d.candidate.log_link == "/runs/ca%3And/logs?query_id=q%200"      # ids are URL-quoted
+    assert d.candidate.log_ref == (tmp_path / "logs" / "ca_nd.jsonl").as_posix()   # the file name run_log_path writes
 
 
 def test_gold_not_retrieved_is_listed(repo, data_files):

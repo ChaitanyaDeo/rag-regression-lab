@@ -239,7 +239,7 @@ db_path: ragregress.db                         # operational, not hashed
 ```
 
 - `config_hash()` = SHA-256 of the canonical JSON dump without `db_path` and `max_workers`. Same hash = same experiment.
-- Serializers keep hashes stable as features are added: an absent `reranker` block, an absent `chunking` block (or `chunking: {strategy: fixed}`, which is the same thing) and the default `judge_provider: ollama` are omitted from the dump, so configs written before those fields existed keep their hashes (pinned by tests). The Chroma collection name follows the same rule: the chunk fingerprint leaves out `strategy` and `options` for `fixed`, so existing indexes keep their names.
+- Serializers keep hashes stable as features are added: an absent `reranker` block, an absent `chunking` block (or `chunking: {strategy: fixed}`, which is the same thing), the default prompt (`v1`) and the default `judge_provider: ollama` are omitted from the dump, so configs written before those fields existed keep their hashes (pinned by tests). The Chroma collection name follows the same rule: the chunk fingerprint leaves out `strategy` and `options` for `fixed`, so existing indexes keep their names.
 - Validation rules: `is_dev` must equal `eval_split == "dev"`; `reranker.candidates >= top_k`; `chunking` is a union discriminated by `strategy`, `sliding_window` requires `overlap: 0` and `stride <= window`; caps on `top_k` (≤ 50), `chunk_size` (≤ 4000), `max_workers` (≤ 8).
 
 ## 9. Storage

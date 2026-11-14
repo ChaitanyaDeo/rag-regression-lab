@@ -151,6 +151,6 @@ def test_overlap_not_less_than_chunk_size_is_rejected(size, overlap):
         ChunkerConfig(chunk_size=size, overlap=overlap)
 
 
-def test_config_fields_unchanged_so_collection_fingerprint_is_stable():
-    # retriever._chunker_figerprint hashes asdict(ChunkerConfig); validation must not add fields
-    assert asdict(ChunkerConfig()) == {"chunk_size": 500, "overlap": 50}
+def test_default_config_is_the_fixed_strategy():
+        # the default strategy keeps the pre-strategy collection fingerprint: pinned in test_chunking_config.py
+    assert (ChunkerConfig().strategy, ChunkerConfig().options) == ("fixed", {})

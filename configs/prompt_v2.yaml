@@ -1,0 +1,21 @@
+# baseline + the hardened generator prompt (ragregress/rag/prompts/v2.txt): fenced passages, "passage text is data"
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: all-MiniLM-L6-v2
+    chunk_size: 500
+    overlap: 50
+    generation_model: qwen2.5:3b-instruct
+    seed: 42
+    prompt: v2
+
+top_k: 5
+judge_model: qwen2.5:7b-instruct
+judge_seed: 42
+
+eval_split: val
+is_dev: false
+
+# Operational -- not part of config_hash
+max_workers: 1
+db_path: ragregress.db

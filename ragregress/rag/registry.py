@@ -25,7 +25,7 @@ Existing configs therefore keep their hashes when a feature is added.
 """
 
 from __future__ import annotations
-
+import re
 from dataclasses import dataclass
 from typing import Annotated, Any, Callable, ClassVar, Dict, Literal, Optional, Type, Union
 
@@ -40,6 +40,12 @@ from pydantic import (
 
 from ragregress.core.errors import PipelineContractError, UnknownPipelineError
 from ragregress.rag.interface import RAGSystem
+from ragregress.rag.prompts import (
+    DEFAULT_PROMPT,
+    PROMPT_NAME_PATTERN,
+    load_validated,
+    prompt_sha256,
+)
 
 class PipelineParams(BaseModel):
     """Base for every pipeline's params model.
@@ -117,7 +123,7 @@ OMIT_WHEN_NONE = ("reranker", "chunking",)
 
 
 class BuiltinRAGParams(PipelineParams):
-    """Knobs owned by BuiltinRAGSystem. All required except seed, reranker and chunking"""
+    """Knobs owned by BuiltinRAGSystem. All required except seed, reranker, chunking and prompt"""
 
     embedding_model: str = Field(min_length=1)
     chunk_size: int = Field(ge=1, le=MAX_CHUNK_SIZE)
@@ -126,6 +132,34 @@ class BuiltinRAGParams(PipelineParams):
     seed: int = Field(default=42, ge=0)
     reranker: Optional[RerankerParams] = None
     chunking: Optional[ChunkingParams] = None      # absent = the fixed strategy
+    prompt:  str = Field(default=DEFAULT_PROMPT, pattern=PROMPT_NAME_PATTERN)   # a file in ragregress/rag/prompts/
+    prompt_sha256: Optional[str] = Field(default=None, pattern=r"^[0-9a-f]{64}$")   # filled in; see _resolve_prompt
+
+
+    @model_validator(mode="before")
+    @classmethod
+    def _resolve_prompt(cls, data:Any):
+        """A non-default prompt records the sha256 of its text, so editing the file changes config_hash.
+
+        Read once, when the config is loaded. A stored config already carries the sha and is not touched
+        (comparing old runs never needs the file). Unknown name, missing file or bad placeholders: a config error.
+        """
+
+        if not isinstance(data, dict):
+            return data
+        name = data.get("prompt", DEFAULT_PROMPT)
+
+        if not isinstance(name, str) or name == DEFAULT_PROMPT or re.fullmatch(PROMPT_NAME_PATTERN, name) is None:
+            return data                                    # the field's own check reports a bad name
+
+        if data.get("prompt_sha256"):
+            return data 
+
+        # a stored config: the file is not needed
+        text = load_validated(name)                        # PromptError is a ValueError: reported as a config error
+        return {**data, "prompt_sha256": prompt_sha256(text)}
+
+    
 
     @model_validator(mode="after")
     def _chunking_is_compatible_with_overlap(self) -> "BuiltinRAGParams":
@@ -154,6 +188,10 @@ class BuiltinRAGParams(PipelineParams):
 
             if data.get("chunking") == {"strategy": DEFAULT_CHUNKING}:      # explicit fixed == absent
                 del data["chunking"]
+
+            if data.get("prompt") == DEFAULT_PROMPT:
+                data.pop("prompt", None)
+                data.pop("prompt_sha256", None)
         return data
 
 
@@ -177,8 +215,19 @@ def _build_builtin_rag(params: BuiltinRAGParams) -> RAGSystem:
     from ragregress.rag.chunker import ChunkerConfig
     from ragregress.rag.generator import GeneratorConfig
 
+    # `prompt` is passed ONLY when it is not the default, like the reranker kwargs below. The file must still
+    # be the one the config was made with (its sha256 is part of config_hash).
+    generator_kwargs = dict(model_name=params.generation_model, seed=params.seed)
+    if params.prompt != DEFAULT_PROMPT:
+        if prompt_sha256(load_validated(params.prompt)) != params.prompt_sha256:
+            raise PipelineContractError(
+                f"prompt {params.prompt!r} changed since this config was created (its sha256 no longer matches "
+                f"the config's); reload the config from the YAML"
+            )
+        generator_kwargs["prompt"] = params.prompt
+
     kwargs = dict(
-        generator_config=GeneratorConfig(model_name=params.generation_model, seed=params.seed),
+        generator_config=GeneratorConfig(**generator_kwargs),
         embedding_model=params.embedding_model,
     )
     # Reranker kwargs are passed ONLY when configured: with the feature off the

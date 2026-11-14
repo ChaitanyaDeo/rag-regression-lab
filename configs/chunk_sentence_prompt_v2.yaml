@@ -1,0 +1,23 @@
+# sentence chunking + the hardened generator prompt (v2)
+pipeline:
+  id: builtin_rag
+  params:
+    embedding_model: all-MiniLM-L6-v2
+    chunk_size: 500
+    overlap: 50
+    generation_model: qwen2.5:3b-instruct
+    seed: 42
+    chunking:
+      strategy: sentence
+    prompt: v2
+
+top_k: 5
+judge_model: qwen2.5:7b-instruct
+judge_seed: 42
+
+eval_split: val
+is_dev: false
+
+# Operational -- not part of config_hash
+max_workers: 1
+db_path: ragregress.db

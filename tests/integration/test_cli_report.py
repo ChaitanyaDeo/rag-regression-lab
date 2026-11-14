@@ -109,6 +109,16 @@ def test_pass_writes_report_and_exits_0(files):
     assert "<td>Recall@5</td>" not in html                      # no --targets -> no target table
 
 
+def test_report_names_the_run_log_file_next_to_the_database(files):
+    seed(files["db"], [judged("cand", "q00", recall=0.0)] + [judged("cand", q) for q in ids()[1:]])
+    assert report(files).exit_code == 0
+
+    html = files["out"].read_text(encoding="utf-8")
+    log_file = (files["db"].parent / "artifacts" / "logs" / "cand.jsonl").as_posix()
+    assert f'<span class="mono">{log_file}</span>' in html            # a static report has no server to link to
+    assert "available Day 13" not in html
+
+
 def test_fail_verdict_still_exits_0(files):
     seed(files["db"], [judged("cand", q, recall=0.0) for q in ids()])
     result = report(files)

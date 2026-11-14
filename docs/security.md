@@ -101,7 +101,7 @@ What the logs **do** contain:
 
 | ID | Risk or behaviour | Status | Plan |
 |---|---|---|---|
-| S1 | **Prompt injection.** Retrieved chunks are pasted into the generator prompt as plain text; a passage can try to steer the answer. | **Not tested; known risk.** A prompt change alters generator output and would break reproduction of the stored canonical runs. | Add a `prompt_version` to the config, harden the prompt (also fix the typo "ou are …" in its first line), add a prompt-injection test (`xfail(strict)` first, plus an opt-in real-model variant). |
+| S1 | **Prompt injection.** Retrieved chunks are pasted into the generator prompt; a passage can try to steer the answer. | **Mitigated, not solved.** Prompt `v2` (opt-in via `pipeline.params.prompt`; `v1` stays the default so stored runs and hashes are unchanged) fences passages in tags, states that they are data, and neutralises fence tags inside passage text. Tests: `tests/unit/test_prompts.py` (fencing, escaping, frozen prompt texts) and `tests/security/test_prompt_injection.py` (runner with a fake model; opt-in real-model test, `RAGREGRESS_SLOW=1`). `scripts/injection_check.py` prints the hijack rate per prompt on six cases. Measured (qwen2.5:3b-instruct, 6 cases x 6 seeds): v1 hijacked 7/36, v2 6/36; v2 fixes `ignore_previous` and `fake_system_message` but is hijacked by `delimiter_breakout` on every seed (v1 is not). Kept as a documented finding, not fixed. The check reuses the prompt's own example fact, so it is a rough guide. Residual risk: a small model can still obey an injection; look-alike Unicode brackets are not neutralised; a custom prompt that uses `{context}` gets no fencing. | Judge prompts: see S12. |
 | S2 | **Judge verdict range.** Fixed Nov 3: `verdict` accepts only 0 or 1 (`int` with `ge=0, le=1`). A value like 2 or −1 is rejected by the schema, retried, and ends as `judge_failed`, so it can no longer inflate faithfulness. | Resolved; covered by the former xfail tests and `test_verdict_schema.py`. | None. |
 | S3 | **NaN faithfulness row tagged `pass`.** No claims, or a verdict-count mismatch, gives NaN without an exception. | Accepted: NaN is unmeasured in comparisons and validity protects the verdict. | Optional: a distinct tag. |
 | S4 | **Same-count mismatched verdicts.** A verdict list of the right length but for different statements is accepted. | Untested. | Match verdicts to statements, or document as a judge-quality limit. |
@@ -112,6 +112,7 @@ What the logs **do** contain:
 | S9 | **No API authentication.** | Accepted for a localhost-only tool (T5 mitigation). | Add authentication before any non-local deployment. |
 | S10 | **Logs contain corpus text and judge output** ([§5](#5-logs-and-redaction)). | Accepted for a public corpus. | Treat logs as sensitive when using private data. |
 | S11 | **Run guard is per process.** A CLI run and an API run can write to the same database at once. | Accepted: SQLite serialises writes and runs have distinct ids; not stress-tested. | A file lock if needed. |
+| S12 | **Prompt injection against the judge.** The answer and passages are pasted into the judge prompts as plain text, so a hijacked answer can try to steer its own faithfulness verdict. | Untested; the generator prompt can be hardened (S1), the judge prompts are not. | Move the judge prompts to versioned files like the generator's; add judge-side cases to the injection check. |
 
 ## 8. Secrets check script
 
@@ -135,7 +136,7 @@ Limits:
 
 | Item | Risk |
 |---|---|
-| `prompt_version`, prompt hardening, prompt-injection test | S1 |
+| `prompt`, prompt hardening, prompt-injection test | S1 (done; judge side: S12) |
 | `verdict: Literal[0, 1]`, remove the 5 xfail markers | S2 |
 | Config file size cap | S6 |
 | Verdict-to-statement matching; distinct tag for NaN rows | S4, S3 |

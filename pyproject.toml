@@ -44,7 +44,7 @@ ragregress = "ragregress.cli:app"
 include = ["ragregress*"]
 
 [tool.setuptools.package-data]
-ragregress = ["templates/*.html"]
+ragregress = ["templates/*.html", "rag/prompts/*.txt"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

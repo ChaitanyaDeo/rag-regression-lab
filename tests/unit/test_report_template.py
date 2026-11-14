@@ -77,7 +77,7 @@ def full(v=1.0):
     return {n: v for n in M4}
 
 
-def render(env, base_rows, cand_rows, *, targets=True, passages=None, latency=True):
+def render(env, base_rows, cand_rows, *, targets=True, passages=None, latency=True, **report_kwargs):
     repo = env["repo"]
     for run_id, rows, chunk in (("base", base_rows, 500), ("cand", cand_rows, 1000)):
         repo.create_run(Run(run_id=run_id, created_at="2026-10-23T00:00:00", is_dev=False, k=5, max_workers=1,
@@ -90,7 +90,7 @@ def render(env, base_rows, cand_rows, *, targets=True, passages=None, latency=Tr
                                        "latency_p95_total": 2000.0})
     ctx = generate_report(repo, "base", "cand", passages_path=passages or env["passages"],
                           splits_dir=env["splits"], targets_path=env["targets"] if targets else None,
-                          gates=GATES, now=NOW)
+                          gates=GATES, now=NOW, **report_kwargs)
     return ctx, render_html(ctx)
 
 
@@ -161,7 +161,17 @@ def test_drilldown_escapes_untrusted_text_and_shows_passages(env):
     assert "Question q0?" in html and "gold 0" in html
     assert '<span class="gold"> · gold</span>' in html
     assert "2 chunks" in html
-    assert 'href="logs/cand.jsonl#q0"' in html and "available Day 13" in html
+    assert "available Day 13" not in html and "<a href=\"logs/" not in html
+    assert 'raw log: <span class="mono">artifacts/logs/cand.jsonl</span>' in html     # CLI report: path, no dead link
+
+
+def test_api_served_report_links_to_the_log_endpoint(env):
+    base = [qr("base", "q0", **full())]
+    cand = [qr("cand", "q0", recall_at_k=0.0, mrr=0.0, token_prf1=1.0, faithfulness=1.0)]
+    _, html = render(env, base, cand, log_link_template="/runs/{run_id}/logs?query_id={qa_id}")
+    assert '<a href="/runs/cand/logs?query_id=q0">raw log</a>' in html
+    assert '<a href="/runs/base/logs?query_id=q0">raw log</a>' in html
+    assert "artifacts/logs/" not in html
 
 
 def test_targets_table_or_note(env):

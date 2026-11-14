@@ -13,9 +13,10 @@ what happens when the LLM judge answers with garbage.
 The pipeline turns a raised judge error into `judge_failed` (test_pipeline_judge.py,
 test_pipeline_failures.py). The NaN-row behaviour is B5-L3 (separate file).
 
-Known defects are `xfail(strict=True)` tests that assert the DESIRED behaviour: 
-    when the schema is tightened (verdict: Literal[0, 1]) they XPASS, strict mode
-    fails the suite, and the marker must be removed.
+Known defects are `xfail(strict=True)` tests that assert the DESIRED behaviour: once the defect is
+fixed they XPASS, strict mode fails the suite, and the marker must be removed. None are open now:
+the verdict range (F-D11-13) was fixed post-Day 14 (`verdict: int = Field(ge=0, le=1)`), and the
+former xfail tests below are the regression tests for it.
 
 Safety: the fake server binds 127.0.0.1 on a random free port. `instructor.from_provider`
 is patched so the client can never reach the real Ollama (localhost:11434).
@@ -99,8 +100,6 @@ def test_more_verdicts_than_statements_is_nan_with_reason():
 
 
 @pytest.mark.parametrize("bad", [2, -1, 7])
-@pytest.mark.xfail(strict=True, reason="known: verdict is an unconstrained int and bool(verdict) counts any "
-                                       "non-zero as supported (F-D11-13); fix post-Day 14: Literal[0, 1]")
 def test_out_of_range_verdict_does_not_count_as_supported(bad):
     try:
         r = faith(ScriptedJudge(claims=["s1"], verdicts=[("s1", bad)]))
@@ -199,8 +198,6 @@ def test_schema_invalid_nli_reply_raises(fake_ollama, reply):
     assert len(server.requests) == 3
 
 
-@pytest.mark.xfail(strict=True, reason="known: schema accepts verdict outside {0, 1} (F-D11-13); "
-                                       "fix post-Day 14: Literal[0, 1]")
 @pytest.mark.parametrize("bad", [2, -1])
 def test_out_of_range_verdict_is_rejected_by_the_schema(fake_ollama, bad):
     fake_ollama([verdict_json(bad)])

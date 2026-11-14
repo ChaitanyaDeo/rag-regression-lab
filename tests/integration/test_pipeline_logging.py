@@ -303,7 +303,7 @@ def fake_runner(tmp_path, monkeypatch):
 
     monkeypatch.setattr(runner, "load_qa_pairs", lambda path: QA)
     monkeypatch.setattr(runner, "build_rag_system", lambda pid, params: FakeRag(fail_retrieve={Q1.question: 1}))
-    monkeypatch.setattr(runner, "build_metrics", lambda cfg: metrics())
+    monkeypatch.setattr(runner, "build_metrics", lambda cfg, names=None: metrics())
     return runner, fake_config(tmp_path)
 
 

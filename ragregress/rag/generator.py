@@ -18,51 +18,15 @@ from langchain_core.prompts import PromptTemplate
 from langchain_ollama import ChatOllama
 
 from ragregress.rag.interface import Chunk, GenerationResult
+from ragregress.rag.prompts import DEFAULT_PROMPT, load_validated
 
 
 ABSTENTION_MESSAGE = "The context does not contain enough information to answer this question."
 
 CITATION_REGEX = r"\[source:\s*(p\d+)\]"
 
-PROMPT_TEMPLATE = """You are a question-answering assistant.
- 
-Answer the question using ONLY the information in the context below.
-Do NOT use outside knowledge or make assumptions.
- 
-CITATION RULES:
-- Every factual claim must have a citation immediately after it.
-- A citation must use exactly one passage ID from the context, in this format: [source: p0000042].
-- Use only passage IDs that actually appear in the context.
-- Cite the passage that directly supports the claim.
-- Do not invent, modify, or combine passage IDs.
-- If a sentence contains multiple factual claims supported by different passages,
-  cite each claim separately.
-- If the context does not contain enough information to answer the question,
-  say: "{abstention_message}"
- 
-Keep the answer concise and directly answer the question.
- 
-Example:
- 
-Context:
-[source: p0000001]
-The Eiffel Tower was completed in 1889 for the World's Fair in Paris.
- 
-Question: When was the Eiffel Tower completed?
- 
-Answer:
-The Eiffel Tower was completed in 1889 [source: p0000001].
- 
----
- 
-Context:
-{context}
- 
-Question: {question}
- 
-Answer:
-"""
-GENERATION_PROMPT = PromptTemplate.from_template(PROMPT_TEMPLATE)
+# The prompts are text files in ragregress/rag/prompts/ (see ragregress/rag/prompts.py); the config names one.
+# GENERATION_PROMPT = PromptTemplate.from_template(PROMPT_TEMPLATE)
 
 @dataclass
 class GeneratorConfig:
@@ -72,6 +36,10 @@ class GeneratorConfig:
     model_name: str = "qwen2.5:3b-instruct"
     temperature: float = 0
     seed: int = 42  #  fixed seed for reproducible generation
+    prompt: str = DEFAULT_PROMPT        # a file name in ragregress/rag/prompts/ (without .txt)
+
+    def __post_init__(self):
+        load_validated(self.prompt)    # unknown name, missing file or bad placeholders fail here, not mid-run
 
 
 def parse_citations(text: str)-> Tuple[str, List[str]]:
@@ -95,17 +63,41 @@ def build_context(contexts: List[Chunk]) -> str:
         f"[source: {chunk.source_passage_id}]\n{chunk.text}" for chunk in contexts
     )
 
+# Closing (or opening) a fence tag inside passage text could end the context block early.
+_FENCE_TAG = re.compile(r"<(?=\s*/?\s*(?:context|passage|question)\b)", re.IGNORECASE)
+
+
+def neutralise_tags(text: str) -> str:
+    """Turn the "<" of <context>, <passage> and <question> tags (opening or closing) into "&lt;".
+
+    Not covered: look-alike Unicode brackets. Fencing lowers the risk; it does not remove it."""
+    return _FENCE_TAG.sub("&lt;", text)
+
+
+def build_context_fenced(contexts: List[Chunk]) -> str:
+    """The {context_fenced} block: each chunk in its own <passage> with its [source: ...] header."""
+    return "\n\n".join(
+        f"<passage>\n[source: {chunk.source_passage_id}]\n{neutralise_tags(chunk.text)}\n</passage>"
+        for chunk in contexts
+    )
 
 
 def run_generation(question: str, contexts: List[Chunk], config: GeneratorConfig):
 
-    context = build_context(contexts)
+    template = PromptTemplate.from_template(load_validated(config.prompt))
+    values = {"question": question, "abstention_message": ABSTENTION_MESSAGE}
+
+    if "context_fenced" in template.input_variables:
+        values["context_fenced"] = build_context_fenced(contexts)
+    else:
+        values["context"] = build_context(contexts)
+
 
     llm = ChatOllama(model=config.model_name, temperature=config.temperature, seed=config.seed)
 
-    chain = GENERATION_PROMPT | llm 
+    chain = template | llm 
 
-    response = chain.invoke({"context": context, "question": question, "abstention_message": ABSTENTION_MESSAGE})
+    response = chain.invoke(values)
 
     return response.content
 
