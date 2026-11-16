@@ -1,0 +1,17 @@
+pipeline:
+  target: examples.keyword_overlap:KeywordOverlapRAG
+  params: 
+    min_word_len: 3
+
+
+top_k: 5
+judge_model: qwen2.5:7b-instruct  
+judge_seed: 42 
+
+ 
+eval_split: val
+is_dev: false
+ 
+# Operational -- not part of config_hash
+max_workers: 1
+db_path: ragregress.db

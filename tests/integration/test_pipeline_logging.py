@@ -288,7 +288,7 @@ def json_lines_in(output):
 
 def fake_config(tmp_path):
     cfg = SimpleNamespace(
-        pipeline=SimpleNamespace(id="fake", params=None), top_k=5, max_workers=1, is_dev=False,
+        pipeline=SimpleNamespace(id="fake", params=None, identity="fake",), top_k=5, max_workers=1, is_dev=False,
         db_path=tmp_path / "run.db", eval_split="val", judge_provider="ollama", judge_model="fake", judge_seed=42,
     )
     cfg.split_path = lambda: tmp_path / "val.json"

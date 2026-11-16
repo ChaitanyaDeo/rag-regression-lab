@@ -24,14 +24,14 @@ from pydantic import BaseModel, Field
 class Chunk(BaseModel):
     """A retrieved unit of text.
 
-    source_passage_id MUST resolve to a real id in data/passages.json.
+    source_passage_id a passage id of the corpus the run is evaluated on.
     
     It is never a pipeline-internal chunk id — that's chunk_id, which is
     only used to identify the chunk within the vector store (e.g. for
     upsert idempotency), not for scoring against the eval corpus.
     """
 
-    chunk_id: str
+    chunk_id: str = ""
     source_passage_id: str
     text: str
     metadata: Dict[str, Any] = Field(default_factory=dict)
@@ -47,7 +47,7 @@ class GenerationResult(BaseModel):
     citations: parsed passage_ids, in order of first appearance
     """
 
-    raw_output: str      # exactly what the LLM returned
+    raw_output: str = ""      # exactly what the LLM returned
     answer: str         # citation-stripped text — this is what answer_f1() scores against
     citations: List[str] = Field(default_factory=list)       # List of citation 
 

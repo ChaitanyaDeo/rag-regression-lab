@@ -605,9 +605,10 @@ class RAGSystem(Protocol):
 ```
 
 1. Implement the two methods in a class inside the package (optional: `ensure_indexed(passages, force=False)`, which the runner calls before the run).
-2. Register it in `ragregress/rag/registry.py` (a params model, a factory, one line).
-3. Point a config at it: `pipeline: {id: <your id>, params: {...}}`.
-4. `ragregress run --config configs/<name>.yaml`, then `ragregress compare` against another config of the same pipeline.
+2. Point a config at it: `pipeline: {id: <your id>, params: {...}}`. For a custom pipeline, specify its importable class using pipeline.target in the YAML configuration. The resolver loads the class and derives its parameter model from the constructor signature, unless the class provides its own Params model.
+
+The registry in ragregress/rag/registry.py is reserved for built-in pipelines. Custom pipelines do not need to be added to the registry.
+3. `ragregress run --config configs/<name>.yaml`, then `ragregress compare` against another config of the same pipeline.
 
 Metrics, storage, verdicts, the API and the report work unchanged. Step-by-step guide with a runnable example: [docs/custom_pipeline.md](docs/custom_pipeline.md).
 
@@ -696,7 +697,7 @@ Known open risks: prompt injection through passage text (untested), judge verdic
 - **Easy retrieval benchmark.** One gold passage per question, a small topically distinct corpus, no hybrid retrieval.
 - **One run at a time.** The API's guard covers its own process only (a CLI run is not seen); stopping the server stops a run in progress.
 - **Report "raw log" links need the API.** A report served by `GET /reports/...` links each drill-down question to `GET /runs/{run_id}/logs?query_id=...`; a report written by `ragregress report` is a static file and shows the log file path instead. Runs made before Oct 29, 2026 have no log file.
-- **Custom pipelines are registered by editing `registry.py`**; comparing two different pipelines is not flagged.
+- **Custom pipelines are registered by editing `registry.py`**; Differing top_k ungates Recall@k, and a differing judge configuration ungates faithfulness. Comparing different pipelines is allowed, but adds a warning that the verdict compares two pipelines rather than a configuration change. This warning does not automatically invalidate the comparison or ungate metrics.
 - **Sentence splitting is rule-based.** The `sentence` and `sliding_window` strategies use a regular expression, not a trained model: abbreviations followed by a capital letter ("St. Gallen") are split in two. It was not measured against NLTK Punkt.
 - **Prompt injection is only partly mitigated.** Prompt `v2` fences the passages and tells the model they are data; `scripts/injection_check.py` measures how often a small local model still obeys an injected passage. The judge prompts, which paste the answer and passages as plain text, are not hardened.
 

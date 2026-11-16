@@ -17,6 +17,7 @@ Each registry entry is (ParamsModel, factory):
 Protocol enforcement - in build_rag_system() right after construction
 
 Adding a pipeline = one ParamsModel + one factory + one registry line.
+User pipelines need no registry edit; see resolver.py.
 
 Optional features: an optional knob is ONE optional sub-model
 that defaults to None (= feature off). When None it is omitted from the
@@ -263,10 +264,7 @@ def get_entry(pipeline_id: str) -> PipelineEntry:
         ) from None
 
 
-def build_rag_system(pipeline_id: str, params: PipelineParams) -> RAGSystem:
-    """Construct the RAGSystem for `pipeline_id` and verify the protocol."""
-    entry = get_entry(pipeline_id)
-
+def _build_from_entry(entry: PipelineEntry, pipeline_id: str, params: PipelineParams)-> RAGSystem:
     if not isinstance(params, entry.params_model):
         raise PipelineContractError(
             f"pipeline {pipeline_id!r} expects {entry.params_model.__name__}, "
@@ -280,4 +278,21 @@ def build_rag_system(pipeline_id: str, params: PipelineParams) -> RAGSystem:
             f"pipeline {pipeline_id!r} built {type(system).__name__}, which does not "
             f"satisfy the RAGSystem protocol (needs retrieve() and generate())"
         )
+
     return system
+
+def build_rag_system(pipeline_id: str, params: PipelineParams) -> RAGSystem:
+    """Construct the RAGSystem for `pipeline_id` and verify the protocol."""
+    from ragregress.rag.resolver import resolve_entry
+
+    entry = resolve_entry(pipeline_id)
+    
+    return _build_from_entry(entry, pipeline_id, params)
+
+
+def build_from_spec(spec: Any) -> RAGSystem:
+    """Resolve a pipeline specification and construct its RAGSystem."""
+    from ragregress.rag.resolver import resolve
+
+    entry = resolve(spec)
+    return _build_from_entry(entry, str(spec), spec.params)

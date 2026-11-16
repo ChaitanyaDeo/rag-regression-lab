@@ -137,7 +137,7 @@ def build_router(settings: ApiSettings, jobs: JobManager) -> APIRouter:
     def run_to_run_summary(run: Run) -> RunSummary:
         pipeline = run.config.get("pipeline")
         pipeline_id = (
-            pipeline.get("id")
+            pipeline.get("id") or pipeline.get("target")
             if isinstance(pipeline, dict)
             else None
         )

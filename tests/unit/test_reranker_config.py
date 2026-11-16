@@ -28,10 +28,25 @@ CONFIGS = Path(__file__).resolve().parents[2] / "configs"
 RERANKER = {"model": "cross-encoder/ms-marco-MiniLM-L-6-v2", "candidates": 20}
 
 # Full sha256 of the stored canonical runs' configs (Day 10 B12 / Day 12 B2).
-PINNED_HASHES = {
-    "baseline.yaml": "41c509687d97622cca1c1bdd18f4f67b801e754237ce631edbc44eab0e13f16f",
-    "chunk_1000.yaml": "d0f3ccebe6967d8540e856c00dc88c9be037d561147f9b46e669f489d7a00849",
-    "bge_small.yaml": "b28048b87e9016989eff6ee2030e51cb778693d5005cc62cbc181aa1687305d6",
+# PINNED_HASHES = {
+#     "baseline.yaml": "41c509687d97622cca1c1bdd18f4f67b801e754237ce631edbc44eab0e13f16f",
+#     "chunk_1000.yaml": "d0f3ccebe6967d8540e856c00dc88c9be037d561147f9b46e669f489d7a00849",
+#     "bge_small.yaml": "b28048b87e9016989eff6ee2030e51cb778693d5005cc62cbc181aa1687305d6",
+# }
+
+PINNED_HASHES ={
+    "baseline.yaml"         : "41c509687d97622cca1c1bdd18f4f67b801e754237ce631edbc44eab0e13f16f",
+    "chunk_1000.yaml"       : "d0f3ccebe6967d8540e856c00dc88c9be037d561147f9b46e669f489d7a00849",
+    "chunk_1000_dev.yaml"   : "4256e2e1d0ac96da5f6b65757a3cb9dfce653298fd9d1a293a203b3c74be6ef0",
+    "rerank_minilm.yaml"    : "2106599c3de01f105771610e13a4824e49ad0265462a061e0c282083270c2d44",
+    "bge_small.yaml"        : "b28048b87e9016989eff6ee2030e51cb778693d5005cc62cbc181aa1687305d6",
+    "dev.yaml"              : "ef56d8f0024d5d24f4b18430f909e46b3d65558cdabf2b2fe3246c8a1e5e36f3",
+    "chunk_recursive.yaml"  : "22bb5efed004dcc3363c555c54c209edcee7c16582f26ea60406375df496aae9",
+    "chunk_sentence.yaml"   : "8f379543fbd291e5286d3472987c12106a0a705551d8e2f5cd5d9e6ed3d888d7",
+    "chunk_sliding_3_1.yaml" : "c673a084fc312c59f1227fcfdfe27846b60fc076a3589021f5a5a8e6aa1a04bc",
+    "prompt_v2.yaml"        : "22cf2b74e3b3c10bf0670c21d1d25d97f2a410c5352b5f2654ff78a28f4513a2",
+	"chunk_sentence_prompt_v2.yaml": "ed1361e6e44b88965e1f848e5c912496c8fabfc31107cb1ad56dbd558f11cbcc",
+    "keyword_overlap.yaml": "407ac303d62124a317d8294b1792d8e430072c4169bab434aed6f189bd96a649"
 }
 
 
@@ -85,8 +100,14 @@ def test_explicit_null_hashes_like_absent(tmp_path):
 
 
 def test_off_still_serializes_every_other_param():
-    params = load_run_config(CONFIGS / "baseline.yaml").model_dump(mode="json")["pipeline"]["params"]
-    assert set(params) == {"embedding_model", "chunk_size", "overlap", "generation_model", "seed"}
+    params = load_run_config(CONFIGS / "baseline.yaml").model_dump(mode="json")
+
+    pipeline_params = params["pipeline"]["params"]
+    assert set(pipeline_params) == {"embedding_model", "chunk_size", "overlap", "generation_model", "seed"}
+
+    assert set(params) == {"pipeline", "top_k", "judge_model", "judge_seed", "eval_split", "is_dev", "max_workers", "db_path"}
+
+    assert set(params["pipeline"]) == {"id", "params"}
 
 
 # ---------------------------------------------------------------- "on"

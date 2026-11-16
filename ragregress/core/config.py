@@ -53,6 +53,7 @@ from pydantic import (
     model_serializer,
     model_validator,
 )
+import re
 
 from ragregress.core.errors import ConfigValidationError
 from ragregress.evaluation.judge import DEFAULT_PROVIDER, JudgeProvider, check_judge_model, check_judge_provider
@@ -63,17 +64,31 @@ MAX_WORKERS_CAP = 8
 DATA_DIR = Path("data")
 HASH_EXCLUDE = {"db_path", "max_workers"}
 
+_TARGET_PATTERN = re.compile(r"^[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)*:[A-Za-z_]\w*$")
 
 class PipelineSpec(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
 
-    id: str = Field(min_length=1)
-
+    id: str | None = Field(default=None,min_length=1)
+    target: str | None = Field(default=None, pattern= _TARGET_PATTERN)
     params: SerializeAsAny[PipelineParams]
+
+    @property
+    def identity(self) -> str:
+        return self.target if self.target is not None else self.id
 
     @field_validator("params", mode="before")
     @classmethod
     def _validate_params_against_registry(cls, value: Any, info: ValidationInfo) -> Any:
+        from ragregress.rag.resolver import resolve_entry
+
+        target = info.data.get("target")
+
+        if target is not None:
+            entry = resolve_entry(target)
+            return entry.params_model.model_validate(value)
+
+
         pipeline_id = info.data.get("id")
         if pipeline_id is None:
             # `id` itself failed validation; its own error is already reported.
@@ -84,6 +99,35 @@ class PipelineSpec(BaseModel):
                 f"unknown pipeline id {pipeline_id!r}; registered: {sorted(PIPELINE_REGISTRY)}"
             )
         return entry.params_model.model_validate(value)
+
+    @model_validator(mode="before")
+    @classmethod
+    def _require_exactly_one_identity(cls, value) -> Any:
+        if not isinstance(value, dict):
+            return value
+
+        has_id = value.get("id") is not None
+        has_target = value.get("target") is not None
+
+        if has_id and has_target:
+            raise ValueError("pipeline must specify exactly one of 'id' or 'target'")
+
+        if not has_id and not has_target:
+            raise ValueError("pipeline must specify exactly one of 'id' or 'target'")
+
+        return value
+
+    @model_serializer(mode="wrap")
+    def _omit_none_identity_fields(self, handler: SerializerFunctionWrapHandler)->Dict[str, Any]:
+        data = handler(self)
+
+        if data.get("id") is None:
+            data.pop("id")
+
+        if data.get("target") is None:
+            data.pop("target")
+
+        return data
 
 
 

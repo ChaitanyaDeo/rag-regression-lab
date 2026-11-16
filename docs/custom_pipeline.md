@@ -43,7 +43,7 @@ Three pieces:
 |---|---|---|
 | A class | implements `retrieve(query, k)` and `generate(query, contexts)` | any module importable from the package (or your script) |
 | A params model | a Pydantic model (subclass of `PipelineParams`) listing the pipeline's knobs | next to the registry entry |
-| A registry entry | `PIPELINE_REGISTRY["<id>"] = PipelineEntry(ParamsModel, factory)` | `ragregress/rag/registry.py`, or added at runtime in your own process |
+| A registry entry | `PIPELINE_REGISTRY["<id>"] = PipelineEntry(ParamsModel, factory)` | `ragregress/rag/registry.py`, "built-in pipelines only" |
 
 ## 3. When to use it
 
@@ -108,8 +108,8 @@ Two ways to make a pipeline known to the harness:
 
 | Option | How | CLI `ragregress run` | API `POST /runs` | Stored runs usable by `compare`, `report`, API compare/report |
 |---|---|---|---|---|
-| A. Runtime registration (the example) | add the entry to `PIPELINE_REGISTRY` in your script, then call `execute()` | no | no | yes |
-| B. Permanent registration | edit `ragregress/rag/registry.py` | yes | yes (rebuild the Docker image) | yes |
+| A. Target-based loading | Specify an importable class using pipeline.target in the YAML configuration | Yes | Yes, provided the target module is importable in the API environment | yes |
+| B. Built-in registration | Add an entry to PIPELINE_REGISTRY in `ragregress/rag/registry.py` | yes | yes | yes | 
 
 Option A changes nothing in the package and is the fastest way to try a pipeline. Use option B once you want the CLI, the API and Docker to run it ([step 2](#step-2-register-it)).
 
@@ -171,9 +171,11 @@ Rules:
 - Optional: `ensure_indexed(self, passages, force=False) -> int` (passages are `ragregress.benchmark.schemas.Passage` objects with `passage_id`, `title`, `text`; return the number of chunks indexed, 0 if up to date).
 - For reproducible runs: fixed seeds, temperature 0, deterministic tie-breaking.
 
-### Step 2: register it
+### Step 2: Make the pipeline available
 
-Option B, permanent: in `ragregress/rag/registry.py`, next to the built-in entry (`Field`, `Dict`, `PipelineParams`, `PipelineEntry` and `RAGSystem` are already imported there):
+For custom pipelines, use pipeline.target in the configuration to identify the class directly. The resolver imports the module, loads the class, and derives a Pydantic params model from its constructor when a custom Params model is not provided.
+
+Permanent registration in ragregress/rag/registry.py is reserved for built-in pipelines. The following example illustrates how a built-in pipeline is registered:
 
 ```python
 class MyRAGParams(PipelineParams):
@@ -604,8 +606,7 @@ Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/runs -ContentType appl
 | `faithfulness` missing for some questions (`judge_failed`) | empty answers, or the judge output did not fit the schema after retries |
 | Every question `failed` | `retrieve` or `generate` raised 3 times; `last_error` in the report, the log file, or `--debug` |
 | Results change between runs of the same config | your pipeline is not deterministic (seeds, temperature, tie-breaking) |
-| `ragregress run` does not know the pipeline | it was registered at runtime (option A); register it in `registry.py` (option B) |
-| Docker / API runs the old code | `docker compose build` |
+| Ragregress run cannot load the pipeline | Check that pipeline.id references a registered built-in pipeline or that pipeline.target specifies a valid, importable module.path:ClassName target. |
 
 ## 21. Common errors and solutions
 
@@ -625,4 +626,4 @@ Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/runs -ContentType appl
 - [docs/architecture.md](architecture.md): the pipeline graph, the RAG seam, storage
 - [docs/evaluation.md](evaluation.md): metrics, row classes, verdict rules
 - [docs/security.md](security.md): threat model and known risks
-- Source: `ragregress/rag/interface.py` (contract), `ragregress/rag/registry.py` (registration), `ragregress/rag/builtin_system.py` (reference implementation), `ragregress/core/runner.py` (run flow)
+- Source:  `ragregress/rag/interface.py` (pipeline contract), ragregress/rag/registry.py (built-in pipeline registrations), ragregress/rag/resolver.py (custom target resolution), ragregress/rag/builtin_system.py (built-in implementation), ragregress/core/runner.py (run flow)

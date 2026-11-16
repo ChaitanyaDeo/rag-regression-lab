@@ -61,6 +61,30 @@ from ragregress.report import (
 app = typer.Typer(add_completion=False, no_args_is_help=True, help="RAG Regression Lab.")
 
 
+def _error_handling_helper(body: callable[[], Optional[int]], debug:bool)->None:
+    exit_code = 0
+    try:
+        exit_code = body() or 0
+        
+    except RagRegressError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = exc.exit_code
+
+    except Exception as exc:
+        typer.echo(
+            f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
+            err=True,
+        )
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = 1
+
+    if exit_code:
+        raise typer.Exit(exit_code)
+
+
 @app.callback()
 def _main() -> None:
     """RAG Regression Lab. (This callback keeps `run` a named subcommand.)"""
@@ -70,7 +94,7 @@ def _print_plan(cfg: RunConfig, run_id: str, names: Optional[Sequence[str]] = No
     echo = typer.echo
 
     echo("dry run: config is valid, nothing was executed")
-    echo(f"  pipeline     : {cfg.pipeline.id} {cfg.pipeline.params.model_dump()}")
+    echo(f"  pipeline     : {cfg.pipeline.identity} {cfg.pipeline.params.model_dump()}")
 
 
     echo(f"  top_k        : {cfg.top_k}")
@@ -113,6 +137,11 @@ def _print_summary(outcome: RunOutcome) -> None:
         echo(f"index       : rebuilt ({outcome.indexed} chunks embedded)")
     if outcome.log_path is not None:
         echo(f"log file    : {outcome.log_path}")
+
+    # --------- Preflight checks
+    if outcome.preflight_warnings:
+        echo("Pre flight Warnings:")
+        echo(f" -{war}\n" for war in outcome.preflight_warnings) 
 
     echo(f"\nfailure modes ({len(rows)} rows):")
     modes = Counter(str(row.get("failure_mode")) for row in rows)
@@ -176,35 +205,19 @@ def run(config: Path = typer.Option(..., "--config", "-c", help="Path to a run c
     load_dotenv(find_dotenv(usecwd=True))   # .env in the working directory (or a parent); shell vars win
     configure_logging()                     # JSON console handler; level from LOG_LEVEL (default WARNING)
 
-    exit_code = 0
-    try:
+    def run_body()->None:
         from ragregress.evaluation.metrics.selection import parse_metric_names
-
+        
         cfg = load_run_config(config)
         names = parse_metric_names(metric) if metric is not None else None      # None = default-enabled metrics
-        run_id = run_id or default_run_id(cfg)
+        resolved_run_id = run_id or default_run_id(cfg)
         if dry_run:
-            _print_plan(cfg, run_id, names)
+            _print_plan(cfg, resolved_run_id, names)
         else:
-            _print_summary(_run_with_progress(cfg, run_id, reindex, names))
+            _print_summary(_run_with_progress(cfg, resolved_run_id, reindex, names))
 
-    except RagRegressError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = exc.exit_code
 
-    except Exception as exc:
-        typer.echo(
-            f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
-            err=True,
-        )
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = 1
-
-    if exit_code:
-        raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+    _error_handling_helper(run_body, debug)
 
 
 # ---------------------------------------------------------------- metrics
@@ -230,6 +243,64 @@ def list_metrics(
 
     echo(f"\ndefault: {', '.join(default_metric_names())}")
     echo("select with: ragregress run --config <file> --metric a,b   (or --metric all)")
+
+
+#---------------------------------------------------------------- check pipeline cmd
+
+@app.command("check")
+def check_pipeline(
+    config: Path = typer.Option(..., "--config", "-c", help="Path to a run config YAML."),
+    samples: int = typer.Option(3, "--samples", min=1, max=20),
+    reindex: bool = typer.Option(False, "--reindex"),
+    debug: bool = typer.Option(False, "--debug"),
+):
+    """Run a lightweight RAG regression check."""
+    load_dotenv(find_dotenv(usecwd=True))   # .env in the working directory (or a parent); shell vars win
+    configure_logging()                     # JSON console handler; level from LOG_LEVEL (default WARNING)
+    
+    
+    from ragregress.core.runner import check_pipeline
+
+    exit_code = 0
+    try:
+        cfg = load_run_config(config)
+        outcome = check_pipeline(cfg, samples, reindex)
+
+        for error in outcome.errors:
+            typer.echo(f"FAIL: {error}")
+
+        for warning in outcome.warnings:
+            typer.echo(f"WARN: {warning}")
+
+        if outcome.errors:
+            exit_code = 4
+        elif outcome.sampled > 0 and outcome.raised == outcome.sampled:
+            exit_code = 5
+
+        typer.echo(
+            f"SUMMARY: samples={outcome.sampled}, "
+            f"raised={outcome.raised}, "
+            f"indexed={outcome.indexed}"
+        )
+
+    except RagRegressError as exc:
+        typer.echo(f"error: {exc}", err=True)
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = exc.exit_code
+
+    except Exception as exc:
+        typer.echo(
+            f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
+            err=True,
+        )
+        if debug:
+            traceback.print_exc(file=sys.stderr)
+        exit_code = 1
+
+    if exit_code:
+        raise typer.Exit(exit_code)    
+
 
 
 # ---------------------------------------------------------------- compare
@@ -312,9 +383,7 @@ def compare(
     dev run, incompatible runs, missing database).
     """
 
-    exit_code = 0
-
-    try:
+    def compare_body()-> int:
         if not db.is_file():
             raise ComparisonInputError(f"database not found: {db}")
 
@@ -327,23 +396,9 @@ def compare(
             for line in render_text(diagnose(result, report, top_n=worst)):
                 typer.echo(line)
 
-        exit_code = report.exit_code
+        return report.exit_code
 
-    except RagRegressError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = exc.exit_code
-
-    except Exception as exc:
-        typer.echo(f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
-                   err=True)
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = 1
-
-    if exit_code:
-        raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+    _error_handling_helper(compare_body, debug)
 
 
 # ------------------------------------------------------------------- report
@@ -376,9 +431,7 @@ def report(
     (unknown run id, dev run, incompatible runs, missing database, bad targets file), 1 unexpected.
     """
 
-    exit_code = 0
-
-    try:
+    def report_body()->None:
         if not db.is_file():
             raise ComparisonInputError(f"database not found {db}")
 
@@ -396,21 +449,7 @@ def report(
         if open_report:
             _open_in_browser(path)
 
-    except RagRegressError as exc:
-        typer.echo(f"error: {exc}", err=True)
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = exc.exit_code
-
-    except Exception as exc:
-        typer.echo(f"error: unexpected {type(exc).__name__}: {exc} (re-run with --debug for a traceback)",
-                   err=True)
-        if debug:
-            traceback.print_exc(file=sys.stderr)
-        exit_code = 1
-
-    if exit_code:
-        raise typer.Exit(exit_code)     # outside the try: Exit is an Exception subclass
+    _error_handling_helper(report_body, debug)
 
 if __name__ == "__main__":
     app()

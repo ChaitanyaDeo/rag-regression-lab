@@ -66,8 +66,10 @@ class UnknownPipelineError(ConfigError):
     """
 
 class PipelineContractError(RagRegressError):
-    """A built object does not satisfy the RAGSystem protocol (DEC-D7-02).
- 
+    """A built object does not satisfy the RAGSystem protocol.
+    
+    Raised when a pipeline cannot be built or its returned values break the RAGSystem contract.
+
     Note: isinstance() on a runtime_checkable Protocol only checks that
     the methods exist, not their signatures or return types.
     """

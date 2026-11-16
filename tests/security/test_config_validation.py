@@ -17,7 +17,8 @@ behaviour (`true` -> 1, "5" -> 5, 1.0e+3 -> 1000); see test_lax_int_coercion_*.
 """
 
 from __future__ import annotations
-
+import sys
+import textwrap
 import copy
 from pathlib import Path
 
@@ -28,7 +29,7 @@ from typer.testing import CliRunner
 from ragregress.cli import app
 from ragregress.core.config import MAX_TOP_K, MAX_WORKERS_CAP, load_run_config
 from ragregress.core.errors import ConfigValidationError
-from ragregress.rag.registry import MAX_CHUNK_SIZE
+from ragregress.rag.registry import MAX_CHUNK_SIZE, PipelineParams
 
 # Mirrors configs/baseline.yaml (db_path is replaced per test with a tmp path).
 BASE = {
@@ -92,6 +93,40 @@ def load_error(tmp_path, cfg) -> ConfigValidationError:
 def locs(err: ConfigValidationError):
     return [loc for loc, _ in err.errors]
 
+
+def make_target_module(tmp_path):
+    """Create a temporary pipeline module with a strict ParamsModel."""
+    module_dir = tmp_path / "target_modules"
+    module_dir.mkdir()
+
+    (module_dir / "__init__.py").write_text("", encoding="utf-8")
+
+    module_file = module_dir / "custom_pipeline.py"
+    module_file.write_text(
+        textwrap.dedent(
+            """
+            from ragregress.rag.registry import PipelineParams
+
+            class Params(PipelineParams):
+                embedding_model: str = "all-MiniLM-L6-v2"
+                chunk_size: int = 500
+                overlap: int = 50
+                generation_model: str = "qwen2.5:3b-instruct"
+                seed: int = 42
+
+            class CustomPipeline:
+                Params = Params
+
+                def __init__(self, **kwargs):
+                    self.params = kwargs
+            """
+        ),
+        encoding="utf-8",
+    )
+
+    sys.path.insert(0, str(tmp_path))
+
+    return "target_modules.custom_pipeline:CustomPipeline"
 
 def run_cli(path: Path):
     return CliRunner().invoke(app, ["run", "--config", str(path), "--dry-run"])
@@ -269,3 +304,137 @@ def test_non_integral_top_k_is_rejected(tmp_path, raw):
     text = yaml.safe_dump({**BASE, "db_path": str(tmp_path / "t.db")}, sort_keys=False)
     text = text.replace("top_k: 5", f"top_k: {raw}")
     assert locs(load_error(tmp_path, text)) == ["top_k"]
+
+
+
+def test_target_pipeline_loads_without_id(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+    )
+
+    loaded = load_run_config(write_yaml(tmp_path, cfg))
+
+    assert loaded.pipeline.identity == target
+    assert loaded.pipeline.target == target
+    assert loaded.pipeline.id is None
+
+
+def test_pipeline_rejects_both_id_and_target(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg = make_cfg(pipeline__target=target)
+    err = load_error(tmp_path, cfg)
+
+    assert locs(err) == ["pipeline"]
+    assert len(err.errors) == 1
+
+
+def test_pipeline_requires_id_or_target(tmp_path):
+    cfg = make_cfg(pipeline__id=DELETE)
+
+    err = load_error(tmp_path, cfg)
+
+    assert locs(err) == ["pipeline"]
+    assert len(err.errors) == 1
+
+
+def test_target_pipeline_rejects_unknown_params(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+        pipeline__params__evil_key="unexpected",
+    )
+
+    err = load_error(tmp_path, cfg)
+
+    assert (
+        "pipeline.params.evil_key",
+        "Extra inputs are not permitted",
+    ) in err.errors
+
+
+def test_target_pipeline_param_change_changes_hash(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg1 = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+    )
+
+    cfg2 = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+        pipeline__params__chunk_size=1000,
+    )
+
+    first = load_run_config(write_yaml(tmp_path, cfg1))
+    second = load_run_config(write_yaml(tmp_path, cfg2))
+
+    assert first.config_hash() != second.config_hash()
+
+def test_target_pipeline_default_params_have_same_hash(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg1 = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+    )
+
+    cfg2 = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+        pipeline__params__chunk_size=500,
+    )
+
+    first = load_run_config(write_yaml(tmp_path, cfg1))
+    second = load_run_config(write_yaml(tmp_path, cfg2))
+
+    assert first.config_hash() == second.config_hash()
+
+
+def test_unknown_target_module_is_rejected(tmp_path):
+    cfg = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target="does_not_exist.pipeline:CustomPipeline",
+    )
+
+    err = load_error(tmp_path, cfg)
+
+    assert locs(err) == ["pipeline.params"]
+
+
+def test_target_pipeline_dump_has_target_without_id(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+    )
+
+    loaded = load_run_config(write_yaml(tmp_path, cfg))
+    dumped = loaded.model_dump()
+
+    assert dumped["pipeline"]["target"] == target
+    assert "id" not in dumped["pipeline"]
+
+
+def test_cli_dry_run_accepts_target_pipeline(tmp_path):
+    target = make_target_module(tmp_path)
+
+    cfg = make_cfg(
+        pipeline__id=DELETE,
+        pipeline__target=target,
+    )
+
+    path = write_yaml(tmp_path, cfg)
+    result = run_cli(path)
+
+    assert result.exit_code == 0, result.output
+    assert target in result.output
+    assert "dry run: config is valid, nothing was executed" in result.output
+    assert not (tmp_path / "test.db").exists()
